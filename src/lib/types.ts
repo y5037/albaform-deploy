@@ -1,12 +1,16 @@
-export interface User {
-  location?: string;
-  phonenumber?: string;
-  storePhoneNumber?: string;
-  storeName?: string;
-  role: "APPICANT";
-  imageUrl?: string;
-  nickname?: string;
-  name: string;
+export interface SignUp {
   email: string;
-  id: number;
+  password: string;
+  name: string;
+  nickname: string;
+  role: "OWNER" | "APPLICANT";
+  storeName?: string;
+  storePhoneNumber?: string;
+  phoneNumber?: string;
+  location?: string;
+}
+
+export interface SignIn {
+  email: string;
+  password: string;
 }
