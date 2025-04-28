@@ -4,14 +4,14 @@ import { useState } from 'react';
 
 export function useModalController() {
   const [showModal, setShowModal] = useState(false);
-  const [titleMessage, setTitleMessage] = useState('');
+  const [mainMessage, setMainMessage] = useState('');
   const [subMessage, setSubMessage] = useState('');
 
   return {
     showModal: showModal ?? false,
     setShowModal: setShowModal ?? (() => {}),
-    titleMessage: titleMessage ?? '',
-    setTitleMessage: setTitleMessage ?? (() => {}),
+    mainMessage: mainMessage ?? '',
+    setMainMessage: setMainMessage ?? (() => {}),
     subMessage: subMessage ?? '',
     setSubMessage: setSubMessage ?? (() => {}),
   };

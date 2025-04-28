@@ -13,7 +13,7 @@ import {
 function Modal({
   showModal,
   setShowModal,
-  titleMessage,
+  mainMessage,
   subMessage,
   deadLine,
   writeForm,
@@ -63,7 +63,7 @@ function Modal({
             />
           </CloseButton>
         ))}
-      <Title>{titleMessage}</Title>
+      <Title>{mainMessage}</Title>
       <Description>{subMessage}</Description>
       <ButtonType1 onClick={handleAction}>
         {deadLine ? '홈으로 가기' : writeForm ? '이어쓰기' : '삭제하기'}

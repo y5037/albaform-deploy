@@ -7,7 +7,7 @@ export interface OverlayProps {
 export interface ModalProps {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
-  titleMessage: string;
+  mainMessage: string;
   subMessage?: string;
   deadLine?: boolean;
   writeForm?: boolean;
