@@ -65,7 +65,6 @@ export const ButtonType1 = styled.button`
   border-radius: 8px;
   background: var(--primary-orange300);
   color: var(--white);
-  cursor: pointer;
 `;
 
 export const ButtonType2 = styled.button`
@@ -73,5 +72,4 @@ export const ButtonType2 = styled.button`
   width: 100%;
   height: 58px;
   color: var(--primary-orange300);
-  cursor: pointer;
 `;
