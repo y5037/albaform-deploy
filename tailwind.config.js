@@ -4,47 +4,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        white: {
-          DEFAULT: '#fff',
+        white: 'var(--white)',
+        black: 'var(--black)',
+        red: 'var(--red)',
+
+        black100: 'var(--black100)',
+        black200: 'var(--black200)',
+        black300: 'var(--black300)',
+        black400: 'var(--black400)',
+        black500: 'var(--black500)',
+
+        gray100: 'var(--gray100)',
+        gray200: 'var(--gray200)',
+        gray300: 'var(--gray300)',
+        gray400: 'var(--gray400)',
+        gray500: 'var(--gray500)',
+
+        primary: {
+          orange100: 'var(--primary-orange100)',
+          orange200: 'var(--primary-orange200)',
+          orange300: 'var(--primary-orange300)',
+          orange400: 'var(--primary-orange400)',
+          orange500: 'var(--primary-orange500)',
+          blue100: 'var(--primary-blue100)',
+          blue200: 'var(--primary-blue200)',
+          blue300: 'var(--primary-blue300)',
         },
-        red: {
-          DEFAULT: '#fc4100',
-        },
-        black: {
-          DEFAULT: '#000',
-          100: '#6b6b6b',
-          200: '#525252',
-          300: '#373737',
-          400: '#1f1f1f',
-          500: '#040404',
-        },
-        gray: {
-          100: '#dedede',
-          200: '#c4c4c4',
-          300: '#ababab',
-          400: '#999',
-          500: '#808080',
-        },
-        primaryOrange: {
-          100: '#fff7eb',
-          200: '#fcc369',
-          300: '#fbaf37',
-          400: '#f89a05',
-          500: '#e18c05',
-        },
-        primaryBlue: {
-          100: '#535779',
-          200: '#3e415b',
-          300: '#2a2c3d',
-        },
+
         background: {
-          100: '#fcfcfc',
-          200: '#f7f7f7',
-          300: '#efefef',
+          100: 'var(--background100)',
+          200: 'var(--background200)',
+          300: 'var(--background300)',
         },
+
         line: {
-          100: '#f2f2f2',
-          200: '#e6e6e6',
+          100: 'var(--line100)',
+          200: 'var(--line200)',
         },
       },
     },
