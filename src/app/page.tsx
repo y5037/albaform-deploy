@@ -26,13 +26,16 @@ const Button = styled(Link)`
     font-size: 16px;
     line-height: 26px;
     padding: 16px 24px;
+    margin-top: 18px;
   }
 `;
 
 const Main = styled.main`
   position: relative;
   background-color: var(--black400);
-  height: 1080px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.28 / 1;
 
   @media (max-width: 768px) {
     height: 633px;
@@ -40,7 +43,7 @@ const Main = styled.main`
 `;
 
 const Banner = styled.div`
-  max-width: 964px;
+  max-width: 1322px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -49,14 +52,16 @@ const Banner = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 30px;
+  padding: 0 179px;
   margin: 0 auto;
 
-  @media (min-width: 768px) and (max-width: 1199px) {
-    margin: 0 179px;
+  @media (max-width: 1199px) {
+    gap: 24px;
   }
 
   @media (max-width: 768px) {
     max-width: 411px;
+    padding: 0;
   }
 `;
 
@@ -79,13 +84,17 @@ const Title = styled.h1`
 
 // 배너이미지
 const BannerImg = styled.div`
-  position: relative;
+  // position: relative;
   width: 100%;
   height: auto;
   aspect-ratio: 1.58 / 1;
   background-image: url('/images/landingImg/landing1.svg');
   background-size: cover;
   background-position: center;
+
+  @media (max-width: 1199px) {
+    margin-top: 19px;
+  }
 `;
 
 export default function Home() {
@@ -100,16 +109,7 @@ export default function Home() {
             height={48}
             priority
           />
-          <Title
-          // style={{
-          //   color: 'var(--white)',
-          //   fontSize: '56px',
-          //   fontWeight: '400',
-          //   lineHeight: '80px',
-          // }}
-          >
-            한 곳에서 관리하는 알바 구인 플랫폼
-          </Title>
+          <Title>한 곳에서 관리하는 알바 구인 플랫폼</Title>
           <Button href={'/'}>알바폼 시작하기</Button>
           <BannerImg />
         </Banner>
