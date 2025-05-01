@@ -35,12 +35,14 @@ export default function FilterContainer({
           <TabWrapper>
             <SlideBg $activeTab={selectedTab} />
             <TabButton
+              type='button'
               $active={selectedTab === 'post'}
               onClick={handleTabClickPost}
             >
               내가 쓴 글
             </TabButton>
             <TabButton
+              type='button'
               $active={selectedTab === 'comment'}
               onClick={handleTabClickComment}
             >

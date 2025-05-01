@@ -24,8 +24,10 @@ export default function HeadContainer() {
             />
           </div>
           <EditButtonContainer $active={dropdown}>
-            <EditButton $editInfo>내 정보 수정</EditButton>
-            <EditButton>비밀번호 변경</EditButton>
+            <EditButton type='button' $editInfo>
+              내 정보 수정
+            </EditButton>
+            <EditButton type='button'>비밀번호 변경</EditButton>
           </EditButtonContainer>
         </KebabButton>
       </div>

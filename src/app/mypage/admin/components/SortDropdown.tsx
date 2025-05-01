@@ -5,6 +5,7 @@ export default function SortDropdown({ isSort, setIsSort }: SortDropdownProps) {
   return (
     <>
       <DropdownButton
+        type='button'
         $active={isSort === 'mostRecent'}
         onClick={() => {
           setIsSort('mostRecent');
@@ -13,6 +14,7 @@ export default function SortDropdown({ isSort, setIsSort }: SortDropdownProps) {
         최신순
       </DropdownButton>
       <DropdownButton
+        type='button'
         $active={isSort === 'mostCommented'}
         onClick={() => {
           setIsSort('mostCommented');
@@ -21,6 +23,7 @@ export default function SortDropdown({ isSort, setIsSort }: SortDropdownProps) {
         댓글순
       </DropdownButton>
       <DropdownButton
+        type='button'
         $active={isSort === 'mostLiked'}
         onClick={() => {
           setIsSort('mostLiked');

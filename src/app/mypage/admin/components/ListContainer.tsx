@@ -28,8 +28,8 @@ export default function ListContainer() {
                 onClick={() => setDropdown((prev) => !prev)}
               />
               <PostDropdownContainer $active={dropdown}>
-                <PostDropwonButton>수정하기</PostDropwonButton>
-                <PostDropwonButton>삭제하기</PostDropwonButton>
+                <PostDropwonButton type='button'>수정하기</PostDropwonButton>
+                <PostDropwonButton type='button'>삭제하기</PostDropwonButton>
               </PostDropdownContainer>
             </KebabButton>
           </div>
