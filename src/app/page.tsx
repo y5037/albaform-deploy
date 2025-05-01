@@ -30,18 +30,6 @@ const Button = styled(Link)`
   }
 `;
 
-const Main = styled.main`
-  position: relative;
-  background-color: var(--black400);
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1.28 / 1;
-
-  @media (max-width: 768px) {
-    height: 633px;
-  }
-`;
-
 const Banner = styled.div`
   max-width: 1322px;
   position: absolute;
@@ -76,7 +64,7 @@ const Title = styled.h1`
     line-height: 32px;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 810px) {
     font-size: 20px;
     line-height: 32px;
   }
@@ -100,20 +88,22 @@ const BannerImg = styled.div`
 export default function Home() {
   return (
     <>
-      <Main>
+      <div className='relative bg-[var(--black400)] w-full h-[633px] md:h-auto md:aspect-[1.29/1]'>
         <Banner>
-          <Image
-            src={'/images/albaform.svg'}
-            alt='logo'
-            width={248}
-            height={48}
-            priority
-          />
+          <div className='relative w-[124px] h-[24px] md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'>
+            <Image
+              src={'/images/albaform.svg'}
+              alt='logo'
+              fill
+              priority
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
           <Title>한 곳에서 관리하는 알바 구인 플랫폼</Title>
           <Button href={'/'}>알바폼 시작하기</Button>
           <BannerImg />
         </Banner>
-      </Main>
+      </div>
       <div>랜딩</div>
     </>
   );
