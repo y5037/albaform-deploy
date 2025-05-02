@@ -34,7 +34,7 @@ export default function Toast({ children, size = 'sm' }: ToastProps) {
           height={18}
           className={`align-middle flex ${ImageClass}`}
         />
-        <p className={`leading-normal font-semibold bg-white ${textClass}`}>
+        <p className={`leading-normal font-semibold text-white ${textClass}`}>
           {children}
         </p>
       </div>

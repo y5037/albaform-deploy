@@ -37,7 +37,7 @@ export default function Tooltip({
           width={iconSize}
           height={iconSize}
         />
-        <p className={textClass}>{children}</p>
+        <p className={`items-center ${textClass}`}>{children}</p>
       </div>
       <CloseButton onClick={onClose} />
     </div>

@@ -4,17 +4,13 @@ import React from 'react';
 import Image from 'next/image';
 import CloseButton from '../closebutton/CloseButton';
 
-interface TooltipProps {
+interface PopUpProps {
   children: React.ReactNode;
   onClose: () => void;
   size?: 'sm' | 'md';
 }
 
-export default function Tooltip({
-  children,
-  onClose,
-  size = 'sm',
-}: TooltipProps) {
+export default function PopUp({ children, onClose, size = 'sm' }: PopUpProps) {
   const containerClass =
     size === 'sm' ? 'w-fit py-2 px-3' : 'w-[476px] py-4 px-6';
 
@@ -35,7 +31,7 @@ export default function Tooltip({
           width={iconSize}
           height={iconSize}
         />
-        <p className={textClass}>{children}</p>
+        <p className={`text-white ${textClass}`}>{children}</p>
       </div>
       <CloseButton onClick={onClose} />
     </div>
