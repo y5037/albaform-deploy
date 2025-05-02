@@ -88,6 +88,7 @@ const BannerImg = styled.div`
 export default function Home() {
   return (
     <>
+      {/* 배너 */}
       <div className='relative bg-[var(--black400)] w-full h-[633px] md:h-auto md:aspect-[1.29/1]'>
         <Banner>
           <div className='relative w-[124px] h-[24px] md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'>
@@ -104,7 +105,54 @@ export default function Home() {
           <BannerImg />
         </Banner>
       </div>
-      <div>랜딩</div>
+
+      {/* 메인 */}
+      <div className='flex flex-col items-center gap-40 max-w-[964px] px-[24px] py-[120px] mx-auto sm:px-20 md:py-[200px] lg:px-0'>
+        <div className='relative w-full h-auto aspect-[1.78/1]'>
+          <Image
+            src={'images/landingImg/landing2.svg'}
+            alt='landing2'
+            fill
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+        <div className='relative w-full h-auto aspect-[1.78/1]'>
+          <Image
+            src={'images/landingImg/landing3.svg'}
+            alt='landing3'
+            fill
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+        <div className='relative w-full h-auto aspect-[1.78/1]'>
+          <Image
+            src={'images/landingImg/landing4.svg'}
+            alt='landing4'
+            fill
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+        <div className='relative w-full h-auto aspect-[1.78/1]'>
+          <Image
+            src={'images/landingImg/landing5.svg'}
+            alt='landing5'
+            fill
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+        <div className='flex flex-col items-center gap-20'>
+          <p className='text-[var(--black)] text-[48px] text-center font-bold leading-[68px]'>
+            한 곳에서 관리하는
+            <br />
+            알바구인 플랫폼
+          </p>
+          <Button href={'/'}>알바폼 시작하기</Button>
+        </div>
+      </div>
     </>
   );
 }
