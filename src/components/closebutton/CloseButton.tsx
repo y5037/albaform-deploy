@@ -1,12 +1,14 @@
 import { IoCloseOutline } from 'react-icons/io5';
 
-export default function CloseButton({ onClick }: { onClick: () => void }) {
+type closeButtonProps = {
+  className?: string;
+  onClose: () => void;
+};
+
+export default function CloseButton({ onClose, className }: closeButtonProps) {
   return (
-    <button
-      className='absolute top-2 right-2 rounded-full p-1'
-      onClick={onClick}
-    >
-      <IoCloseOutline className='text-gray400' size={24} />
+    <button className='flex rounded-full p-1' onClick={() => onClose()}>
+      <IoCloseOutline className={`text-gray400 ${className}`} size={24} />
     </button>
   );
 }
