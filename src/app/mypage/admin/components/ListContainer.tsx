@@ -12,10 +12,12 @@ import { useClickOutside } from '@/utils/useClickOutside';
 import { ListContainerProps } from '../../types';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
+import Loader from '@/components/loader/Loader';
 
 export default function ListContainer({
   selectedTab,
   listData,
+  isLoading,
 }: ListContainerProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
@@ -28,6 +30,7 @@ export default function ListContainer({
 
   return (
     <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-[1199px]:gap-y-[16px]'>
+      {isLoading && <Loader />}
       {listData?.map((item) => {
         const { writer } = item;
         const { post } = item;

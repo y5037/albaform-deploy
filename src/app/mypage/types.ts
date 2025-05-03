@@ -19,6 +19,7 @@ export interface SortDropdownProps {
 export interface ListContainerProps {
   selectedTab: 'post' | 'comment';
   listData: ListData[];
+  isLoading: boolean;
 }
 
 type WriterData = {
