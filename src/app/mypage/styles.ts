@@ -1,4 +1,4 @@
-import { media } from '@/utils/responsive';
+import { media } from '@/styles/media';
 import styled, { css } from 'styled-components';
 
 type EditContainerProps = {
