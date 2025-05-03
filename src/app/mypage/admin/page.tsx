@@ -6,6 +6,7 @@ import HeadContainer from './components/HeadContainer';
 import { useState } from 'react';
 import ListContainer from './components/ListContainer';
 import { useGetMyContents } from '@/hooks/query/useUser';
+import { ListData } from '../types';
 
 export default function mypage() {
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
@@ -13,7 +14,9 @@ export default function mypage() {
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
 
-  const { data: listData } = useGetMyContents(selectedTab);
+  const { data: listData } = useGetMyContents(selectedTab, isSort) as {
+    data: ListData[];
+  };
 
   return (
     <ResponsiveStyle>
@@ -24,7 +27,7 @@ export default function mypage() {
         isSort={isSort}
         setIsSort={setIsSort}
       />
-      <ListContainer selectedTab={selectedTab} listData={listData}/>
+      <ListContainer selectedTab={selectedTab} listData={listData} />
     </ResponsiveStyle>
   );
 }

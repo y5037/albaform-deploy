@@ -91,9 +91,15 @@ export const fetchMyScrap = async () => {
 };
 
 // 내가 작성한 게시물 목록 조회
-export const fetchMyPosts = async () => {
+export const fetchMyPosts = async ({
+  isSort,
+}: {
+  isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
+}) => {
   try {
-    const response = await instance.get(`/users/me/posts?limit=6`);
+    const response = await instance.get(
+      `/users/me/posts?limit=6&orderBy=${isSort}`,
+    );
     if (!response.data) {
       throw new Error('내 게시물 데이터 불러오기 실패');
     }

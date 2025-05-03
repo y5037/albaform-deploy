@@ -18,7 +18,7 @@ export interface SortDropdownProps {
 
 export interface ListContainerProps {
   selectedTab: 'post' | 'comment';
-  listData: ListData;
+  listData: ListData[];
 }
 
 type WriterData = {
@@ -38,8 +38,8 @@ export interface ListData {
   imageUrl?: string;
   title?: string;
   content: string;
-  createAt: string;
-  updateAt: string;
+  createdAt: string;
+  updatedAt: string;
   commentCount?: number;
   likeCount?: number;
   writer?: WriterData;
