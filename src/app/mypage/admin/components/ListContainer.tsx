@@ -11,8 +11,13 @@ import {
 import { useClickOutside } from '@/utils/useClickOutside';
 import { ListContainerProps } from '../../types';
 
-export default function ListContainer({ selectedTab }: ListContainerProps) {
+export default function ListContainer({
+  selectedTab,
+  listData,
+}: ListContainerProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+
+  console.log(listData);
 
   return (
     <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-[1199px]:gap-y-[16px]'>
