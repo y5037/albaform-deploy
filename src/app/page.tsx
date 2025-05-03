@@ -89,9 +89,17 @@ export default function Home() {
   return (
     <>
       {/* 배너 */}
-      <div className='relative bg-[var(--black400)] w-full h-[633px] md:h-auto md:aspect-[1.29/1]'>
+      <div
+        className='
+        relative bg-[var(--black400)] w-full h-[633px] 
+        md:h-auto md:aspect-[1.29/1]'
+      >
         <Banner>
-          <div className='relative w-[124px] h-[24px] md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'>
+          <div
+            className='
+            relative w-[124px] h-[24px] 
+            md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'
+          >
             <Image
               src={'/images/albaform.svg'}
               alt='logo'
@@ -107,7 +115,12 @@ export default function Home() {
       </div>
 
       {/* 메인 */}
-      <div className='flex flex-col items-center gap-40 max-w-[964px] px-[24px] py-[120px] mx-auto sm:px-20 md:py-[200px] lg:px-0'>
+      <div
+        className='
+        flex flex-col items-center gap-[100px] 
+        max-w-[964px] px-[24px] py-[120px] mx-auto 
+        sm:px-20 md:py-[200px] md:gap-[120px] lg:px-0 lg:gap-[160px]'
+      >
         <div className='relative w-full h-auto aspect-[1.78/1]'>
           <Image
             src={'images/landingImg/landing2.svg'}
@@ -144,8 +157,14 @@ export default function Home() {
             style={{ objectFit: 'contain' }}
           />
         </div>
-        <div className='flex flex-col items-center gap-20'>
-          <p className='text-[var(--black)] text-[48px] text-center font-bold leading-[68px]'>
+
+        <div className='flex flex-col items-center gap-[40px] lg:gap-20'>
+          <p
+            className='
+            text-[var(--black)] text-center font-bold text-[24px] leading-[32px] 
+            sm:text-[32px] sm:leading-[46px] 
+            lg:text-[48px] lg:leading-[68px]'
+          >
             한 곳에서 관리하는
             <br />
             알바구인 플랫폼
