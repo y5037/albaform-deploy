@@ -22,10 +22,12 @@ export default function FilterContainer({
 
   const handleTabClickPost = () => {
     setSelectedTab('post');
+    setIsSort('mostRecent');
   };
 
   const handleTabClickComment = () => {
     setSelectedTab('comment');
+    setIsSort('mostRecent');
   };
 
   return (

@@ -25,15 +25,13 @@ type DropdownButtonProps = {
   $active?: boolean;
 };
 
-type PostDropdownProps = {
-  $active?: boolean;
-};
-
-type PostDropdownButtonProps = {
-  $active?: boolean;
+type TextProps = {
+  comment?: boolean;
 };
 
 export const KebabButton = styled.div`
+  min-width: 36px;
+  margin-top: -3px;
   position: relative;
   cursor: pointer;
 
@@ -208,19 +206,29 @@ export const PostWrapper = styled.div`
   }
 `;
 
-export const Title = styled.p`
-  padding-top: 4px;
+export const Title = styled.p.withConfig({
+  shouldForwardProp: (prop) => prop !== 'comment',
+})<TextProps>`
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-word;
-  display: -webkit-box;
+  display: -webkit-inline-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   font-size: 18px;
   font-weight: 500;
+
+  ${({ comment }) =>
+    comment &&
+    css`
+      font-size: 16px;
+      color: var(--black100);
+    `}
 `;
 
-export const Description = styled.p`
+export const Description = styled.p.withConfig({
+  shouldForwardProp: (prop) => prop !== 'comment',
+})<TextProps>`
   width: 85%;
   margin-top: 10px;
   text-overflow: ellipsis;
@@ -231,6 +239,12 @@ export const Description = styled.p`
   -webkit-box-orient: vertical;
   font-weight: 300;
   color: var(--gray500);
+
+  ${({ comment }) =>
+    comment &&
+    css`
+      font-size: 14px;
+    `}
 `;
 
 export const PostDropdownContainer = styled.div<DropdownProps>`
@@ -266,4 +280,16 @@ export const PostDropwonButton = styled.button<DropdownButtonProps>`
   &:last-child {
     margin-bottom: 0;
   }
+`;
+
+export const Comment = styled.p`
+  width: 95%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 18px;
+  font-weight: 500;
 `;
