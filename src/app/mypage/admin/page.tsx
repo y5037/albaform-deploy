@@ -21,7 +21,7 @@ export default function mypage() {
         isSort={isSort}
         setIsSort={setIsSort}
       />
-      <ListContainer />
+      <ListContainer selectedTab={selectedTab}/>
     </ResponsiveStyle>
   );
 }

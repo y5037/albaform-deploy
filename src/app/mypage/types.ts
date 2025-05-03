@@ -15,3 +15,7 @@ export interface SortDropdownProps {
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
 }
+
+export interface ListContainerProps {
+  selectedTab: 'post' | 'comment';
+}
