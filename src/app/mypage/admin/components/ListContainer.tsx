@@ -33,20 +33,22 @@ export default function ListContainer({ selectedTab }: ListContainerProps) {
                 알바 추천해주세요
               </Title>
             </div>
-            <KebabButton ref={outRef}>
-              <Image
-                src='/images/kebabButton.svg'
-                alt='더보기'
-                width={36}
-                height={36}
-                className='cursor-pointer'
-                onClick={() => setDropdown((prev) => !prev)}
-              />
-              <PostDropdownContainer $active={dropdown}>
-                <PostDropwonButton type='button'>수정하기</PostDropwonButton>
-                <PostDropwonButton type='button'>삭제하기</PostDropwonButton>
-              </PostDropdownContainer>
-            </KebabButton>
+            {selectedTab === 'post' && (
+              <KebabButton ref={outRef}>
+                <Image
+                  src='/images/kebabButton.svg'
+                  alt='더보기'
+                  width={36}
+                  height={36}
+                  className='cursor-pointer'
+                  onClick={() => setDropdown((prev) => !prev)}
+                />
+                <PostDropdownContainer $active={dropdown}>
+                  <PostDropwonButton type='button'>수정하기</PostDropwonButton>
+                  <PostDropwonButton type='button'>삭제하기</PostDropwonButton>
+                </PostDropdownContainer>
+              </KebabButton>
+            )}
           </div>
           <Description comment={selectedTab === 'comment'}>
             알바 추천해주세요 알바 추천해주세요 알바 추천해주세요 알바
