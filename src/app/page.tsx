@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -86,6 +87,28 @@ const BannerImg = styled.div`
 `;
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const imageSrc2 = isMobile
+    ? '/images/landingImg/landing2-1.svg'
+    : '/images/landingImg/landing2.svg';
+  const imageSrc3 = isMobile
+    ? '/images/landingImg/landing3-1.svg'
+    : '/images/landingImg/landing3.svg';
+  const imageSrc4 = isMobile
+    ? '/images/landingImg/landing4-1.svg'
+    : '/images/landingImg/landing4.svg';
+  const imageSrc5 = isMobile
+    ? '/images/landingImg/landing5-1.svg'
+    : '/images/landingImg/landing5.svg';
+
   return (
     <>
       {/* 배너 */}
@@ -117,46 +140,24 @@ export default function Home() {
       {/* 메인 */}
       <div
         className='
-        flex flex-col items-center gap-[100px] 
+        flex flex-col items-center gap-[120px] 
         max-w-[964px] px-[24px] py-[120px] mx-auto 
-        sm:px-20 md:py-[200px] md:gap-[120px] lg:px-0 lg:gap-[160px]'
+        sm:px-20 md:py-[200px] md:gap-[140px] lg:px-0 lg:gap-[180px]'
       >
-        <div className='relative w-full h-auto aspect-[1.78/1]'>
-          <Image
-            src={'images/landingImg/landing2.svg'}
-            alt='landing2'
-            fill
-            priority
-            style={{ objectFit: 'contain' }}
-          />
-        </div>
-        <div className='relative w-full h-auto aspect-[1.78/1]'>
-          <Image
-            src={'images/landingImg/landing3.svg'}
-            alt='landing3'
-            fill
-            priority
-            style={{ objectFit: 'contain' }}
-          />
-        </div>
-        <div className='relative w-full h-auto aspect-[1.78/1]'>
-          <Image
-            src={'images/landingImg/landing4.svg'}
-            alt='landing4'
-            fill
-            priority
-            style={{ objectFit: 'contain' }}
-          />
-        </div>
-        <div className='relative w-full h-auto aspect-[1.78/1]'>
-          <Image
-            src={'images/landingImg/landing5.svg'}
-            alt='landing5'
-            fill
-            priority
-            style={{ objectFit: 'contain' }}
-          />
-        </div>
+        {[imageSrc2, imageSrc3, imageSrc4, imageSrc5].map((src, idx) => (
+          <div
+            key={idx}
+            className='relative w-full h-auto aspect-[0.95/1] md:aspect-[1.78/1]'
+          >
+            <Image
+              src={src}
+              alt={`landing${idx + 2}`}
+              fill
+              priority
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+        ))}
 
         <div className='flex flex-col items-center gap-[40px] lg:gap-20'>
           <p
