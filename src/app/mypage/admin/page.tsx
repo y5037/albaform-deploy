@@ -13,8 +13,6 @@ export default function mypage() {
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
-
-  // const { data:{result:listData} = {}, isLoading } = useGetMyContents(selectedTab, isSort);
   
   const query = useGetMyContents(selectedTab, isPostSort);
 
