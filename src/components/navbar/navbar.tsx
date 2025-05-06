@@ -62,21 +62,19 @@ export default function Navbar({ variant = 'default' }: Props) {
     padding: 0 120px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
-  @media ${media.tablet} {
-    padding: 0;
-    max-width: 1480px;
-    margin: 0 auto;
-    height: 60px;
-  }
+    @media ${media.tablet} {
+      padding: 0;
+      max-width: 1480px;
+      margin: 0 auto;
+      height: 60px;
+    }
 
-  /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
-  @media ${media.mobile} {
-    padding: 0 24px;
-    margin: 0;
-    height: 54px;
-  }
-
-
+    /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
+    @media ${media.mobile} {
+      padding: 0 24px;
+      margin: 0;
+      height: 54px;
+    }
   `;
   const MenuList = styled.ul<{ $alignRight?: boolean }>`
     display: flex;
@@ -118,29 +116,29 @@ export default function Navbar({ variant = 'default' }: Props) {
           ))}
         </MenuList>
         {isLandingPage ? (
-  <button
-    onClick={() => router.push('/signin')}
-    style={{
-      fontSize: '16px',
-      background: 'var(--primary-orange300)',
-      border: '1px solid var(--primary-orange300)',
-      padding: '8px 16px',
-      borderRadius: '6px',
-      cursor: 'pointer',
-      color: 'white',
-    }}
-  >
-    로그인
-  </button>
-) : (
-  hamburgerMenu[variant] !== 'none' && (
-    <Hamburger
-      src={hamburgerMenu[variant]}
-      alt='menu icon'
-      onClick={handleOpenModal}
-    />
-  )
-)}
+          <button
+            onClick={() => router.push('/signin/admin')}
+            style={{
+              fontSize: '16px',
+              background: 'var(--primary-orange300)',
+              border: '1px solid var(--primary-orange300)',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              color: 'white',
+            }}
+          >
+            로그인
+          </button>
+        ) : (
+          hamburgerMenu[variant] !== 'none' && (
+            <Hamburger
+              src={hamburgerMenu[variant]}
+              alt='menu icon'
+              onClick={handleOpenModal}
+            />
+          )
+        )}
         {isModalOpen && <NavModal onClose={handleCloseModal} />}
       </NavbarWrapper>
     </div>
