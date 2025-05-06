@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ListContainer from './components/ListContainer';
 import { useGetMyContents } from '@/hooks/query/useUser';
 import Pagination from './components/Pagination';
+import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 
 export default function mypage() {
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
@@ -15,9 +16,11 @@ export default function mypage() {
   >('mostRecent');
   
   const query = useGetMyContents(selectedTab, isPostSort);
+  const isPost = query.type === 'post';
 
   let listData = [];
   let isLoading = false;
+  let fetchNextPage, hasNextPage
 
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
@@ -25,7 +28,14 @@ export default function mypage() {
   } else {
     listData = query.data?.pages.flatMap((page) => page.result) ?? [];
     isLoading = query.isLoading;
+    fetchNextPage = query.fetchNextPage;
+    hasNextPage = query.hasNextPage;
   }
+
+  const observerRef = useInfiniteScroll(
+    isPost && hasNextPage!,
+    fetchNextPage!
+  );
 
   return (
     <ResponsiveStyle>
@@ -37,7 +47,8 @@ export default function mypage() {
         setIsPostSort={setIsPostSort}
       />
       <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading}/>
-      <Pagination />
+      {selectedTab === 'post' && <div ref={observerRef} style={{height:1}}/>}
+      {selectedTab === 'comment' && <Pagination />}
     </ResponsiveStyle>
   );
 }
