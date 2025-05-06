@@ -115,7 +115,7 @@ export default function Home() {
       <div
         className='
         relative bg-[var(--black400)] w-full h-[633px] 
-        md:h-auto md:aspect-[1.29/1]'
+        md:h-auto md:aspect-[1.23/1]'
       >
         <Banner>
           <div
