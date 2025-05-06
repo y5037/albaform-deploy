@@ -20,6 +20,7 @@ export default function mypage() {
 
   let listData = [];
   let isLoading = false;
+  let isFetchingNextPage = false;
   let fetchNextPage, hasNextPage
 
   if (query.type === 'comment') {
@@ -30,6 +31,7 @@ export default function mypage() {
     isLoading = query.isLoading;
     fetchNextPage = query.fetchNextPage;
     hasNextPage = query.hasNextPage;
+    isFetchingNextPage = query.isFetchingNextPage;
   }
 
   const observerRef = useInfiniteScroll(
@@ -46,8 +48,8 @@ export default function mypage() {
         isPostSort={isPostSort}
         setIsPostSort={setIsPostSort}
       />
-      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading}/>
-      {selectedTab === 'post' && <div ref={observerRef} style={{height:1}}/>}
+      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
+      {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
       {selectedTab === 'comment' && <Pagination />}
     </ResponsiveStyle>
   );
