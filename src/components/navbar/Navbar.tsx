@@ -51,28 +51,36 @@ export default function Navbar({ variant = 'default' }: Props) {
 
   const NavbarWrapper = styled.nav<{ $bg: string }>`
     position: fixed;
-    width: 1920px;
-    height: 88px;
+    width: 100%;
     z-index: 999;
-    display: flex;
-    align-items: center;
-    padding: 24px 220px;
     background-color: ${(props) => props.$bg};
     border-bottom: 1px solid var(--gray100);
+  `;
+
+  const ContentsWrapper = styled.div`
+    display: flex;
+    align-items: center;
     padding: 0 120px;
+    height: 88px;
 
     /* Desktop: 중앙 정렬 + max-width 제한 */
-    @media ${media.tablet} {
+    @media ${media.desktop} {
       padding: 0;
       max-width: 1480px;
       margin: 0 auto;
-      height: 60px;
     }
 
     /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
-    @media ${media.mobile} {
+    @media ${media.tabletPC} {
       padding: 0 24px;
       margin: 0;
+    }
+
+    @media ${media.tablet} {
+      height: 60px;
+    }
+
+    @media ${media.mobile} {
       height: 54px;
     }
   `;
@@ -103,43 +111,45 @@ export default function Navbar({ variant = 'default' }: Props) {
   return (
     <div>
       <NavbarWrapper $bg={bgColor[variant]}>
-        <Logo src='/logo/logo.png' alt='logo' />
-        <MenuList $alignRight={variant === 'login'}>
-          {menuItems[variant].map((item) => (
-            <MenuItem
-              key={item}
-              $isActive={item === activeMenu}
-              onClick={() => setActiveMenu(item)}
+        <ContentsWrapper>
+          <Logo src='/logo/logo.png' alt='logo' />
+          <MenuList $alignRight={variant === 'login'}>
+            {menuItems[variant].map((item) => (
+              <MenuItem
+                key={item}
+                $isActive={item === activeMenu}
+                onClick={() => setActiveMenu(item)}
+              >
+                {item}
+              </MenuItem>
+            ))}
+          </MenuList>
+          {isLandingPage ? (
+            <button
+              onClick={() => router.push('/signin/admin')}
+              style={{
+                fontSize: '16px',
+                background: 'var(--primary-orange300)',
+                border: '1px solid var(--primary-orange300)',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                color: 'white',
+              }}
             >
-              {item}
-            </MenuItem>
-          ))}
-        </MenuList>
-        {isLandingPage ? (
-          <button
-            onClick={() => router.push('/signin/admin')}
-            style={{
-              fontSize: '16px',
-              background: 'var(--primary-orange300)',
-              border: '1px solid var(--primary-orange300)',
-              padding: '8px 16px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              color: 'white',
-            }}
-          >
-            로그인
-          </button>
-        ) : (
-          hamburgerMenu[variant] !== 'none' && (
-            <Hamburger
-              src={hamburgerMenu[variant]}
-              alt='menu icon'
-              onClick={handleOpenModal}
-            />
-          )
-        )}
-        {isModalOpen && <NavModal onClose={handleCloseModal} />}
+              로그인
+            </button>
+          ) : (
+            hamburgerMenu[variant] !== 'none' && (
+              <Hamburger
+                src={hamburgerMenu[variant]}
+                alt='menu icon'
+                onClick={handleOpenModal}
+              />
+            )
+          )}
+          {isModalOpen && <NavModal onClose={handleCloseModal} />}
+        </ContentsWrapper>
       </NavbarWrapper>
     </div>
   );
