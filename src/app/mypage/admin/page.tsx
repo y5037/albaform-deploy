@@ -6,26 +6,36 @@ import HeadContainer from './components/HeadContainer';
 import { useState } from 'react';
 import ListContainer from './components/ListContainer';
 import { useGetMyContents } from '@/hooks/query/useUser';
-import Pagination from './components/Pagination';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
+import Pagination from '@/components/pagination/Pagination';
 
 export default function mypage() {
+  const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+
+  const itemsPerPage = 6;
   
-  const query = useGetMyContents(selectedTab, isPostSort);
+  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
   const isPost = query.type === 'post';
 
   let listData = [];
   let isLoading = false;
   let isFetchingNextPage = false;
-  let fetchNextPage, hasNextPage
+  let fetchNextPage, hasNextPage;
+
+  let totalItemCount;
+  let currentPage;
+  let totalPages;
 
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
+    totalItemCount = query.data?.totalItemCount;
+    currentPage = query.data?.currentPage;
+    totalPages = query.data?.totalPages;
   } else {
     listData = query.data?.pages.flatMap((page) => page.result) ?? [];
     isLoading = query.isLoading;
@@ -50,7 +60,7 @@ export default function mypage() {
       />
       <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
       {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
-      {selectedTab === 'comment' && <Pagination />}
+      {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages} itemsPerPage={itemsPerPage}/>}
     </ResponsiveStyle>
   );
 }

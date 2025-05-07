@@ -128,14 +128,19 @@ export const fetchMyPosts = async ({
 };
 
 // 내가 작성한 댓글 목록 조회
-export const fetchMyComments = async () => {
+export const fetchMyComments = async (page:number, itemsPerPage:number) => {
   try {
-    const response = await instance.get('/users/me/comments?pageSize=6');
+    const response = await instance.get(`/users/me/comments?page=${page}&pageSize=${itemsPerPage}`);
     if (!response.data) {
       throw new Error('내 댓글 데이터 불러오기 실패');
     }
-    const result = response.data.data;
-    return {result};
+
+    return {
+      result: response.data.data,
+      totalItemCount:response.data.totalItemCount,
+      currentPage: response.data.currentPage,
+      totalPages:response.data.totalPages
+    };
   } catch (error) {
     console.error('내 댓글 데이터 불러오는 중 에러 발생:', error);
     throw error;
