@@ -26,15 +26,11 @@ export default function mypage() {
   let isFetchingNextPage = false;
   let fetchNextPage, hasNextPage;
 
-  let totalItemCount;
-  let currentPage;
   let totalPages;
 
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
-    totalItemCount = query.data?.totalItemCount;
-    currentPage = query.data?.currentPage;
     totalPages = query.data?.totalPages;
   } else {
     listData = query.data?.pages.flatMap((page) => page.result) ?? [];

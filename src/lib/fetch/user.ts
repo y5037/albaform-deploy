@@ -137,8 +137,6 @@ export const fetchMyComments = async (page:number, itemsPerPage:number) => {
 
     return {
       result: response.data.data,
-      totalItemCount:response.data.totalItemCount,
-      currentPage: response.data.currentPage,
       totalPages:response.data.totalPages
     };
   } catch (error) {
