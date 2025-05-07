@@ -35,11 +35,11 @@ const StyledButton = styled.button<StyledProps>`
   color: white;
 
   &:hover {
-    background-color:  var(--primary-orange400);
+    background-color: var(--primary-orange400);
   }
 
   &:disabled {
-  backgroud-color: var(--gray100)
+    background-color: var(--gray100);
     pointer-events: none;
   }
 

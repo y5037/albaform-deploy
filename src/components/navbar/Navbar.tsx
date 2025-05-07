@@ -126,7 +126,7 @@ export default function Navbar({ variant = 'default' }: Props) {
           </MenuList>
           {isLandingPage ? (
             <button
-              onClick={() => router.push('/signin/admin')}
+              onClick={() => router.push('/auth/signin/owner')}
               style={{
                 fontSize: '16px',
                 background: 'var(--primary-orange300)',

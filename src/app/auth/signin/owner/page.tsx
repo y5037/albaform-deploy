@@ -12,7 +12,7 @@ export default function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
@@ -79,7 +79,9 @@ export default function SignIn() {
           <p className='text-red text-sm'>{errors.password.message}</p>
         )}
       </div>
-      <Button type='submit'>{isPending ? '로그인 중...' : '로그인'}</Button>
+      <Button type='submit' disabled={!isValid}>
+        {isPending ? '로그인 중...' : '로그인'}
+      </Button>
     </form>
   );
 }
