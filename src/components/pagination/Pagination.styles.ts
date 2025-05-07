@@ -11,25 +11,30 @@ export const PaginationWrapper = styled.ul`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 40px 0 50px;
+  margin-top: 40px;
 `
 
 export const PaginationButton = styled.li<ButtonProps>`
   position: relative;
   width: 40px;
   height: 40px;
-  line-height: 40px;
-  margin: 0 2.5px;
-  border: 1px solid var(--gray-10);
-  border-radius: 50%;
+  line-height:40px;
   text-align: center;
   cursor: pointer;
-  font-size: 1.6em;
-  color: var(--gray-800);
+  font-size: 18px;
+  color: var(--gray100);
 
   ${({$active}) => $active && css`
-    border: 1px solid var(--primary-active);
-    background: var(--primary-active);
-    // color: var(--white);
+    color:var(--black400)
   `}
+`
+
+export const PageController = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  line-height:40px;
+  text-align: center;
+  cursor:pointer
 `
