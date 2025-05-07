@@ -23,6 +23,7 @@ export default function mypage() {
 
   let listData = [];
   let isLoading = false;
+  let isFetching = false;
   let isFetchingNextPage = false;
   let fetchNextPage, hasNextPage;
 
@@ -31,6 +32,7 @@ export default function mypage() {
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
+    isFetching = query.isFetching;
     totalPages = query.data?.totalPages;
   } else {
     listData = query.data?.pages.flatMap((page) => page.result) ?? [];
@@ -54,7 +56,7 @@ export default function mypage() {
         isPostSort={isPostSort}
         setIsPostSort={setIsPostSort}
       />
-      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
+      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading || isFetching} isFetchingNextPage={isFetchingNextPage}/>
       {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
       {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages}/>}
     </ResponsiveStyle>
