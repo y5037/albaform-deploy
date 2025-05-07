@@ -60,7 +60,7 @@ export default function mypage() {
       />
       <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
       {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
-      {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages} itemsPerPage={itemsPerPage}/>}
+      {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages}/>}
     </ResponsiveStyle>
   );
 }

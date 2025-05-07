@@ -4,5 +4,4 @@ export interface PaginationProps {
     page:number;
     setPage:React.Dispatch<SetStateAction<number>>;
     totalPages:number;
-    itemsPerPage:number
 }
