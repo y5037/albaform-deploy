@@ -25,7 +25,8 @@
     "slick-carousel": "^1.8.1",
     "styled-component": "^2.8.0",
     "styled-components": "^6.1.17",
-    "zod": "^3.24.4"
+    "zod": "^3.24.4",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

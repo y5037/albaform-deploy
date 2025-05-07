@@ -35,7 +35,7 @@ export default function SignIn() {
           <p>
             사장님 계정이 없으신가요?
             <Link
-              href='/auth/signup/admin'
+              href='/auth/signup/owner'
               className='inline underline ml-1 text-black'
             >
               회원가입 하기
@@ -44,7 +44,7 @@ export default function SignIn() {
           <p>
             지원자 로그인은{' '}
             <Link
-              href='/auth/signin/user'
+              href='/auth/signin/applicant'
               className='inline underline ml-1 text-black'
             >
               지원자 전용 페이지
@@ -78,7 +78,6 @@ export default function SignIn() {
         {errors.password && (
           <p className='text-red text-sm'>{errors.password.message}</p>
         )}
-        {error && <p className='text-red text-sm'>{error.message}</p>}
       </div>
       <Button type='submit'>{isPending ? '로그인 중...' : '로그인'}</Button>
     </form>

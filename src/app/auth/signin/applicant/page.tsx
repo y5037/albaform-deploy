@@ -35,7 +35,7 @@ export default function SignIn() {
           <p>
             아직 계정이 없으신가요?
             <Link
-              href='/auth/signup/user'
+              href='/auth/signup/applicant'
               className='inline underline ml-1 text-black'
             >
               회원가입 하기
@@ -44,7 +44,7 @@ export default function SignIn() {
           <p>
             사장님 로그인은{' '}
             <Link
-              href='/auth/signin/admin'
+              href='/auth/signin/owner'
               className='inline underline ml-1 text-black'
             >
               사장님 전용 페이지
