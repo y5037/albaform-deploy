@@ -52,7 +52,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-const AuthButton = ({
+const Button = ({
   loading = false,
   disabled,
   children,
@@ -83,4 +83,4 @@ const AuthButton = ({
   );
 };
 
-export default AuthButton;
+export default Button;
