@@ -14,6 +14,7 @@ import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
+import KebabDropdown from './KebabDropdown';
 
 export default function ListContainer({
   selectedTab,
@@ -21,7 +22,7 @@ export default function ListContainer({
   isLoading,
   isFetchingNextPage,
 }: ListContainerProps) {
-  const { outRef, dropdown, setDropdown } = useClickOutside();
+  
 
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
@@ -59,24 +60,7 @@ export default function ListContainer({
                       </Title>
                     </div>
                     {selectedTab === 'post' && (
-                      <KebabButton ref={outRef}>
-                        <Image
-                          src='/images/kebabButton.svg'
-                          alt='더보기'
-                          width={36}
-                          height={36}
-                          className='cursor-pointer'
-                          onClick={() => setDropdown((prev) => !prev)}
-                        />
-                        <PostDropdownContainer $active={dropdown}>
-                          <PostDropwonButton type='button'>
-                            수정하기
-                          </PostDropwonButton>
-                          <PostDropwonButton type='button'>
-                            삭제하기
-                          </PostDropwonButton>
-                        </PostDropdownContainer>
-                      </KebabButton>
+                      <KebabDropdown />
                     )}
                   </div>
                   <Description comment={selectedTab === 'comment'}>
