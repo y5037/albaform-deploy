@@ -80,17 +80,7 @@ const variant = {
   `,
 };
 
-const StyledButton = styled.button<CustomButtonProps>`
-  text-align: center;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.2s;
-  cursor: pointer;
-
-  ${(props) => size[props.size || 'small']}
-  ${(props) => variant[props.variant || 'primary']}
-`;
-
+// 커스텀 버튼 컴포넌트
 export default function CustomButton({
   children,
   size = 'small',
@@ -103,3 +93,15 @@ export default function CustomButton({
     </StyledButton>
   );
 }
+
+// 스타일드 컴포넌트
+const StyledButton = styled.button<CustomButtonProps>`
+  text-align: center;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  ${(props) => size[props.size || 'small']}
+  ${(props) => variant[props.variant || 'primary']}
+`;
