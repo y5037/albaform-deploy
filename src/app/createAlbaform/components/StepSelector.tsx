@@ -62,12 +62,13 @@ export default function StepSelector({
               )}
             </span>
             {open ? (
-              <ChevronUp size={24} color='white' />
+              <ChevronUp size={24} color='var(--white)' />
             ) : (
-              <ChevronDown size={24} color='white' />
+              <ChevronDown size={24} color='var(--white)' />
             )}
           </DropdownHeader>
 
+          {/* 드롭다운 리스트 */}
           {open && (
             <DropdownList>
               {steps
@@ -95,10 +96,11 @@ export default function StepSelector({
   );
 }
 
-//  데스크탑 => < 수정해야함!!!!!! >
+//  데스크탑 < 수정해야함!!!!!! >
 const StepButton = styled.button<{ selected: boolean }>`
-  background-color: ${({ selected }) => (selected ? '#F89A05' : '#F7F7F7')};
-  color: ${({ selected }) => (selected ? 'var(--white)' : '#6b6b6b')};
+  background-color: ${({ selected }) =>
+    selected ? 'var(--primary-orange400)' : 'var(--background200)'};
+  color: ${({ selected }) => (selected ? 'var(--white)' : 'var(--black100)')};
   font-size: 16px;
   font-weight: 700;
   height: 28px;
@@ -109,6 +111,7 @@ const StepButton = styled.button<{ selected: boolean }>`
   justify-content: space-between;
   align-items: center;
 `;
+
 const StepLabel = styled.span`
   display: flex;
   align-items: center;
@@ -116,8 +119,10 @@ const StepLabel = styled.span`
 
 //  데스크탑 + 테블릿 : 반응형 작업 해야함!!!!!!
 const StepIndex = styled.span<{ selected?: boolean }>`
-  background-color: ${({ selected }) => (selected ? '#fff7eb' : '#EFEFEF')};
-  color: ${({ selected }) => (selected ? '#f89a05' : '#C4C4C4')};
+  background-color: ${({ selected }) =>
+    selected ? 'var(--primary-orange100)' : 'var(--background300)'};
+  color: ${({ selected }) =>
+    selected ? 'var(--primary-orange400)' : 'var(--gray200)'};
   font-size: 14px;
   font-weight: 700;
   width: 20px;
@@ -128,15 +133,16 @@ const StepIndex = styled.span<{ selected?: boolean }>`
   justify-content: center;
   align-items: center;
 `;
+
 const WritingBadge = styled.span<{ selected?: boolean }>`
   background-color: ${({ selected }) =>
     selected ? '#FBAF37' : 'var(--white)'};
-  color: ${({ selected }) => (selected ? 'var(--white)' : '#ABABAB')};
+  color: ${({ selected }) => (selected ? 'var(--white)' : 'var(--gray300)')};
   font-size: 12px;
   padding: 4px 8px;
   margin-left: 12px;
   border: ${({ selected }) =>
-    selected ? '1px solid var(--white)' : '1px solid #DEDEDE'};
+    selected ? '1px solid var(--white)' : '1px solid var(--gray100)'};
   border-radius: 100px;
 `;
 
@@ -145,14 +151,14 @@ const DropdownContainer = styled.div`
   font-size: 14px;
   font-weight: 700;
   width: 100%;
-  border: 1px solid #e6e6e6;
+  border: 1px solid var(--line200);
   border-radius: 16px;
 `;
 
 const DropdownHeader = styled.div<{ selected?: boolean }>`
   background-color: ${({ selected }) =>
     selected ? '#F89A05' : 'var(--white)'};
-  color: ${({ selected }) => (selected ? 'var(--white)' : '6b6b6b')};
+  color: ${({ selected }) => (selected ? 'var(--white)' : 'var(--black100)')};
   width: 100%;
   padding: 12px 24px;
   border-radius: 16px;
@@ -163,13 +169,13 @@ const DropdownHeader = styled.div<{ selected?: boolean }>`
 `;
 
 const DropdownList = styled.div`
-  background-color: white;
+  background-color: var(--white);
   overflow: hidden;
   border-radius: 16px;
 `;
 
 const DropdownItem = styled.div`
-  color: #6b6b6b;
+  color: var(--black100);
   padding: 12px 24px;
   border-radius: 16px;
   display: flex;
