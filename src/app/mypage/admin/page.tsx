@@ -17,7 +17,7 @@ export default function mypage() {
   >('mostRecent');
 
   const itemsPerPage = 6;
-  
+
   const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
   const isPost = query.type === 'post';
 
@@ -42,10 +42,7 @@ export default function mypage() {
     isFetchingNextPage = query.isFetchingNextPage;
   }
 
-  const observerRef = useInfiniteScroll(
-    isPost && hasNextPage!,
-    fetchNextPage!
-  );
+  const observerRef = useInfiniteScroll(isPost && hasNextPage!, fetchNextPage!);
 
   return (
     <ResponsiveStyle>
@@ -56,9 +53,18 @@ export default function mypage() {
         isPostSort={isPostSort}
         setIsPostSort={setIsPostSort}
       />
-      <ListContainer selectedTab={selectedTab} listData={listData} isLoading={isLoading || isFetching} isFetchingNextPage={isFetchingNextPage}/>
-      {selectedTab === 'post' && hasNextPage && <div ref={observerRef} style={{height:'1px'}}/>}
-      {selectedTab === 'comment' && <Pagination page={page} setPage={setPage} totalPages={totalPages}/>}
+      <ListContainer
+        selectedTab={selectedTab}
+        listData={listData}
+        isLoading={isLoading || isFetching}
+        isFetchingNextPage={isFetchingNextPage}
+      />
+      {selectedTab === 'post' && hasNextPage && (
+        <div ref={observerRef} style={{ height: '1px' }} />
+      )}
+      {selectedTab === 'comment' && (
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      )}
     </ResponsiveStyle>
   );
 }

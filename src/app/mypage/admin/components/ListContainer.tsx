@@ -1,10 +1,5 @@
 import Image from 'next/image';
-import {
-  Title,
-  PostWrapper,
-  Description,
-  Comment,
-} from '../../styles';
+import { Title, PostWrapper, Description, Comment } from '../../styles';
 import { ListContainerProps } from '../../types';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
@@ -18,8 +13,6 @@ export default function ListContainer({
   isLoading,
   isFetchingNextPage,
 }: ListContainerProps) {
-  
-
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
   const defaultProfileImg = '/images/defaultProfile.svg';
@@ -55,9 +48,7 @@ export default function ListContainer({
                         {selectedTab === 'post' ? item.title : post?.title}
                       </Title>
                     </div>
-                    {selectedTab === 'post' && (
-                      <KebabDropdown />
-                    )}
+                    {selectedTab === 'post' && <KebabDropdown />}
                   </div>
                   <Description comment={selectedTab === 'comment'}>
                     {selectedTab === 'post' ? item.content : post?.content}
