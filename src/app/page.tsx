@@ -115,7 +115,7 @@ export default function Home() {
       <div
         className='
         relative bg-[var(--black400)] w-full h-[633px] 
-        md:h-auto md:aspect-[1.29/1]'
+        md:h-auto md:aspect-[1.23/1]'
       >
         <Banner>
           <div
@@ -132,7 +132,7 @@ export default function Home() {
             />
           </div>
           <Title>한 곳에서 관리하는 알바 구인 플랫폼</Title>
-          <Button href={'/'}>알바폼 시작하기</Button>
+          <Button href={'/signin'}>알바폼 시작하기</Button>
           <BannerImg />
         </Banner>
       </div>
@@ -170,7 +170,7 @@ export default function Home() {
             <br />
             알바구인 플랫폼
           </p>
-          <Button href={'/'}>알바폼 시작하기</Button>
+          <Button href={'/signin'}>알바폼 시작하기</Button>
         </div>
       </div>
     </>

@@ -10,8 +10,7 @@ const BASE_URL = 'https://fe-project-albaform.vercel.app/12-2/';
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDY1OTg2NzAsImV4cCI6MTc0NzIwMzQ3MH0.I_jnpRNW8nsdvpznivB2XVUtx5ft_MSECx30Hc_7--A`, // 로그인 전 임시
-    'Content-Type': 'application/json',
+    //Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDYyNDQ4NTAsImV4cCI6MTc0Njg0OTY1MH0.fcitbGTkERrvImZVOdX1B9fObKlnslmLBAV43Zirs0s`, // 로그인 전 임시
   },
 });
 
@@ -71,7 +70,7 @@ instance.interceptors.response.use(
         console.error('Error refreshing token:', refreshError);
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
-        window.location.href = '/signin';
+        window.location.href = '/auth/signin/owner';
         return Promise.reject(refreshError);
       }
     }
