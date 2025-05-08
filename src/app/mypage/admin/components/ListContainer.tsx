@@ -3,12 +3,8 @@ import {
   Title,
   PostWrapper,
   Description,
-  KebabButton,
-  PostDropdownContainer,
-  PostDropwonButton,
   Comment,
 } from '../../styles';
-import { useClickOutside } from '@/utils/useClickOutside';
 import { ListContainerProps } from '../../types';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
