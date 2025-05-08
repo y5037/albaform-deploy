@@ -17,10 +17,10 @@ export default function KebabDropdown() {
         />
         <PostDropdownContainer $active={dropdown}>
             <PostDropwonButton type='button'>
-            수정하기
+                수정하기
             </PostDropwonButton>
             <PostDropwonButton type='button'>
-            삭제하기
+                삭제하기
             </PostDropwonButton>
         </PostDropdownContainer>
         </KebabButton>
