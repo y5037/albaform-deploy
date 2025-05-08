@@ -40,7 +40,7 @@ export const StepIndex = styled.span<{ selected?: boolean }>`
 
 export const WritingBadge = styled.span<{ selected?: boolean }>`
   background-color: ${({ selected }) =>
-    selected ? '#FBAF37' : 'var(--white)'};
+    selected ? 'var(--primary-orange300)' : 'var(--white)'};
   color: ${({ selected }) => (selected ? 'var(--white)' : 'var(--gray300)')};
   font-size: 12px;
   padding: 4px 8px;
