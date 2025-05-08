@@ -21,7 +21,7 @@ export const StepLabel = styled.span`
   align-items: center;
 `;
 
-//  데스크탑 + 테블릿 : 반응형 작업 해야함!!!!!!
+//  데스크탑 + 테블릿 공용 : 반응형 작업 해야함!!!!!!
 export const StepIndex = styled.span<{ selected?: boolean }>`
   background-color: ${({ selected }) =>
     selected ? 'var(--primary-orange100)' : 'var(--background300)'};

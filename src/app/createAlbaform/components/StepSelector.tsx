@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useClickOutside } from '@/utils/useClickOutside';
 import {
   StepButton,
   StepLabel,
@@ -30,7 +31,7 @@ export default function StepSelector({
   setCurrentStep,
   isStepInProgress,
 }: StepSelectorProps) {
-  const [open, setOpen] = useState(false);
+  const { outRef, dropdown, setDropdown } = useClickOutside();
 
   return (
     <>
@@ -59,8 +60,8 @@ export default function StepSelector({
 
       {/* 모바일/태블릿: 드롭다운 */}
       <div className='block lg:hidden w-full mb-4'>
-        <DropdownContainer>
-          <DropdownHeader selected onClick={() => setOpen(!open)}>
+        <DropdownContainer ref={outRef}>
+          <DropdownHeader selected onClick={() => setDropdown(!dropdown)}>
             <span>
               <StepIndex selected>
                 {steps.find((s) => s.key === currentStep)?.index}
@@ -70,7 +71,7 @@ export default function StepSelector({
                 <WritingBadge selected>작성중</WritingBadge>
               )}
             </span>
-            {open ? (
+            {dropdown ? (
               <ChevronUp size={24} color='var(--white)' />
             ) : (
               <ChevronDown size={24} color='var(--white)' />
@@ -78,7 +79,7 @@ export default function StepSelector({
           </DropdownHeader>
 
           {/* 드롭다운 리스트 */}
-          {open && (
+          {dropdown && (
             <DropdownList>
               {steps
                 .filter((s) => s.key !== currentStep)
@@ -87,7 +88,7 @@ export default function StepSelector({
                     key={key}
                     onClick={() => {
                       setCurrentStep(key);
-                      setOpen(false);
+                      setDropdown(false);
                     }}
                   >
                     <StepIndex>{index}</StepIndex>

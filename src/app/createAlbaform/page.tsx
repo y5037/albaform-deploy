@@ -22,7 +22,7 @@ export default function CreateForm() {
 
   return (
     <>
-      {/* 상단 제목 + 버튼 */}
+      {/* 상단 제목 + 취소버튼 */}
       <div
         className='
           flex justify-between items-center max-w-[327px] pt-[84px] mx-auto
