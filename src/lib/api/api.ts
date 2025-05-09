@@ -11,7 +11,6 @@ const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     //Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDYyNDQ4NTAsImV4cCI6MTc0Njg0OTY1MH0.fcitbGTkERrvImZVOdX1B9fObKlnslmLBAV43Zirs0s`, // 로그인 전 임시
-    'Content-Type': 'application/json',
   },
 });
 
