@@ -2,9 +2,9 @@
 
 import { ResponsiveStyle } from '@/styles/responsiveStyle';
 import FilterContainer from './components/FilterContainer';
-import HeadContainer from './components/HeadContainer';
+import HeadContainer from '../components/HeadContainer';
 import { useState } from 'react';
-import ListContainer from './components/ListContainer';
+import MyPostAndCommentList from '../components/MyPostAndCommentList';
 import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
@@ -53,7 +53,7 @@ export default function mypage() {
         isPostSort={isPostSort}
         setIsPostSort={setIsPostSort}
       />
-      <ListContainer
+      <MyPostAndCommentList
         selectedTab={selectedTab}
         listData={listData}
         isLoading={isLoading || isFetching}

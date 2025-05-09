@@ -3,7 +3,7 @@ import {
   KebabButton,
   PostDropdownContainer,
   PostDropwonButton,
-} from '../../styles';
+} from '../styles';
 import { useClickOutside } from '@/utils/useClickOutside';
 
 export default function KebabDropdown() {

@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { Title, PostWrapper, Description, Comment } from '../../styles';
-import { ListContainerProps } from '../../types';
+import { Title, PostWrapper, Description, Comment } from '../styles';
+import { ListContainerProps } from '../types';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
