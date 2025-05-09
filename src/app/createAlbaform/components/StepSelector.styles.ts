@@ -5,10 +5,10 @@ export const StepButton = styled.button<{ selected: boolean }>`
   background-color: ${({ selected }) =>
     selected ? 'var(--primary-orange400)' : 'var(--background200)'};
   color: ${({ selected }) => (selected ? 'var(--white)' : 'var(--black100)')};
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   height: 28px;
-  padding: 10px 14px;
+  padding: 14px 20px 12px;
   border-radius: 16px;
   cursor: pointer;
   display: flex;

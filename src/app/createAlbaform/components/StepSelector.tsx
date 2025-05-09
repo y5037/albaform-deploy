@@ -37,9 +37,9 @@ export default function StepSelector({
     <>
       {/* 데스크탑: 사이드바 */}
       <div
-        className='
-        hidden lg:flex flex-col gap-2 
-        p-4 w-60 bg-[#F7F7F7] rounded-xl shadow-sm'
+        className='hidden 
+          lg:flex flex-col gap-2 h-[460px]
+          px-5 py-6 w-[320px] bg-[#F7F7F7] rounded-xl shadow-sm'
       >
         {steps.map(({ key, label, index }) => (
           <StepButton
