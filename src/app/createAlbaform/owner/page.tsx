@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import CustomButton from './components/CustomButton';
-import StepSelector from './components/StepSelector';
-import StepFormInfo from './components/StepFormInfo';
+import CustomButton from '../components/CustomButton';
+import StepSelector from '../components/StepSelector';
+import StepFormInfo, { InfoFormValues } from '../components/StepFormInfo';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
@@ -11,17 +11,33 @@ export default function CreateForm() {
   );
 
   // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    info: InfoFormValues | null;
+    condition: any;
+    work: any;
+  }>({
     info: null,
     condition: null,
     work: null,
   });
 
-  const isStepInProgress = (step: 'info' | 'condition' | 'work') => {
-    return !!formData[step];
+  const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
+    if (step === 'info') {
+      const data = formData.info;
+      return !!(
+        data &&
+        (data.title?.trim() ||
+          data.description?.trim() ||
+          data.period?.trim() ||
+          (data.image && data.image.length > 0))
+      );
+    }
+
+    // 이후 조건/근무 입력 상태 확인 로직 추가
+    return false;
   };
 
-  const handleInfoChange = useCallback((data: any) => {
+  const handleInfoChange = useCallback((data: InfoFormValues) => {
     setFormData((prev) => ({ ...prev, info: data }));
   }, []);
 
@@ -44,7 +60,7 @@ export default function CreateForm() {
         <CustomButton>작성취소</CustomButton>
       </div>
 
-      {/* 단계 선택 영역 */}
+      {/* 조건 선택 영역 */}
       <div
         className='
           max-w-[375px] mx-auto mt-6 px-[24px] pb-[80px]

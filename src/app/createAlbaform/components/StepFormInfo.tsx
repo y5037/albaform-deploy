@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 
-type InfoFormValues = {
+export type InfoFormValues = {
   title: string;
   description: string;
   period: string;
