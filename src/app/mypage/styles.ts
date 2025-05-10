@@ -293,3 +293,13 @@ export const Comment = styled.p`
   font-size: 18px;
   font-weight: 500;
 `;
+
+export const ScrollHiddenDiv = styled.div`
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none;    /* Firefox */
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+`;
