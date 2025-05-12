@@ -2,6 +2,14 @@
 
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import {
+  FormWrapper,
+  FormGroup,
+  FormLabel,
+  RequiredMark,
+  FormInput,
+  FormTextarea,
+} from './StepForm.styles';
 
 export type InfoFormValues = {
   title: string;
@@ -33,56 +41,44 @@ export default function StepFormInfo({ onDataChange }: Props) {
   }, [title, description, period, image]);
 
   return (
-    <form className='flex flex-col gap-8 min-[1025px]:max-w-[640px]'>
-      {/* 제목 */}
-      <div>
-        <label className='block font-semibold mb-4'>
-          알바폼 제목 <span className='text-orange-500'>*</span>
-        </label>
-        <input
+    <FormWrapper>
+      <FormGroup>
+        <FormLabel>
+          알바폼 제목 <RequiredMark>*</RequiredMark>
+        </FormLabel>
+        <FormInput
           type='text'
           placeholder='제목을 입력해주세요.'
           {...register('title', { required: true })}
-          className='w-full bg-[var(--background200)] border rounded-[8px] p-[14px] pb-[12px]'
         />
-      </div>
+      </FormGroup>
 
-      {/* 소개글 */}
-      <div>
-        <label className='block font-semibold mb-4'>
-          소개글 <span className='text-orange-500'>*</span>
-        </label>
-        <textarea
+      <FormGroup>
+        <FormLabel>
+          소개글 <RequiredMark>*</RequiredMark>
+        </FormLabel>
+        <FormTextarea
           placeholder='최대 200자까지 입력 가능합니다.'
           maxLength={200}
           {...register('description', { required: true })}
-          className='w-full bg-[var(--background200)] border rounded-[8px] p-[14px] h-40 resize-none'
         />
-      </div>
+      </FormGroup>
 
-      {/* 모집 기간 */}
-      <div>
-        <label className='block font-semibold mb-4'>
-          모집 기간 <span className='text-orange-500'>*</span>
-        </label>
-        <input
+      <FormGroup>
+        <FormLabel>
+          모집 기간 <RequiredMark>*</RequiredMark>
+        </FormLabel>
+        <FormInput
           type='text'
           placeholder='시작일 ~ 종료일'
           {...register('period', { required: true })}
-          className='w-full bg-[var(--background200)] border rounded-[8px] p-[14px] pb-[12px]'
         />
-      </div>
+      </FormGroup>
 
-      {/* 이미지 첨부 */}
-      <div>
-        <label className='block font-semibold mb-4'>이미지 첨부</label>
-        <input
-          type='file'
-          accept='image/*'
-          {...register('image')}
-          className='w-full bg-[var(--background200)] border rounded-[8px] p-[14px] pb-[12px]'
-        />
-      </div>
-    </form>
+      <FormGroup>
+        <FormLabel>이미지 첨부</FormLabel>
+        <FormInput type='file' accept='image/*' {...register('image')} />
+      </FormGroup>
+    </FormWrapper>
   );
 }
