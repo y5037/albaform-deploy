@@ -33,7 +33,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
   }, [title, description, period, image]);
 
   return (
-    <form className='flex flex-col gap-8 lg:max-w-[640px]'>
+    <form className='flex flex-col gap-8 min-[1025px]:max-w-[640px]'>
       {/* 제목 */}
       <div>
         <label className='block font-semibold mb-4'>

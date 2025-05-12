@@ -47,12 +47,12 @@ export default function CreateForm() {
       <div
         className='
           flex justify-between items-center max-w-[375px] pt-[84px] px-[24px] mx-auto
-          md:pt-[112px] lg:max-w-[1220px] lg:px-[120px]'
+          md:pt-[112px] min-[1025px]:max-w-[1220px] min-[1025px]:px-[120px]'
       >
         <h1
           className='
             font-semibold text-[20px] leading-[32px]
-            lg:text-[32px] lg:leading-[46px]
+            min-[1025px]:text-[32px] min-[1025px]:leading-[46px]
           '
         >
           알바폼 만들기
@@ -64,7 +64,8 @@ export default function CreateForm() {
       <div
         className='
           max-w-[375px] mx-auto mt-6 px-[24px] pb-[80px]
-          lg:flex lg:gap-[40px] lg:max-w-[1220px] lg:px-[120px] lg:mt-6'
+          min-[1025px]:flex min-[1025px]:gap-[40px] 
+          min-[1025px]:max-w-[1220px] min-[1025px]:px-[120px] min-[1025px]:mt-6'
       >
         <StepSelector
           currentStep={currentStep}
@@ -72,7 +73,7 @@ export default function CreateForm() {
           isStepInProgress={isStepInProgress}
         />
 
-        <div className='flex-1 pt-6 lg:mt-0'>
+        <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
             <StepFormInfo onDataChange={handleInfoChange} />
           )}
