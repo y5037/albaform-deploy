@@ -8,6 +8,8 @@ import MyPostAndCommentList from '../components/MyPostAndCommentList';
 import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
+import { useModalController } from '@/utils/useModalController';
+import EditProfileModal from './components/EditProfileModal';
 
 export default function mypage() {
   const [page, setPage] = useState(1);
@@ -44,9 +46,14 @@ export default function mypage() {
 
   const observerRef = useInfiniteScroll(isPost && hasNextPage!, fetchNextPage!);
 
+  const { showModal, setShowModal } = useModalController();
+
   return (
     <ResponsiveStyle>
-      <HeadContainer />
+      {showModal && (
+        <EditProfileModal showModal={showModal} setShowModal={setShowModal} />
+      )}
+      <HeadContainer setShowModal={setShowModal} />
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}

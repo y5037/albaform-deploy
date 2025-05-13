@@ -3,12 +3,12 @@ import { createPortal } from 'react-dom';
 import { ModalOverlay, ModalContent } from './Modal.styles';
 import { OverlayProps } from './Modal.types';
 
-export default function Overlay({ isOpen, onClose, children }: OverlayProps) {
+export default function Overlay({ isOpen, onClose, children, $fluid }: OverlayProps) {
   if (!isOpen) return null;
 
   return createPortal(
     <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+      <ModalContent $fluid onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContent>
     </ModalOverlay>,

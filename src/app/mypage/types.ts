@@ -55,3 +55,12 @@ export interface ListData {
   recruitmentEndDate?: string;
   recruitmentStartDate?: string;
 }
+
+export interface EditProfileModalProps {
+  showModal: boolean;
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export interface HeadProps {
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+}
