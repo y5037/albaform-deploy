@@ -24,17 +24,18 @@ export default function EditProfileModal({
   const onSubmit = (data: any) => {};
 
   return (
-    <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
+    <Overlay $fluid isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] overflow-y-scroll scrollbar-hide'>
         <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
           사장님 정보 관리
         </p>
-        <div className='cursor-pointer justify-items-center mt-[24px] mb-[24px]'>
+        <div className='justify-items-center mt-[24px] mb-[24px]'>
           <Image
             src='/images/editProfileImg.svg'
             alt='이미지 수정'
             width={110}
             height={110}
+            className='cursor-pointer'
           />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
