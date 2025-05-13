@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { ScrollHiddenDiv } from '../../styles';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
+import { formatStoreTel } from '@/utils/formatStoreTel';
 
 export default function EditProfileModal({
   showModal,
@@ -83,8 +84,9 @@ export default function EditProfileModal({
               inputMode='numeric'
               {...register('storeTel', {
                 onChange: (e) => {
-                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
-                  setValue('storeTel', onlyNums);
+                  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formatStoreTel(e.target.value);
+                  e.target.value = formatted;
                 },
               })}
               placeholder='가게 전화번호를 입력해주세요'
