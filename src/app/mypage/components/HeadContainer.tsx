@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { EditButton, EditButtonContainer, KebabButton } from '../../styles';
+import { EditButton, EditButtonContainer, KebabButton } from '../styles';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { HeadProps } from '../../types';
+import { HeadProps } from '../types';
 
 export default function HeadContainer({ setShowModal }: HeadProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
