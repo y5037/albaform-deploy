@@ -19,8 +19,11 @@ export default function EditProfileModal({
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
-  } = useForm<EditProfileInput>({ resolver: zodResolver(editProfileSchema) });
+    formState: { isValid, errors },
+  } = useForm<EditProfileInput>({
+    resolver: zodResolver(editProfileSchema),
+    mode: 'onChange',
+  });
 
   const onSubmit = (data: any) => {};
 
@@ -84,9 +87,9 @@ export default function EditProfileModal({
               inputMode='numeric'
               {...register('storeTel', {
                 onChange: (e) => {
-                  e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                  const formatted = formatStoreTel(e.target.value);
-                  e.target.value = formatted;
+                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formatStoreTel(onlyNums);
+                  setValue('storeTel', formatted, { shouldValidate: true });
                 },
               })}
               placeholder='가게 전화번호를 입력해주세요'
@@ -105,9 +108,9 @@ export default function EditProfileModal({
               inputMode='numeric'
               {...register('ownerTel', {
                 onChange: (e) => {
-                  e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                  const formatted = formatPhoneNumber(e.target.value);
-                  e.target.value = formatted;
+                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formatPhoneNumber(onlyNums);
+                  setValue('ownerTel', formatted, { shouldValidate: true });
                 },
               })}
               placeholder='사장님 전화번호를 입력해주세요'
@@ -124,7 +127,7 @@ export default function EditProfileModal({
               {...register('address')}
               placeholder='가게 위치를 설정해주세요'
               className='w-[100%] cursor-pointer p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray400'
-              readOnly
+              // readOnly
             />
             {errors.address && (
               <p className='text-left mt-[10px] text-red'>
@@ -142,7 +145,8 @@ export default function EditProfileModal({
             </button>
             <button
               type='submit'
-              className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px]'
+              className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
+              disabled={!isValid}
             >
               수정하기
             </button>
