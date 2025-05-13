@@ -50,7 +50,7 @@ export const EditButtonContainer = styled.div<EditContainerProps>`
     position: absolute;
     right: 0;
     padding: 5px;
-    z-index: 1;
+    z-index: 100;
     border: 1px solid var(--line100);
     box-shadow: 4px 4px 4px rgba(228, 228, 228, 0.1);
     border-radius: 8px;
