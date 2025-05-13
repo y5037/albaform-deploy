@@ -1,3 +1,5 @@
+'use client';
+
 import Overlay from '@/components/modal/Overlay';
 import { EditProfileModalProps } from '../../types';
 import { useForm } from 'react-hook-form';
@@ -10,6 +12,8 @@ import Image from 'next/image';
 import { ScrollHiddenDiv } from '../../styles';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 import { formatStoreTel } from '@/utils/formatStoreTel';
+import { ChangeEvent, useState } from 'react';
+import useChangeProfilePreview from '@/utils/useChangeProfilePreview';
 
 export default function EditProfileModal({
   showModal,
@@ -27,22 +31,41 @@ export default function EditProfileModal({
 
   const onSubmit = (data: any) => {};
 
+  const { isPreview, handleImgChange } = useChangeProfilePreview();
+
   return (
     <Overlay $fluid isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] overflow-y-scroll scrollbar-hide'>
         <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
           사장님 정보 관리
         </p>
-        <div className='justify-items-center mt-[24px] mb-[24px]'>
-          <Image
-            src='/images/editProfileImg.svg'
-            alt='이미지 수정'
-            width={110}
-            height={110}
-            className='cursor-pointer'
-          />
-        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <label className='relative inline-block justify-items-center mt-[24px] mb-[24px] cursor-pointer'>
+            <Image
+              src={`${
+                isPreview.length > 0
+                  ? isPreview
+                  : '/images/mypage/editProfileImg.svg'
+              }`}
+              alt='기본 이미지'
+              width={80}
+              height={80}
+              className='rounded-[50%] overflow-hidden'
+            />
+            <Image
+              src='/images/mypage/iconEditImg.svg'
+              alt='이미지 수정'
+              width={24}
+              height={24}
+              className='absolute right-[0] bottom-[0]'
+            />
+            <input
+              type='file'
+              accept='image/png'
+              className='hidden'
+              onChange={(e) => handleImgChange(e)}
+            />
+          </label>
           <div>
             <p className='text-left mb-[10px]'>
               닉네임{' '}
@@ -127,7 +150,7 @@ export default function EditProfileModal({
               {...register('address')}
               placeholder='가게 위치를 설정해주세요'
               className='w-[100%] cursor-pointer p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray400'
-              // readOnly
+              readOnly
             />
             {errors.address && (
               <p className='text-left mt-[10px] text-red'>
