@@ -8,6 +8,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { ScrollHiddenDiv } from '../../styles';
+import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 
 export default function EditProfileModal({
   showModal,
@@ -16,6 +17,7 @@ export default function EditProfileModal({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<EditProfileInput>({ resolver: zodResolver(editProfileSchema) });
 
@@ -77,7 +79,13 @@ export default function EditProfileModal({
             </p>
             <input
               type='tel'
-              {...register('storeTel')}
+              inputMode='numeric'
+              {...register('storeTel', {
+                onChange: (e) => {
+                  const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                  setValue('storeTel', onlyNums);
+                },
+              })}
               placeholder='가게 전화번호를 입력해주세요'
               className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
             />
@@ -91,6 +99,14 @@ export default function EditProfileModal({
             <p className='text-left mt-[15px] mb-[10px]'>사장님 전화번호</p>
             <input
               type='tel'
+              inputMode='numeric'
+              {...register('ownerTel', {
+                onChange: (e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                  const formatted = formatPhoneNumber(e.target.value);
+                  e.target.value = formatted;
+                },
+              })}
               placeholder='사장님 전화번호를 입력해주세요'
               className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
             />
