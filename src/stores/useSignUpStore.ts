@@ -22,7 +22,6 @@ export const useSignUpStore = create<SignUpStore>()(
   persist(
     (set) => ({
       data: {},
-
       setStep1: (step1) =>
         set((state) => ({
           data: { ...state.data, ...step1 },

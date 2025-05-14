@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
+import { useEffect } from 'react';
 import { useSignIn } from '@/hooks/mutation/useSignIn';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,6 +24,12 @@ export default function SignIn() {
   const onSubmit = (data: SignInInput) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (error) {
+      alert('로그인에 실패하였습니다. 다시 시도해주세요.');
+    }
+  }, [error]);
 
   return (
     <form

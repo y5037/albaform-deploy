@@ -20,7 +20,6 @@ export default function SignIn() {
     resolver: zodResolver(signUpSchema1),
     mode: 'onChange',
   });
-
   const router = useRouter();
   const { isPending, error } = useSignUp();
   const setStep1 = useSignUpStore((state) => state.setStep1);
@@ -46,21 +45,21 @@ export default function SignIn() {
         <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
         <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
           <p>
-            이미 사장님 계정이 있으신가요?
+            이미 계정이 있으신가요?
             <Link
-              href='/auth/signin/owner'
+              href='/auth/signin/applicant'
               className='inline underline ml-1 text-black'
             >
               로그인 하기
             </Link>
           </p>
           <p>
-            지원자 회원가입은{' '}
+            사장님 회원가입은{' '}
             <Link
-              href='/auth/signup/applicant'
+              href='/auth/signup/owner'
               className='inline underline ml-1 text-black'
             >
-              지원자 전용 페이지
+              사장님 전용 페이지
             </Link>
             에서 할 수 있습니다.
           </p>
