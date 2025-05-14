@@ -144,13 +144,21 @@ export default function EditProfileModal({
               가게 위치{' '}
               <span className='text-orange-300 relative top-[1px]'>*</span>
             </p>
-            <input
-              type='address'
-              {...register('address')}
-              placeholder='가게 위치를 설정해주세요'
-              className='w-[100%] cursor-pointer p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray400'
-              readOnly
-            />
+            <div className='flex w-[100%] h-[54px] cursor-pointer px-[7px] border border-gray-200 border-solid rounded-[8px] text-left'>
+              <Image
+                src='/images/mypage/iconLocation.svg'
+                alt='Location:'
+                width={36}
+                height={36}
+              />
+              <input
+                type='address'
+                {...register('address')}
+                placeholder='가게 위치를 설정해주세요'
+                className='cursor-pointer pladeholer-gray400'
+                readOnly
+              />
+            </div>
             {errors.address && (
               <p className='text-left mt-[10px] text-red'>
                 {errors.address.message}
