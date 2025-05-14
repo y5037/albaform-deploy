@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const signUpSchema1Base = z.object({
+export const signUpSchema1Base = z.object({
   email: z.string().email({ message: '이메일 형식으로 입력해주세요.' }),
   password: z
     .string()
@@ -10,7 +10,15 @@ const signUpSchema1Base = z.object({
   confirmPassword: z.string(),
 });
 
-const signUpSchema2Base = z.object({
+export const signUpSchema1 = signUpSchema1Base.refine(
+  (data) => data.password === data.confirmPassword,
+  {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  },
+);
+
+export const signUpSchema2Base = z.object({
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
   name: z.string().min(1, { message: '이름을 입력해주세요.' }),
   phoneNumber: z.string().min(1, { message: '전화번호를 입력해주세요.' }),
@@ -19,14 +27,6 @@ const signUpSchema2Base = z.object({
   storePhoneNumber: z.string().optional(),
   location: z.string().optional(),
 });
-
-export const signUpSchema1 = signUpSchema1Base.refine(
-  (data) => data.password === data.confirmPassword,
-  {
-    message: '비밀번호가 일치하지 않습니다.',
-    path: ['confirmPassword'],
-  },
-);
 
 export const signUpSchema2 = signUpSchema2Base.superRefine((data, ctx) => {
   if (data.role === 'OWNER') {
@@ -58,4 +58,6 @@ export const SignUpSchema = signUpSchema1Base
   .omit({ confirmPassword: true })
   .merge(signUpSchema2Base);
 
+export type SignUp1Input = z.infer<typeof signUpSchema1>;
+export type SignUp2Input = z.infer<typeof signUpSchema2>;
 export type SignUpInput = z.infer<typeof SignUpSchema>;

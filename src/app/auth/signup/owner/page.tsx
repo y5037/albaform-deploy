@@ -1,26 +1,32 @@
 'use client';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Link from 'next/link';
+import Input from '@/app/auth/components/Input';
+import Button from '@/app/auth/components/Button';
+import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SignUpSchema, SignUpInput } from '@/schemas/signupSchema';
+import { useSignUpStore } from '@/stores/useSignUpStore';
+import { signUpSchema1, SignUp1Input } from '@/schemas/signupSchema';
 
-export default function SignUp() {
+export default function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<SignUpInput>({
-    resolver: zodResolver(SignUpSchema),
+  } = useForm<SignUp1Input>({
+    resolver: zodResolver(signUpSchema1),
     mode: 'onChange',
   });
+  const router = useRouter();
+  const { isPending, error } = useSignUp();
+  const setStep1 = useSignUpStore((state) => state.setStep1);
 
-  const { mutate, isPending, error } = useSignUp();
-
-  const onSubmit = (data: SignUpInput) => {
-    mutate(data);
+  const onSubmit = (formData: SignUp1Input) => {
+    const { confirmPassword, ...step1Data } = formData;
+    setStep1(step1Data);
+    router.push(`/signup/owner/authinfo`);
   };
 
   return (
@@ -30,7 +36,82 @@ export default function SignUp() {
     >
       <div className='flex flex-col items-center'>
         <p className='font-semibold text-3xl mb-[32px]'>회원가입</p>
+        <div className='flex gap-1 flex-col items-center text-[20px] text-black100'>
+          <p>
+            이미 사장님 계정이 있으신가요?
+            <Link
+              href='/auth/signin/owner'
+              className='inline underline ml-1 text-black'
+            >
+              로그인 하기
+            </Link>
+          </p>
+          <p>
+            지원자 회원가입은{' '}
+            <Link
+              href='/auth/signup/applicant'
+              className='inline underline ml-1 text-black'
+            >
+              지원자 전용 페이지
+            </Link>
+            에서 할 수 있습니다.
+          </p>
+        </div>
       </div>
+      <div className='flex flex-col mt-[60px] mb-[52px]'>
+        <div className='mb-[32px]'>
+          <Input
+            id='email'
+            label='이메일'
+            placeholder='이메일을 입력해주세요'
+            className={errors.email ? 'border-red' : ''}
+            {...register('email')}
+          />
+          {errors.email && (
+            <p className='text-red text-sm'>{errors.email.message}</p>
+          )}
+        </div>
+        <div className='mb-[32px]'>
+          <Input
+            id='password'
+            type='password'
+            label='비밀번호'
+            placeholder='비밀번호를 입력해주세요'
+            className={errors.password ? 'border-red' : ''}
+            {...register('password')}
+          />
+
+          {errors.password && (
+            <p className='text-red text-sm'>{errors.password.message}</p>
+          )}
+        </div>
+        <div>
+          <Input
+            id='confirmPassword'
+            type='password'
+            label='비밀번호확인'
+            placeholder='비밀번호를 한번 더 입력해주세요'
+            className={errors.password ? 'border-red' : ''}
+            {...register('confirmPassword')}
+          />
+        </div>
+        {errors.confirmPassword && (
+          <p className='text-red text-sm'>{errors.confirmPassword.message}</p>
+        )}
+      </div>
+      <Button type='submit' disabled={!isValid}>
+        {isPending ? '회원가입 중...' : '회원가입'}
+      </Button>
+      <p className='flex items-center justify-center text-[16px] text-black100 my-[20px]'>
+        가입시{' '}
+        <Link
+          href='/auth/signup/applicant'
+          className='inline underline ml-1 text-primary-orange300'
+        >
+          이용약관
+        </Link>
+        에 동의한 것으로 간주됩니다.
+      </p>
     </form>
   );
 }

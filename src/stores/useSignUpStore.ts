@@ -1,39 +1,42 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SignUpInput } from '@/schemas/signupSchema';
+import {
+  SignUp1Input,
+  SignUp2Input,
+  SignUpInput,
+} from '@/schemas/signupSchema';
 
 type PartialSignUpInput = Partial<SignUpInput>;
 
 interface SignUpStore {
-  // 전체 정보 저장
-  signUpData: PartialSignUpInput;
-  // 1차 정보 저장
-  setSignUp1: (step1Data: { email: string; password: string }) => void;
-  // 1자 제외 2차 정보 저장
-  setSignUp2: (step2Data: Omit<SignUpInput, 'email' | 'password'>) => void;
-  // localStorage에 저장된 정보 초기화
+  data: PartialSignUpInput;
+  // 1차 confirmPassword는 저장 X
+  setStep1: (step1: Omit<SignUp1Input, 'confirmPassword'>) => void;
+  // 2차 전체저장
+  setStep2: (step2: SignUp2Input) => void;
+  // localstroage 비움
   reset: () => void;
 }
 
 export const useSignUpStore = create<SignUpStore>()(
   persist(
     (set) => ({
-      signUpData: {}, // 초기화
-      // 1차 정보 저장
-      setSignUp1: (signUp1) =>
+      data: {},
+
+      setStep1: (step1) =>
         set((state) => ({
-          signUpData: { ...state.signUpData, signUp1 },
+          data: { ...state.data, ...step1 },
         })),
-      // 2차 정보 저장(1차와 병합)
-      setSignUp2: (signUp2) =>
+
+      setStep2: (step2) =>
         set((state) => ({
-          signUpData: { ...state.signUpData, ...signUp2 },
+          data: { ...state.data, ...step2 },
         })),
-      // localStorage에 저장된 정보 초기화
-      reset: () => set({ signUpData: {} }),
+
+      reset: () => set({ data: {} }),
     }),
     {
-      name: 'sign-up-storage', // localStorage에 저장될 key
+      name: 'signup-storage',
     },
   ),
 );
