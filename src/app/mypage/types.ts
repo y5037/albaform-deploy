@@ -20,7 +20,7 @@ export interface ListContainerProps {
   selectedTab: 'post' | 'comment';
   listData: ListData[];
   isLoading: boolean;
-  isFetchingNextPage:boolean;
+  isFetchingNextPage: boolean;
 }
 
 type WriterData = {
@@ -54,4 +54,13 @@ export interface ListData {
   imageUrls?: string[];
   recruitmentEndDate?: string;
   recruitmentStartDate?: string;
+}
+
+export interface EditProfileModalProps {
+  showModal: boolean;
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export interface HeadProps {
+  setShowModal: React.Dispatch<SetStateAction<boolean>>;
 }

@@ -1,10 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { EditButton, EditButtonContainer, KebabButton } from '../../styles';
+import { EditButton, EditButtonContainer, KebabButton } from '../styles';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { HeadProps } from '../types';
 
-export default function HeadContainer() {
+export default function HeadContainer({ setShowModal }: HeadProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   return (
@@ -24,7 +25,11 @@ export default function HeadContainer() {
             />
           </div>
           <EditButtonContainer $active={dropdown}>
-            <EditButton type='button' $editInfo>
+            <EditButton
+              type='button'
+              $editInfo
+              onClick={() => setShowModal(true)}
+            >
               내 정보 수정
             </EditButton>
             <EditButton type='button'>비밀번호 변경</EditButton>

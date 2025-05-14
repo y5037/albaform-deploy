@@ -2,6 +2,7 @@ export interface OverlayProps {
   isOpen?: boolean;
   onClose?: () => void;
   children: React.ReactNode;
+  $fluid?: boolean;
 }
 
 export interface ModalProps {
