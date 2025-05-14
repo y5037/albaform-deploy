@@ -13,6 +13,8 @@ import { ScrollHiddenDiv } from '../../styles';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 import { formatStoreTel } from '@/utils/formatStoreTel';
 import useChangeProfilePreview from '@/utils/useChangeProfilePreview';
+import { useGetMyInfo } from '@/hooks/query/useUser';
+import useFormChangeDetector from '../../utils/useFormChangeDetector';
 
 export default function EditProfileModal({
   showModal,
@@ -22,15 +24,23 @@ export default function EditProfileModal({
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { isValid, errors },
   } = useForm<EditProfileInput>({
     resolver: zodResolver(editProfileSchema),
     mode: 'onChange',
   });
+  const { data: user } = useGetMyInfo();
+
+  const { isPreview, handleImgChange } = useChangeProfilePreview(
+    user?.imageUrl || '',
+  );
+
+  const watched = watch();
+
+  const { isModified } = useFormChangeDetector({ watched, setValue, user });
 
   const onSubmit = (data: any) => {};
-
-  const { isPreview, handleImgChange } = useChangeProfilePreview();
 
   return (
     <Overlay $fluid isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -42,7 +52,7 @@ export default function EditProfileModal({
           <label className='relative inline-block justify-items-center mt-[24px] mb-[24px] cursor-pointer'>
             <Image
               src={`${
-                isPreview.length > 0
+                isPreview?.length > 0
                   ? isPreview
                   : '/images/mypage/editProfileImg.svg'
               }`}
@@ -72,6 +82,7 @@ export default function EditProfileModal({
             </p>
             <input
               type='text'
+              defaultValue={user?.nickname}
               {...register('nickname')}
               placeholder='닉네임을 입력해주세요'
               className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
@@ -89,6 +100,7 @@ export default function EditProfileModal({
             </p>
             <input
               type='text'
+              defaultValue={user?.storeName}
               {...register('store')}
               placeholder='가게 이름(상호명)을 입력해주세요'
               className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
@@ -106,6 +118,7 @@ export default function EditProfileModal({
             </p>
             <input
               type='tel'
+              defaultValue={user?.storePhoneNumber}
               inputMode='numeric'
               {...register('storeTel', {
                 onChange: (e) => {
@@ -127,6 +140,7 @@ export default function EditProfileModal({
             <p className='text-left mt-[15px] mb-[10px]'>사장님 전화번호</p>
             <input
               type='tel'
+              defaultValue={user?.phoneNumber}
               inputMode='numeric'
               {...register('ownerTel', {
                 onChange: (e) => {
@@ -153,9 +167,10 @@ export default function EditProfileModal({
               />
               <input
                 type='address'
+                defaultValue={user?.location}
                 {...register('address')}
                 placeholder='가게 위치를 설정해주세요'
-                className='cursor-pointer pladeholer-gray400'
+                className='cursor-pointer pladeholer-gray400 w-full'
                 readOnly
               />
             </div>
@@ -176,7 +191,7 @@ export default function EditProfileModal({
             <button
               type='submit'
               className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
-              disabled={!isValid}
+              disabled={!isValid || !isModified}
             >
               수정하기
             </button>

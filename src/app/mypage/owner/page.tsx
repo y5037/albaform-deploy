@@ -12,7 +12,7 @@ import { useModalController } from '@/utils/useModalController';
 import EditProfileModal from './components/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 
-export default function mypage() {
+export default function Mypage() {
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
   const [isPostSort, setIsPostSort] = useState<

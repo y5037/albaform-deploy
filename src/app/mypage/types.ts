@@ -64,3 +64,24 @@ export interface EditProfileModalProps {
 export interface HeadProps {
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
 }
+
+export interface UserDataProps {
+  id: number;
+  email: string;
+  imageUrl: string;
+  location: string;
+  name: string;
+  nickname: string;
+  phoneNumber: string;
+  storePhoneNumber: string;
+  role: string;
+  storeName: string;
+}
+
+export type WatchedFields = {
+  nickname: string;
+  store: string;
+  storeTel: string;
+  ownerTel: string;
+  address: string;
+};
