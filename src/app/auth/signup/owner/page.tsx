@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Input from '@/app/auth/components/Input';
 import Button from '@/app/auth/components/Button';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ export default function SignIn() {
     resolver: zodResolver(signUpSchema1),
     mode: 'onChange',
   });
-
+  const [showToast, setShowToast] = useState(true);
   const router = useRouter();
   const { isPending, error } = useSignUp();
   const setStep1 = useSignUpStore((state) => state.setStep1);
@@ -107,8 +107,12 @@ export default function SignIn() {
           <p className='text-red text-sm'>{errors.confirmPassword.message}</p>
         )}
       </div>
-      <Button type='submit' disabled={!isValid}>
-        {isPending ? '회원가입 중...' : '회원가입'}
+      <Button
+        type='submit'
+        disabled={!isValid}
+        onClick={() => setShowToast(true)}
+      >
+        {isPending ? '정보 저장 중...' : '다음'}
       </Button>
       <p className='flex items-center justify-center text-[16px] text-black100 my-[20px]'>
         가입시{' '}

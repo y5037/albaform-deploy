@@ -53,9 +53,6 @@ export const useSignUp = (onSuccess?: () => void) => {
     },
     onError: (error) => {
       console.error('회원가입 실패:', error);
-      alert(
-        '회원가입에 실패하였습니다. 입력하신 정보를 다시 한 번 확인해주세요.',
-      );
     },
   });
 };
