@@ -32,8 +32,6 @@ export default function mypage() {
 
   let totalPages;
 
-  console.log(itemsPerPage);
-
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
