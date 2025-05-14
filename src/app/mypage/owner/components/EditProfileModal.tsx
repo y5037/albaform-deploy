@@ -12,7 +12,6 @@ import Image from 'next/image';
 import { ScrollHiddenDiv } from '../../styles';
 import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 import { formatStoreTel } from '@/utils/formatStoreTel';
-import { ChangeEvent, useState } from 'react';
 import useChangeProfilePreview from '@/utils/useChangeProfilePreview';
 
 export default function EditProfileModal({
