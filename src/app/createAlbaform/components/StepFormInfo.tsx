@@ -1,7 +1,9 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import {
   FormWrapper,
   FormGroup,
@@ -10,6 +12,8 @@ import {
   FormInput,
   FormTextarea,
 } from './StepForm.styles';
+import styled from 'styled-components';
+import { ko } from 'date-fns/locale';
 
 export type InfoFormValues = {
   title: string;
@@ -22,10 +26,17 @@ type Props = {
   onDataChange: (data: InfoFormValues) => void;
 };
 
+const CustomDateInput = styled(FormInput)`
+  cursor: pointer;
+  background-color: #f9f9f9;
+`;
+
 export default function StepFormInfo({ onDataChange }: Props) {
   const {
     register,
+    control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<InfoFormValues>({
     mode: 'onChange',
@@ -35,6 +46,19 @@ export default function StepFormInfo({ onDataChange }: Props) {
   const description = watch('description');
   const period = watch('period');
   const image = watch('image');
+
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ]);
+  const [startDate, endDate] = dateRange;
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const formatted = `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`;
+      setValue('period', formatted);
+    }
+  }, [startDate, endDate, setValue]);
 
   useEffect(() => {
     onDataChange({ title, description, period, image });
@@ -68,10 +92,34 @@ export default function StepFormInfo({ onDataChange }: Props) {
         <FormLabel>
           모집 기간 <RequiredMark>*</RequiredMark>
         </FormLabel>
-        <FormInput
-          type='text'
-          placeholder='시작일 ~ 종료일'
-          {...register('period', { required: true })}
+        <Controller
+          control={control}
+          name='period'
+          rules={{ required: true }}
+          render={() => (
+            <DatePicker
+              locale={ko}
+              selectsRange
+              startDate={startDate}
+              endDate={endDate}
+              onChange={(update) => {
+                setDateRange(update as [Date, Date]);
+              }}
+              customInput={
+                <CustomDateInput
+                  readOnly
+                  value={
+                    startDate && endDate
+                      ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
+                      : ''
+                  }
+                  placeholder='시작일 ~ 종료일'
+                />
+              }
+              dateFormat='yyyy.MM.dd'
+              placeholderText='시작일 ~ 종료일'
+            />
+          )}
         />
       </FormGroup>
 

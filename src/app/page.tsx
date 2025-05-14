@@ -121,7 +121,7 @@ export default function Home() {
           <div
             className='
             relative w-[124px] h-[24px] 
-            md:w-[186px] md:h-[36px] lg:w-[248px] lg:h-[48px]'
+            min-[811px]:w-[186px] min-[811px]:h-[36px] lg:w-[248px] lg:h-[48px]'
           >
             <Image
               src={'/images/albaform.svg'}
