@@ -1,17 +1,11 @@
-'use client';
-
 import { useMutation } from '@tanstack/react-query';
 import instance from '@/lib/api/api';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { SignInInput } from '@/schemas/signinSchema';
 
-interface SignInProps {
-  email: string;
-  password: string;
-}
-
-const signIn = async ({ email, password }: SignInProps) => {
+const signIn = async ({ email, password }: SignInInput) => {
   const response = await instance.post('/auth/sign-in', { email, password });
 
   const { accessToken, refreshToken, user } = response.data;
