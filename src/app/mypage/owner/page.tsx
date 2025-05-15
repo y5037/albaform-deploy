@@ -9,7 +9,7 @@ import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
 import { useModalController } from '@/utils/useModalController';
-import EditProfileModal from './components/EditProfileModal';
+import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 
 export default function Mypage() {
