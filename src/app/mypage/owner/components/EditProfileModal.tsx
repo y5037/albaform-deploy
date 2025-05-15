@@ -2,7 +2,7 @@
 
 import Overlay from '@/components/modal/Overlay';
 import { EditProfileModalProps } from '../../types';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
   EditProfileInput,
   editProfileSchema,
@@ -10,8 +10,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { ScrollHiddenDiv } from '../../styles';
-import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
-import { formatStoreTel } from '@/utils/formatStoreTel';
+import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
+import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import useChangeProfilePreview from '@/utils/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useUser';
 import useFormChangeDetector from '../../utils/useFormChangeDetector';
@@ -25,6 +25,7 @@ export default function EditProfileModal({
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { isValid, errors },
   } = useForm<EditProfileInput>({
     resolver: zodResolver(editProfileSchema),
@@ -123,7 +124,7 @@ export default function EditProfileModal({
               {...register('storeTel', {
                 onChange: (e) => {
                   const onlyNums = e.target.value.replace(/[^0-9]/g, '');
-                  const formatted = formatStoreTel(onlyNums);
+                  const formatted = formattedStoreTel(onlyNums);
                   setValue('storeTel', formatted, { shouldValidate: true });
                 },
               })}
@@ -145,7 +146,7 @@ export default function EditProfileModal({
               {...register('ownerTel', {
                 onChange: (e) => {
                   const onlyNums = e.target.value.replace(/[^0-9]/g, '');
-                  const formatted = formatPhoneNumber(onlyNums);
+                  const formatted = formattedPhoneNumber(onlyNums);
                   setValue('ownerTel', formatted, { shouldValidate: true });
                 },
               })}
@@ -158,22 +159,28 @@ export default function EditProfileModal({
               가게 위치{' '}
               <span className='text-orange-300 relative top-[1px]'>*</span>
             </p>
-            <div className='flex w-[100%] h-[54px] cursor-pointer px-[7px] border border-gray-200 border-solid rounded-[8px] text-left'>
-              <Image
-                src='/images/mypage/iconLocation.svg'
-                alt='Location:'
-                width={36}
-                height={36}
-              />
-              <input
-                type='address'
-                defaultValue={user?.location}
-                {...register('address')}
-                placeholder='가게 위치를 설정해주세요'
-                className='cursor-pointer pladeholer-gray400 w-full'
-                readOnly
-              />
-            </div>
+            <Controller
+              name='address'
+              control={control}
+              render={({ field }) => (
+                <div className='flex items-center w-full px-[7px] py-[8px] border border-gray-200 border-solid rounded-[8px] text-left cursor-pointer'>
+                  <Image
+                    src='/images/mypage/iconLocation.svg'
+                    alt='주소:'
+                    width={36}
+                    height={36}
+                    className='mt-[.5px]'
+                  />
+                  <p
+                    className={`${
+                      !field.value && 'text-gray-400'
+                    } whitespace-pre-wrap`}
+                  >
+                    {field.value || '가게 위치를 설정해주세요'}
+                  </p>
+                </div>
+              )}
+            />
             {errors.address && (
               <p className='text-left mt-[10px] text-red'>
                 {errors.address.message}

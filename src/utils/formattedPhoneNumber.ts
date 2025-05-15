@@ -1,4 +1,4 @@
-export const formatPhoneNumber = (value: string) => {
+export const formattedPhoneNumber = (value: string) => {
   const onlyNums = value.replace(/[^0-9]/g, '');
 
   if (onlyNums.length <= 3) return onlyNums;
