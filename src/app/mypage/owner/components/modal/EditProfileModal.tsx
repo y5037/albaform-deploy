@@ -34,7 +34,7 @@ export default function EditProfileModal({
   });
   const { data: user, isLoading } = useGetMyInfo();
 
-  const { isPreview, handleImgChange } = useChangeProfilePreview(
+  const { isPreview, setIsPreview, handleImgChange } = useChangeProfilePreview(
     user?.imageUrl || '',
   );
 
@@ -50,37 +50,48 @@ export default function EditProfileModal({
         <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
           사장님 정보 관리
         </p>
-        {/* 스켈레톤으로 바꾸기 */}
         {isLoading ? (
           <EditProfileSkeleton />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
-            <label className='relative inline-block justify-items-center mt-[24px] mb-[24px] cursor-pointer'>
-              <Image
-                src={`${
-                  isPreview?.length > 0
-                    ? isPreview
-                    : '/images/mypage/editProfileImg.svg'
-                }`}
-                alt='기본 이미지'
-                width={80}
-                height={80}
-                className='rounded-[50%] overflow-hidden'
-              />
-              <Image
-                src='/images/mypage/iconEditImg.svg'
-                alt='이미지 수정'
-                width={24}
-                height={24}
-                className='absolute right-[0] bottom-[0]'
-              />
-              <input
-                type='file'
-                accept='image/png'
-                className='hidden'
-                onChange={(e) => handleImgChange(e)}
-              />
-            </label>
+            <div className='relative inline-block'>
+              <label className='inline-block justify-items-center mt-[24px] mb-[24px] cursor-pointer'>
+                <Image
+                  src={`${
+                    isPreview?.length > 0
+                      ? isPreview
+                      : '/images/mypage/editProfileImg.svg'
+                  }`}
+                  alt='기본 이미지'
+                  width={80}
+                  height={80}
+                  className='rounded-[50%] overflow-hidden'
+                />
+                <Image
+                  src='/images/mypage/iconEditImg.svg'
+                  alt='이미지 수정'
+                  width={24}
+                  height={24}
+                  className='absolute right-[0] bottom-[28px]'
+                />
+                <input
+                  type='file'
+                  accept='image/png'
+                  className='hidden'
+                  onChange={(e) => handleImgChange(e)}
+                />
+              </label>
+              {isPreview?.length > 0 && (
+                <Image
+                  src='/images/closePreview.svg'
+                  alt='X'
+                  width={24}
+                  height={24}
+                  className='absolute z-[100] top-[24px] left-[0] cursor-pointer'
+                  onClick={() => setIsPreview('')}
+                />
+              )}
+            </div>
             <div>
               <p className='text-left mb-[10px]'>
                 닉네임{' '}

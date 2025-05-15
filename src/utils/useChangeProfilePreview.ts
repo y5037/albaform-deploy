@@ -19,6 +19,8 @@ export default function useChangeProfilePreview(imageUrl: string) {
       };
       reader.readAsDataURL(file);
     }
+
+    e.target.value = '';
   };
 
   return { isPreview, setIsPreview, handleImgChange };
