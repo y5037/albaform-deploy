@@ -11,9 +11,16 @@ import {
   RequiredMark,
   FormInput,
   FormTextarea,
+  ImageUploadWrapper,
+  UploadBox,
+  HiddenFileInput,
+  PreviewWrapper,
+  PreviewImage,
+  DeleteButton,
 } from './StepForm.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
 import { ko } from 'date-fns/locale';
+import styled from 'styled-components';
 
 export type InfoFormValues = {
   title: string;
@@ -44,6 +51,21 @@ export default function StepFormInfo({ onDataChange }: Props) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [preview, setPreview] = useState<string | null>(null);
+
+  // 이미지 미리보기 설정
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      const previewURL = URL.createObjectURL(file);
+      setPreview(previewURL);
+
+      return () => URL.revokeObjectURL(previewURL);
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
+
   // 날짜 선택 시 내부 상태 설정
   useEffect(() => {
     if (startDate && endDate) {
@@ -53,7 +75,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
     }
   }, [startDate, endDate, setValue]);
 
-  // 외부로 전달 (값이 없어졌을 때는 빈 값 전달)
+  // 외부로 전달
   useEffect(() => {
     const isAnyFilled =
       title?.trim() !== '' ||
@@ -146,10 +168,33 @@ export default function StepFormInfo({ onDataChange }: Props) {
         />
       </FormGroup>
 
-      {/* 이미지 */}
+      {/* 이미지 첨부 */}
       <FormGroup>
         <FormLabel>이미지 첨부</FormLabel>
-        <FormInput type='file' accept='image/*' {...register('image')} />
+        <ImageUploadWrapper>
+          <UploadBox htmlFor='imageUpload'>+</UploadBox>
+          <HiddenFileInput
+            id='imageUpload'
+            type='file'
+            accept='image/*'
+            {...register('image')}
+          />
+          {preview && (
+            <PreviewWrapper>
+              <PreviewImage src={preview} alt='업로드된 이미지' />
+              <DeleteButton
+                type='button'
+                onClick={() => {
+                  setPreview(null);
+                  setValue('image', null as unknown as FileList); // react-hook-form 값 초기화
+                  if (inputRef.current) inputRef.current.value = ''; // 실제 input도 초기화
+                }}
+              >
+                ×
+              </DeleteButton>
+            </PreviewWrapper>
+          )}
+        </ImageUploadWrapper>
       </FormGroup>
     </FormWrapper>
   );

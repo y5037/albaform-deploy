@@ -14,7 +14,7 @@ export const StyledDatePickerWrapper = styled.div`
   position: absolute;
   z-index: 10;
   top: 100%;
-  margin-top: 8px;
+  margin-top: 4px;
 
   .react-datepicker {
     background-color: var(--white);
