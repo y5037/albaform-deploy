@@ -100,6 +100,8 @@ export const PreviewWrapper = styled.div`
   position: relative;
   width: 110px;
   height: 110px;
+  border: 0.2px solid var(--gray100);
+  border-radius: 8px;
 
   @media (max-width: 1024px) {
     width: 80px;

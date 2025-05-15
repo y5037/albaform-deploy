@@ -4,7 +4,7 @@ import { FormInput } from './StepForm.styles';
 //  달력 커스텀 인풋
 export const CustomDateInput = styled(FormInput)`
   &:focus {
-    border: 1px solid var(--gray200);
+    border: 0.5px solid var(--gray200);
     padding: 13px 13px 11px 13px;
   }
 `;
