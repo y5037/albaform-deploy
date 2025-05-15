@@ -1,85 +1,11 @@
 import styled from 'styled-components';
-
-export const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  max-width: 640px;
-
-  @media (max-width: 1024px) {
-    gap: 32px;
-    max-width: 100%;
-  }
-`;
-
-//  라벨 + 인풋 태그 그룹화
-export const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  @media (max-width: 1024px) {
-    gap: 12px;
-  }
-`;
-
-//  label 태그
-export const FormLabel = styled.label`
-  display: block;
-  font-weight: 600;
-`;
-
-//  필수사항 마크
-export const RequiredMark = styled.span`
-  color: var(--primary-orange400);
-  font-size: 14px;
-`;
-
-//  input 태그
-export const FormInput = styled.input`
-  background-color: var(--background200);
-  color: var(--black400);
-  width: 100%;
-  padding: 14px 14px 12px 14px;
-  border-radius: 8px;
-
-  &::placeholder {
-    color: var(--gray400);
-    font-size: 14px;
-  }
-`;
-
-//  textarea 태그
-export const FormTextarea = styled.textarea`
-  background-color: var(--background200);
-  color: var(--black400);
-  width: 100%;
-  height: 160px;
-  padding: 14px;
-  border-radius: 8px;
-  resize: none;
-
-  &::placeholder {
-    color: var(--gray400);
-    font-size: 14px;
-  }
-`;
+import { FormInput } from './StepForm.styles';
 
 //  달력 커스텀 인풋
 export const CustomDateInput = styled(FormInput)`
-  width: 100%;
-  background-color: var(--background200);
-  color: var(--black400);
-  padding: 14px 14px 12px 14px;
-  border-radius: 8px;
-
   &:focus {
     border: 1px solid var(--gray200);
     padding: 13px 13px 11px 13px;
-  }
-  &::placeholder {
-    color: var(--gray400);
-    font-size: 14px;
   }
 `;
 
@@ -139,8 +65,11 @@ export const StyledDatePickerWrapper = styled.div`
     text-align: center;
   }
 
+  .react-datepicker__day--keyboard-selected {
+    background-color: transparent;
+  }
   .react-datepicker__day--today {
-    background-color: var(--primary-orange300);
+    background-color: var(--primary-orange200);
   }
 
   .react-datepicker__day--in-range,
@@ -154,6 +83,10 @@ export const StyledDatePickerWrapper = styled.div`
   .react-datepicker__day--selected {
     background-color: var(--primary-orange400);
     color: var(--white);
+  }
+
+  .react-datepicker__day--outside-month {
+    color: var(--gray100);
   }
 
   @media (max-width: 1024px) {

@@ -11,9 +11,8 @@ import {
   RequiredMark,
   FormInput,
   FormTextarea,
-  CustomDateInput,
-  StyledDatePickerWrapper,
 } from './StepForm.styles';
+import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
 import { ko } from 'date-fns/locale';
 
 export type InfoFormValues = {
@@ -50,7 +49,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
     if (startDate && endDate) {
       const formatted = `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`;
       setValue('period', formatted);
-      setIsCalendarOpen(false); // 날짜 선택 끝나면 달력 닫기
+      setIsCalendarOpen(false);
     }
   }, [startDate, endDate, setValue]);
 
@@ -60,7 +59,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
       title?.trim() !== '' ||
       description?.trim() !== '' ||
       (startDate && endDate) ||
-      (image && image.length > 0); // image가 있고, 파일이 1개 이상인지 체크
+      (image && image.length > 0);
 
     if (isAnyFilled) {
       onDataChange({
