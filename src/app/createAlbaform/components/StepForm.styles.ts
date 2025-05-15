@@ -32,7 +32,7 @@ export const FormLabel = styled.label`
 //  필수사항 마크
 export const RequiredMark = styled.span`
   color: var(--primary-orange400);
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 //  input 태그

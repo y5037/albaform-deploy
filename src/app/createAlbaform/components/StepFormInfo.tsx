@@ -20,13 +20,12 @@ import {
 } from './StepForm.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
 import { ko } from 'date-fns/locale';
-import styled from 'styled-components';
 
 export type InfoFormValues = {
   title: string;
   description: string;
   period: string;
-  image: FileList;
+  image: File[];
 };
 
 type Props = {
@@ -36,11 +35,14 @@ type Props = {
 export default function StepFormInfo({ onDataChange }: Props) {
   const { register, control, watch, setValue } = useForm<InfoFormValues>({
     mode: 'onChange',
+    defaultValues: {
+      image: [],
+    },
   });
 
   const title = watch('title');
   const description = watch('description');
-  const image = watch('image');
+  const images = watch('image');
 
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
     null,
@@ -51,20 +53,21 @@ export default function StepFormInfo({ onDataChange }: Props) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [preview, setPreview] = useState<string | null>(null);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   // 이미지 미리보기 설정
   useEffect(() => {
-    if (image && image.length > 0) {
-      const file = image[0];
-      const previewURL = URL.createObjectURL(file);
-      setPreview(previewURL);
+    if (images && images.length > 0) {
+      const urls = images.map((file) => URL.createObjectURL(file));
+      setPreviews(urls);
 
-      return () => URL.revokeObjectURL(previewURL);
+      return () => {
+        urls.forEach((url) => URL.revokeObjectURL(url));
+      };
     } else {
-      setPreview(null);
+      setPreviews([]);
     }
-  }, [image]);
+  }, [images]);
 
   // 날짜 선택 시 내부 상태 설정
   useEffect(() => {
@@ -81,7 +84,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
       title?.trim() !== '' ||
       description?.trim() !== '' ||
       (startDate && endDate) ||
-      (image && image.length > 0);
+      (images && images.length > 0);
 
     if (isAnyFilled) {
       onDataChange({
@@ -91,17 +94,34 @@ export default function StepFormInfo({ onDataChange }: Props) {
           startDate && endDate
             ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
             : '',
-        image,
+        image: images,
       });
     } else {
       onDataChange({
         title: '',
         description: '',
         period: '',
-        image: undefined as unknown as FileList,
+        image: [],
       });
     }
-  }, [title, description, image, startDate, endDate, onDataChange]);
+  }, [title, description, images, startDate, endDate, onDataChange]);
+
+  // 이미지 변경 핸들러
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const fileArray = Array.from(files);
+    const newFiles = [...images, ...fileArray].slice(0, 4); // 최대 4개 제한
+    setValue('image', newFiles);
+  };
+
+  // 이미지 삭제 핸들러
+  const handleDeleteImage = (index: number) => {
+    const newFiles = [...images];
+    newFiles.splice(index, 1);
+    setValue('image', newFiles);
+  };
 
   return (
     <FormWrapper>
@@ -170,30 +190,33 @@ export default function StepFormInfo({ onDataChange }: Props) {
 
       {/* 이미지 첨부 */}
       <FormGroup>
-        <FormLabel>이미지 첨부</FormLabel>
+        <FormLabel>
+          이미지 첨부 <RequiredMark> (최대 4장)</RequiredMark>
+        </FormLabel>
         <ImageUploadWrapper>
-          <UploadBox htmlFor='imageUpload'>+</UploadBox>
-          <HiddenFileInput
-            id='imageUpload'
-            type='file'
-            accept='image/*'
-            {...register('image')}
-          />
-          {preview && (
-            <PreviewWrapper>
-              <PreviewImage src={preview} alt='업로드된 이미지' />
+          {previews.length < 4 && (
+            <>
+              <UploadBox htmlFor='imageUpload'>+</UploadBox>
+              <HiddenFileInput
+                id='imageUpload'
+                type='file'
+                accept='image/*'
+                multiple
+                onChange={handleImageChange}
+              />
+            </>
+          )}
+          {previews.map((url, index) => (
+            <PreviewWrapper key={index}>
+              <PreviewImage src={url} alt={`업로드된 이미지 ${index + 1}`} />
               <DeleteButton
                 type='button'
-                onClick={() => {
-                  setPreview(null);
-                  setValue('image', null as unknown as FileList); // react-hook-form 값 초기화
-                  if (inputRef.current) inputRef.current.value = ''; // 실제 input도 초기화
-                }}
+                onClick={() => handleDeleteImage(index)}
               >
                 ×
               </DeleteButton>
             </PreviewWrapper>
-          )}
+          ))}
         </ImageUploadWrapper>
       </FormGroup>
     </FormWrapper>
