@@ -27,7 +27,7 @@ export const StyledDatePickerWrapper = styled.div`
   }
 
   .react-datepicker__navigation {
-    margin-top: 24px;
+    margin: 24px 14px 0;
   }
 
   .react-datepicker__header {
