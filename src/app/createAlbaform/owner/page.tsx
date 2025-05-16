@@ -12,11 +12,16 @@ export default function CreateForm() {
 
   // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
-    info: InfoFormValues | null;
+    info: InfoFormValues;
     condition: any;
     work: any;
   }>({
-    info: null,
+    info: {
+      title: '',
+      description: '',
+      period: '',
+      image: [],
+    },
     condition: null,
     work: null,
   });
@@ -37,8 +42,8 @@ export default function CreateForm() {
     return false;
   };
 
-  const handleInfoChange = useCallback((data: InfoFormValues) => {
-    setFormData((prev) => ({ ...prev, info: data }));
+  const handleInfoChange = useCallback((infoData: InfoFormValues) => {
+    setFormData((prev) => ({ ...prev, info: infoData }));
   }, []);
 
   return (
@@ -75,7 +80,17 @@ export default function CreateForm() {
 
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
-            <StepFormInfo onDataChange={handleInfoChange} />
+            <StepFormInfo
+              onDataChange={handleInfoChange}
+              initialValue={
+                formData.info ?? {
+                  title: '',
+                  description: '',
+                  period: '',
+                  image: [],
+                }
+              }
+            />
           )}
           {/* 나중에 condition, work 폼 추가 */}
         </div>

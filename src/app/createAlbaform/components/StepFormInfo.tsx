@@ -4,6 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/locale';
+import { format } from 'date-fns';
+
 import {
   FormWrapper,
   FormGroup,
@@ -19,7 +22,6 @@ import {
   DeleteButton,
 } from './StepForm.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
-import { ko } from 'date-fns/locale';
 
 export type InfoFormValues = {
   title: string;
@@ -30,14 +32,13 @@ export type InfoFormValues = {
 
 type Props = {
   onDataChange: (data: InfoFormValues) => void;
+  initialValue: InfoFormValues;
 };
 
-export default function StepFormInfo({ onDataChange }: Props) {
+export default function StepFormInfo({ onDataChange, initialValue }: Props) {
   const { register, control, watch, setValue } = useForm<InfoFormValues>({
     mode: 'onChange',
-    defaultValues: {
-      image: [],
-    },
+    defaultValues: initialValue,
   });
 
   const title = watch('title');
@@ -49,13 +50,33 @@ export default function StepFormInfo({ onDataChange }: Props) {
     null,
   ]);
   const [startDate, endDate] = dateRange;
-
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [previews, setPreviews] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [previews, setPreviews] = useState<string[]>([]);
+  // initialValue의 기간 파싱
+  useEffect(() => {
+    if (initialValue.period) {
+      const [startStr, endStr] = initialValue.period.split(' ~ ');
+      const start = new Date(startStr);
+      const end = new Date(endStr);
+      setDateRange([start, end]);
+    }
+  }, [initialValue.period]);
 
-  // 이미지 미리보기 설정
+  // 날짜 변경 시 period 값 설정
+  useEffect(() => {
+    if (startDate && endDate) {
+      const formatted = `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
+        endDate,
+        'yyyy.MM.dd',
+      )}`;
+      setValue('period', formatted);
+      setIsCalendarOpen(false);
+    }
+  }, [startDate, endDate, setValue]);
+
+  // 이미지 미리보기 생성
   useEffect(() => {
     if (images && images.length > 0) {
       const urls = images.map((file) => URL.createObjectURL(file));
@@ -69,16 +90,7 @@ export default function StepFormInfo({ onDataChange }: Props) {
     }
   }, [images]);
 
-  // 날짜 선택 시 내부 상태 설정
-  useEffect(() => {
-    if (startDate && endDate) {
-      const formatted = `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`;
-      setValue('period', formatted);
-      setIsCalendarOpen(false);
-    }
-  }, [startDate, endDate, setValue]);
-
-  // 외부로 전달
+  // 폼 데이터 변경 감지 후 상위로 전달
   useEffect(() => {
     const isAnyFilled =
       title?.trim() !== '' ||
@@ -92,7 +104,10 @@ export default function StepFormInfo({ onDataChange }: Props) {
         description,
         period:
           startDate && endDate
-            ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
+            ? `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
+                endDate,
+                'yyyy.MM.dd',
+              )}`
             : '',
         image: images,
       });
@@ -106,13 +121,21 @@ export default function StepFormInfo({ onDataChange }: Props) {
     }
   }, [title, description, images, startDate, endDate, onDataChange]);
 
-  // 이미지 변경 핸들러
+  // 이미지 추가 핸들러
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
     const fileArray = Array.from(files);
-    const newFiles = [...images, ...fileArray].slice(0, 4); // 최대 4개 제한
+    const fileMap = new Map(
+      images.map((file) => [file.name + file.size, file]),
+    );
+    fileArray.forEach((file) => {
+      const key = file.name + file.size;
+      if (!fileMap.has(key)) fileMap.set(key, file);
+    });
+
+    const newFiles = Array.from(fileMap.values()).slice(0, 4);
     setValue('image', newFiles);
   };
 
@@ -164,7 +187,10 @@ export default function StepFormInfo({ onDataChange }: Props) {
                 readOnly
                 value={
                   startDate && endDate
-                    ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}`
+                    ? `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
+                        endDate,
+                        'yyyy.MM.dd',
+                      )}`
                     : ''
                 }
                 placeholder='시작일 ~ 종료일'
@@ -188,10 +214,10 @@ export default function StepFormInfo({ onDataChange }: Props) {
         />
       </FormGroup>
 
-      {/* 이미지 첨부 */}
+      {/* 이미지 업로드 */}
       <FormGroup>
         <FormLabel>
-          이미지 첨부 <RequiredMark> (최대 4장)</RequiredMark>
+          이미지 첨부 <RequiredMark>(최대 4장)</RequiredMark>
         </FormLabel>
         <ImageUploadWrapper>
           {previews.length < 4 && (
