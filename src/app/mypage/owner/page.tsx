@@ -10,7 +10,7 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
 import { useModalController } from '@/hooks/common/useModalController';
 import EditProfileModal from './components/modal/EditProfileModal';
-import { getItemsPerPage } from '../hooks/getItemsPerPage';
+import { getItemsPerPage } from '../utils/getItemsPerPage';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);

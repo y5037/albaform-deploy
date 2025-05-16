@@ -17,6 +17,7 @@ import { useGetMyInfo } from '@/hooks/query/useUser';
 import useFormChangeDetector from '../../../hooks/useFormChangeDetector';
 import EditProfileSkeleton from './EditProfileSkeleton';
 import Address from '@/components/controller/Address';
+import useInitializeUserForm from '@/app/mypage/hooks/useInitializeUserForm';
 
 export default function EditProfileModal({
   showModal,
@@ -32,6 +33,13 @@ export default function EditProfileModal({
   } = useForm<EditProfileInput>({
     resolver: zodResolver(editProfileSchema),
     mode: 'onChange',
+    defaultValues: {
+      ownerTel: '',
+      storeTel: '',
+      nickname: '',
+      store: '',
+      address: '',
+    },
   });
   const { data: user, isLoading } = useGetMyInfo();
 
@@ -42,6 +50,8 @@ export default function EditProfileModal({
   const watched = watch();
 
   const { isModified } = useFormChangeDetector({ watched, setValue, user });
+
+  useInitializeUserForm({ user, setValue });
 
   const onSubmit = (data: any) => {};
 
@@ -100,7 +110,6 @@ export default function EditProfileModal({
               </p>
               <input
                 type='text'
-                defaultValue={user?.nickname}
                 {...register('nickname')}
                 placeholder='닉네임을 입력해주세요'
                 className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
@@ -118,7 +127,6 @@ export default function EditProfileModal({
               </p>
               <input
                 type='text'
-                defaultValue={user?.storeName}
                 {...register('store')}
                 placeholder='가게 이름(상호명)을 입력해주세요'
                 className='w-[100%] p-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'
@@ -136,7 +144,6 @@ export default function EditProfileModal({
               </p>
               <input
                 type='tel'
-                defaultValue={user?.storePhoneNumber}
                 inputMode='numeric'
                 {...register('storeTel', {
                   onChange: (e) => {
@@ -158,7 +165,6 @@ export default function EditProfileModal({
               <p className='text-left mt-[15px] mb-[10px]'>사장님 전화번호</p>
               <input
                 type='tel'
-                defaultValue={user?.phoneNumber}
                 inputMode='numeric'
                 {...register('ownerTel', {
                   onChange: (e) => {
