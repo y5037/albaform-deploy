@@ -1,27 +1,47 @@
 // 회원정보 불러오기
 // GET 'users/me'
 
-import { fetchMyComments, fetchMyPosts, fetchMyScrap } from '@/lib/fetch/user';
-import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  fetchMyComments,
+  fetchMyPosts,
+  fetchMyScrap,
+  fetchUser,
+} from '@/lib/fetch/user';
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
+
+// 내 정보 조회
+export const useGetMyInfo = () => {
+  return useQuery({
+    queryKey: ['myInfo'],
+    queryFn: fetchUser,
+  });
+};
 
 // 내가 작성한 게시물/댓글/스크랩 목록 조회
 export const useGetMyContents = (
-  page:number,
-  itemsPerPage:number,
+  page: number,
+  itemsPerPage: number,
   selectedTab: 'post' | 'comment' | 'scrap',
   isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked',
   isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped',
 ) => {
   const commentQuery = useQuery({
-    queryKey: ['myComments',page, itemsPerPage],
-    queryFn: () => fetchMyComments(page,itemsPerPage),
+    queryKey: ['myComments', page, itemsPerPage],
+    queryFn: () => fetchMyComments(page),
     staleTime: 1000 * 60,
     enabled: selectedTab === 'comment',
-    placeholderData:keepPreviousData
+    placeholderData: keepPreviousData,
   });
 
-  const queryFn = ({pageParam = 1}) => selectedTab === 'post' ? fetchMyPosts({isPostSort, cursor:pageParam}) : fetchMyScrap({isScrapSort, cursor:pageParam})
-  
+  const queryFn = ({ pageParam = 1 }) =>
+    selectedTab === 'post'
+      ? fetchMyPosts({ isPostSort, cursor: pageParam, itemsPerPage })
+      : fetchMyScrap({ isScrapSort, cursor: pageParam, itemsPerPage });
+
   const postOrScrapQuery = useInfiniteQuery({
     queryKey: [
       selectedTab === 'post' ? 'myPosts' : 'myScrap',
@@ -39,5 +59,4 @@ export const useGetMyContents = (
   } else {
     return { type: selectedTab, ...postOrScrapQuery };
   }
-
 };
