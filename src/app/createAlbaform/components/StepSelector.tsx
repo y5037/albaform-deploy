@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
   StepButton,
   StepLabel,

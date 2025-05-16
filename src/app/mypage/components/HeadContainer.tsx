@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { EditButton, EditButtonContainer, KebabButton } from '../styles';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { HeadProps } from '../types';
 
 export default function HeadContainer({ setShowModal }: HeadProps) {

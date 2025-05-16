@@ -6,6 +6,9 @@ export const editProfileSchema = z.object({
   storeTel: z.string().min(1, { message: '가게 전화번호를 입력해주세요' }),
   ownerTel: z.string(),
   address: z.string().min(1, { message: '가게 위치를 설정해주세요' }),
+
+  xCoord:z.number().optional(),
+  yCoord:z.number().optional(),
 });
 
 export type EditProfileInput = z.infer<typeof editProfileSchema>;
