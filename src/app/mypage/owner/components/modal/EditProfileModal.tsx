@@ -2,7 +2,7 @@
 
 import Overlay from '@/components/modal/Overlay';
 import { EditProfileModalProps } from '../../../types';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   EditProfileInput,
   editProfileSchema,
@@ -16,8 +16,7 @@ import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useUser';
 import useFormChangeDetector from '../../../hooks/useFormChangeDetector';
 import EditProfileSkeleton from './EditProfileSkeleton';
-import { openKakaoAddress } from '@/utils/openKakaoAddress';
-import { getCoordsByAddress } from '@/utils/getCoordsByAddress';
+import Address from '@/components/controller/Address';
 
 export default function EditProfileModal({
   showModal,
@@ -177,43 +176,7 @@ export default function EditProfileModal({
                 가게 위치{' '}
                 <span className='text-orange-300 relative top-[1px]'>*</span>
               </p>
-              <Controller
-                name='address'
-                control={control}
-                render={({ field }) => (
-                  <div
-                    className='flex items-center w-full px-[7px] py-[8px] border border-gray-200 border-solid rounded-[8px] text-left cursor-pointer'
-                    onClick={() =>
-                      openKakaoAddress(async (addr) => {
-                        field.onChange(addr);
-
-                        try {
-                          const { x, y } = await getCoordsByAddress(addr);
-                          setValue('xCoord', x);
-                          setValue('yCoord', y);
-                        } catch (err) {
-                          console.error('📌 좌표 변환 실패:', err);
-                        }
-                      })
-                    }
-                  >
-                    <Image
-                      src='/images/mypage/iconLocation.svg'
-                      alt='주소:'
-                      width={36}
-                      height={36}
-                      className='mt-[.5px]'
-                    />
-                    <p
-                      className={`${
-                        !field.value && 'text-gray-400'
-                      } whitespace-pre-wrap`}
-                    >
-                      {field.value || '가게 위치를 설정해주세요'}
-                    </p>
-                  </div>
-                )}
-              />
+              <Address editInfoControl={control} />
               {errors.address && (
                 <p className='text-left mt-[10px] text-red'>
                   {errors.address.message}
