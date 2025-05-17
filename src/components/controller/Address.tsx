@@ -11,7 +11,7 @@ export default function Address({
   return (
     <Controller
       name='address'
-      control={editInfoControl}
+      control={editInfoControl && editInfoControl}
       render={({ field }) => (
         <div
           className='flex items-center w-full px-[7px] py-[8px] border border-gray-200 border-solid rounded-[8px] text-left cursor-pointer'
