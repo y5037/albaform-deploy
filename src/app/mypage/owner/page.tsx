@@ -6,9 +6,9 @@ import HeadContainer from '../components/HeadContainer';
 import { useState } from 'react';
 import MyPostAndCommentList from '../components/MyPostAndCommentList';
 import { useGetMyContents } from '@/hooks/query/useUser';
-import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
-import { useModalController } from '@/utils/useModalController';
+import { useModalController } from '@/hooks/common/useModalController';
 import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { UserDataProps, WatchedFields } from '../types';
+import { formattedStoreTel } from '@/utils/formattedStoreTel';
+import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 
 export default function useFormChangeDetector(props: {
   watched: WatchedFields;
@@ -22,8 +24,8 @@ export default function useFormChangeDetector(props: {
   const isModified =
     watched.nickname !== user?.nickname ||
     watched.store !== user?.storeName ||
-    watched.storeTel !== user?.storePhoneNumber ||
-    watched.ownerTel !== user?.phoneNumber ||
+    watched.storeTel !== formattedStoreTel(user?.storePhoneNumber) ||
+    watched.ownerTel !== formattedPhoneNumber(user?.phoneNumber) ||
     watched.address !== user?.location;
 
   return { isModified };
