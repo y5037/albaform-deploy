@@ -13,7 +13,7 @@ import { ScrollHiddenDiv } from '../../../styles';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
-import { useGetMyInfo } from '@/hooks/query/useUser';
+import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import useFormChangeDetector from '../../../hooks/useFormChangeDetector';
 import EditProfileSkeleton from './EditProfileSkeleton';
 import Address from '@/components/controller/Address';

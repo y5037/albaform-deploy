@@ -5,12 +5,12 @@ import FilterContainer from './components/FilterContainer';
 import HeadContainer from '../components/HeadContainer';
 import { useState } from 'react';
 import MyPostAndCommentList from '../components/MyPostAndCommentList';
-import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
 import { useModalController } from '@/hooks/common/useModalController';
 import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
+import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
