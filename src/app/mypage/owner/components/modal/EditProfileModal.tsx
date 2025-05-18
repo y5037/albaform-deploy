@@ -34,10 +34,11 @@ export default function EditProfileModal({
     resolver: zodResolver(editProfileSchema),
     mode: 'onChange',
     defaultValues: {
-      ownerTel: '',
-      storeTel: '',
+      imageUrl: '',
       nickname: '',
       store: '',
+      storeTel: '',
+      ownerTel: '',
       address: '',
     },
   });

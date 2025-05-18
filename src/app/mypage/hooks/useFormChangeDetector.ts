@@ -13,6 +13,7 @@ export default function useFormChangeDetector(props: {
 
   useEffect(() => {
     if (user) {
+      setValue('imageUrl', user.imageUrl || '');
       setValue('nickname', user.nickname || '');
       setValue('store', user.storeName || '');
       setValue('storeTel', user.storePhoneNumber || '');
@@ -22,6 +23,7 @@ export default function useFormChangeDetector(props: {
   }, [user, setValue]);
 
   const isModified =
+    watched.imageUrl !== user?.imageUrl ||
     watched.nickname !== user?.nickname ||
     watched.store !== user?.storeName ||
     watched.storeTel !== formattedStoreTel(user?.storePhoneNumber) ||
