@@ -12,7 +12,7 @@ import {
   DropdownHeader,
   DropdownList,
   DropdownItem,
-} from './StepSelector.styles';
+} from './Selector.styles';
 
 interface StepSelectorProps {
   currentStep: 'info' | 'condition' | 'work';

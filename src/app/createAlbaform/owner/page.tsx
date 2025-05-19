@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import CustomButton from '../components/CustomButton';
-import StepSelector from '../components/StepSelector';
-import StepFormInfo, { InfoFormValues } from '../components/StepFormInfo';
+import StepSelector from '../components/Selector';
+import StepFormInfo, { InfoFormValues } from '../components/FormInfo';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(

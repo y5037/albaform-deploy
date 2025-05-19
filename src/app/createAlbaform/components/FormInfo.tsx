@@ -20,7 +20,7 @@ import {
   PreviewWrapper,
   PreviewImage,
   DeleteButton,
-} from './StepForm.styles';
+} from './Form.styles';
 import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
 
 export type InfoFormValues = {
