@@ -66,9 +66,9 @@ export default function ListContainer({
                               defaultProfileImg
                             }
                             alt='기본프로필'
-                            width={!writer?.imageUrl ? 36 : 26}
-                            height={!writer?.imageUrl ? 36 : 26}
-                            className='mr-[5px] rounded-[50%] object-cover border border-gray500'
+                            width={26}
+                            height={26}
+                            className='mr-[5px] rounded-[50%] object-cover border border-gray500 min-h-[26px]'
                             onError={() =>
                               handleProfileImgError(String(writer?.imageUrl))
                             }

@@ -79,10 +79,11 @@ export interface UserDataProps {
 }
 
 export type WatchedFields = {
-  imageUrl?:string;
+  imageUrl: string;
+  name: string;
   nickname: string;
   store: string;
   storeTel: string;
-  ownerTel?: string;
+  phoneNumber: string;
   address: string;
 };

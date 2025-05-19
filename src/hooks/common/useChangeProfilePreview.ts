@@ -1,12 +1,14 @@
-import { useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 export default function useChangeProfilePreview(imageUrl: string) {
   const [isPreview, setIsPreview] = useState(imageUrl);
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
+    const file = e.target.files?.[0];
 
+    if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setIsPreview(reader.result as string);
@@ -16,6 +18,12 @@ export default function useChangeProfilePreview(imageUrl: string) {
 
     e.target.value = '';
   };
+
+  useEffect(() => {
+    if (imageUrl.length > 0) {
+      setIsPreview(imageUrl);
+    }
+  }, [imageUrl]);
 
   return { isPreview, setIsPreview, handleImgChange };
 }

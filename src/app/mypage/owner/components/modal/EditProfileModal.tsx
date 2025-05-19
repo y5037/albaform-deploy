@@ -5,7 +5,7 @@ import { EditProfileModalProps } from '../../../types';
 import { useForm } from 'react-hook-form';
 import {
   EditProfileInput,
-  editProfileSchema,
+  ownerProfileSchema,
 } from '@/schemas/editProfileSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
@@ -18,43 +18,93 @@ import useFormChangeDetector from '../../../hooks/useFormChangeDetector';
 import EditProfileSkeleton from './EditProfileSkeleton';
 import Address from '@/components/controller/Address';
 import useInitializeUserForm from '@/app/mypage/hooks/useInitializeUserForm';
+import { useState } from 'react';
+import { useUploadImage } from '@/hooks/mutation/useUploadImage';
+import { useEditUser } from '@/hooks/mutation/useEditUser';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function EditProfileModal({
   showModal,
   setShowModal,
 }: EditProfileModalProps) {
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+
+  const { data: user, isLoading } = useGetMyInfo();
+  const { mutateAsync: uploadImage } = useUploadImage();
+  const { mutate: patchEditUser } = useEditUser();
+
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     control,
+    trigger,
     formState: { isValid, errors },
   } = useForm<EditProfileInput>({
-    resolver: zodResolver(editProfileSchema),
+    resolver: zodResolver(ownerProfileSchema),
     mode: 'onChange',
     defaultValues: {
       imageUrl: '',
       nickname: '',
       store: '',
       storeTel: '',
-      ownerTel: '',
+      phoneNumber: '',
       address: '',
     },
   });
-  const { data: user, isLoading } = useGetMyInfo();
+  const watched = watch();
+
+  useInitializeUserForm({ user, setValue });
 
   const { isPreview, setIsPreview, handleImgChange } = useChangeProfilePreview(
     user?.imageUrl || '',
   );
 
-  const watched = watch();
+  const { isModified: isFormModified } = useFormChangeDetector({
+    watched,
+    setValue,
+    user,
+  });
 
-  const { isModified } = useFormChangeDetector({ watched, setValue, user });
+  const isModified =
+    isFormModified || !!selectedImageFile || !!watch('imageUrl');
 
-  useInitializeUserForm({ user, setValue });
+  const onSubmit = async (formData: EditProfileInput) => {
+    let imageUrl;
 
-  const onSubmit = (data: any) => {};
+    if (selectedImageFile) {
+      imageUrl = await uploadImage(selectedImageFile);
+    } else if (isPreview === '') {
+      imageUrl = '';
+    } else {
+      imageUrl = user?.imageUrl || '';
+    }
+
+    const payload = {
+      ...formData,
+      imageUrl,
+    };
+
+    const refetchUserInfo = async () => {
+      const keysToInvalidate = [['myInfo'], ['myPosts']];
+
+      await Promise.all(
+        keysToInvalidate.map((key) => {
+          queryClient.invalidateQueries({ queryKey: key });
+        }),
+      );
+    };
+
+    patchEditUser(payload, {
+      onSuccess: () => {
+        setShowModal(false);
+        refetchUserInfo();
+      },
+    });
+  };
 
   return (
     <Overlay $fluid isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -77,7 +127,7 @@ export default function EditProfileModal({
                   alt='기본 이미지'
                   width={80}
                   height={80}
-                  className='rounded-[50%] overflow-hidden'
+                  className='rounded-[50%] overflow-hidden object-cover min-h-[80px]'
                 />
                 <Image
                   src='/images/mypage/iconEditImg.svg'
@@ -88,9 +138,17 @@ export default function EditProfileModal({
                 />
                 <input
                   type='file'
-                  accept='image/png'
+                  accept='image/png, image/jpg'
                   className='hidden'
-                  onChange={(e) => handleImgChange(e)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    handleImgChange(e);
+                    setSelectedImageFile(file!);
+                    setValue('imageUrl', file ? file.name : '', {
+                      shouldDirty: true,
+                    });
+                    trigger('imageUrl');
+                  }}
                 />
               </label>
               {isPreview?.length > 0 && (
@@ -100,7 +158,14 @@ export default function EditProfileModal({
                   width={24}
                   height={24}
                   className='absolute z-[100] top-[24px] left-[0] cursor-pointer'
-                  onClick={() => setIsPreview('')}
+                  onClick={() => {
+                    setIsPreview('');
+                    setSelectedImageFile(null);
+                    setValue('imageUrl', '', {
+                      shouldDirty: true,
+                    });
+                    trigger('imageUrl');
+                  }}
                 />
               )}
             </div>
@@ -167,11 +232,13 @@ export default function EditProfileModal({
               <input
                 type='tel'
                 inputMode='numeric'
-                {...register('ownerTel', {
+                {...register('phoneNumber', {
                   onChange: (e) => {
                     const onlyNums = e.target.value.replace(/[^0-9]/g, '');
                     const formatted = formattedPhoneNumber(onlyNums);
-                    setValue('ownerTel', formatted, { shouldValidate: true });
+                    setValue('phoneNumber', formatted, {
+                      shouldValidate: true,
+                    });
                   },
                 })}
                 placeholder='사장님 전화번호를 입력해주세요'

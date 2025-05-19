@@ -1,4 +1,4 @@
-import { ListData } from '@/app/mypage/types';
+import { ListData, WatchedFields } from '@/app/mypage/types';
 import instance from '../api/api';
 
 // 내 정보 조회
@@ -17,14 +17,23 @@ export const fetchUser = async () => {
 };
 
 // 내 정보 수정
-export const fetchEditUser = async () => {
+export const fetchEditUser = async (payload: WatchedFields) => {
+  const { name, imageUrl, nickname, store, storeTel, phoneNumber, address } =
+    payload;
+
   try {
-    const response = await instance.patch('/users/me');
+    const response = await instance.patch('/users/me', {
+      name,
+      nickname: nickname,
+      imageUrl,
+      storeName: store,
+      storePhoneNumber: storeTel,
+      phoneNumber,
+      location: address,
+    });
     if (!response.data) {
       throw new Error('유저 데이터 수정 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
     console.error('유저 정보 수정 중 에러 발생:', error);
     throw error;
