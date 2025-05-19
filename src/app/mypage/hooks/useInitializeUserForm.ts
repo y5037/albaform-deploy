@@ -15,7 +15,7 @@ export default function useInitializeUserForm({ user, setValue }: Props) {
     if (user?.phoneNumber) {
       const onlyNums = user.phoneNumber.replace(/[^0-9]/g, '');
       const formatted = formattedPhoneNumber(onlyNums);
-      setValue('ownerTel', formatted);
+      setValue('phoneNumber', formatted);
     }
 
     if (user?.storePhoneNumber) {
