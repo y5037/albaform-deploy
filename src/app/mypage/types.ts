@@ -59,6 +59,7 @@ export interface ListData {
 export interface EditProfileModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  onSuccess:() => void
 }
 
 export interface HeadProps {

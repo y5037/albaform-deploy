@@ -14,10 +14,12 @@ export function useEditProfileForm({
   user,
   setShowModal,
   isPreview,
+  onSuccess,
 }: {
   user: UserDataProps;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   isPreview: string;
+  onSuccess: () => void;
 }) {
   const queryClient = useQueryClient();
 
@@ -70,6 +72,7 @@ export function useEditProfileForm({
       onSuccess: () => {
         setShowModal(false);
         refetchUserInfo();
+        onSuccess();
       },
     });
   };

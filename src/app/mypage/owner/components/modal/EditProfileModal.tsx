@@ -15,6 +15,7 @@ import EditProfileForm from './EditProfileForm';
 export default function EditProfileModal({
   showModal,
   setShowModal,
+  onSuccess
 }: EditProfileModalProps) {
   const { data: user, isLoading } = useGetMyInfo();
 
@@ -22,7 +23,7 @@ export default function EditProfileModal({
     user?.imageUrl || '',
   );
 
-  const formLogic = useEditProfileForm({ user, setShowModal, isPreview });
+  const formLogic = useEditProfileForm({ user, setShowModal, isPreview, onSuccess });
 
   const { setValue, watch } = formLogic.form;
 

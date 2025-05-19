@@ -1,4 +1,3 @@
-import { WatchedFields } from '@/app/mypage/types';
 import Address from '@/components/controller/Address';
 import { EditProfileInput } from '@/schemas/editProfileSchema';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';

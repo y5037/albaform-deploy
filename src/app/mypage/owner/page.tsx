@@ -11,6 +11,7 @@ import { useModalController } from '@/hooks/common/useModalController';
 import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
+import Toast from '@/components/tooltip/Toast';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ export default function Mypage() {
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  const [showToast, setShowToast] = useState(false);
 
   const itemsPerPage = getItemsPerPage();
 
@@ -49,10 +51,18 @@ export default function Mypage() {
 
   const { showModal, setShowModal } = useModalController();
 
+  const handleEditSuccess = () => {
+    setShowToast(true);
+  };
+
   return (
     <ResponsiveStyle>
       {showModal && (
-        <EditProfileModal showModal={showModal} setShowModal={setShowModal} />
+        <EditProfileModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onSuccess={handleEditSuccess}
+        />
       )}
       <HeadContainer setShowModal={setShowModal} />
       <FilterContainer
@@ -72,6 +82,11 @@ export default function Mypage() {
       )}
       {selectedTab === 'comment' && (
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      )}
+      {showToast && (
+        <Toast onClose={() => setShowToast(false)}>
+          회원 정보가 수정되었습니다 !
+        </Toast>
       )}
     </ResponsiveStyle>
   );
