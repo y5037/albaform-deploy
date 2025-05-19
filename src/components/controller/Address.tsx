@@ -5,8 +5,10 @@ import { Control, Controller } from 'react-hook-form';
 
 export default function Address({
   editInfoControl,
+  disabled,
 }: {
   editInfoControl?: Control<EditProfileInput>;
+  disabled: boolean;
 }) {
   return (
     <Controller
@@ -14,7 +16,9 @@ export default function Address({
       control={editInfoControl && editInfoControl}
       render={({ field }) => (
         <div
-          className='flex items-center w-full px-[7px] py-[8px] border border-gray-200 border-solid rounded-[8px] text-left cursor-pointer'
+          className={`flex items-center w-full px-[7px] py-[8px] border border-gray-200 border-solid rounded-[8px] text-left cursor-pointer ${
+            disabled && 'bg-[#fafafa]'
+          }`}
           onClick={() =>
             openKakaoAddress(async (addr) => {
               field.onChange(addr);
