@@ -3,7 +3,10 @@
 import { useState, useCallback } from 'react';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/Selector';
-import StepFormInfo, { InfoFormValues } from '../components/FormInfo';
+import FormInfo, { InfoFormValues } from '../components/FormInfo';
+import FormCondition, {
+  ConditionFormValues,
+} from '../components/FormCondition';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
@@ -13,7 +16,7 @@ export default function CreateForm() {
   // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
     info: InfoFormValues;
-    condition: any;
+    condition: ConditionFormValues;
     work: any;
   }>({
     info: {
@@ -22,7 +25,13 @@ export default function CreateForm() {
       period: '',
       image: [],
     },
-    condition: null,
+    condition: {
+      numberOfPositions: 0,
+      gender: '',
+      education: '',
+      age: '',
+      preferred: '',
+    },
     work: null,
   });
 
@@ -38,13 +47,24 @@ export default function CreateForm() {
       );
     }
 
-    // 이후 조건/근무 입력 상태 확인 로직 추가
+    if (step === 'condition') {
+      const d = formData.condition;
+      return Object.values(d).some((v) => v && v.trim() !== '');
+    }
+    // 이후 근무 입력 상태 확인 로직 추가
     return false;
   };
 
   const handleInfoChange = useCallback((infoData: InfoFormValues) => {
     setFormData((prev) => ({ ...prev, info: infoData }));
   }, []);
+
+  const handleConditionChange = useCallback(
+    (conditionData: ConditionFormValues) => {
+      setFormData((prev) => ({ ...prev, condition: conditionData }));
+    },
+    [],
+  );
 
   return (
     <>
@@ -80,16 +100,16 @@ export default function CreateForm() {
 
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
-            <StepFormInfo
+            <FormInfo
               onDataChange={handleInfoChange}
-              initialValue={
-                formData.info ?? {
-                  title: '',
-                  description: '',
-                  period: '',
-                  image: [],
-                }
-              }
+              initialValue={formData.info}
+            />
+          )}
+
+          {currentStep === 'condition' && (
+            <FormCondition
+              onDataChange={handleConditionChange}
+              initialValue={formData.condition}
             />
           )}
           {/* 나중에 condition, work 폼 추가 */}
