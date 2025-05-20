@@ -8,10 +8,10 @@ import MyPostAndCommentList from '../components/MyPostAndCommentList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
 import { useModalController } from '@/hooks/common/useModalController';
-import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
+import EditProfileModal from '../components/modal/EditProfileModal';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);

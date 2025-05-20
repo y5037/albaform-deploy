@@ -1,16 +1,16 @@
 'use client';
 
 import Overlay from '@/components/modal/Overlay';
-import { EditProfileModalProps } from '../../../types';
 import Image from 'next/image';
-import { ScrollHiddenDiv } from '../../../styles';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
-import useFormChangeDetector from '../../../hooks/useFormChangeDetector';
 import EditProfileSkeleton from './EditProfileSkeleton';
 import useInitializeUserForm from '@/app/mypage/hooks/useInitializeUserForm';
-import { useEditProfileForm } from '../../../hooks/useEditProfileForm';
 import EditProfileForm from './EditProfileForm';
+import { EditProfileModalProps } from '../../types';
+import { ScrollHiddenDiv } from '../../styles';
+import useFormChangeDetector from '../../hooks/useFormChangeDetector';
+import { useEditProfileForm } from '../../hooks/useEditProfileForm';
 
 export default function EditProfileModal({
   showModal,
