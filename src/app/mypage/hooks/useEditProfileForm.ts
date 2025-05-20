@@ -63,7 +63,7 @@ export function useEditProfileForm({
 
       await Promise.all(
         keysToInvalidate.map((key) => {
-          queryClient.invalidateQueries({ queryKey: key });
+          queryClient.invalidateQueries({ queryKey: key, exact: false });
         }),
       );
     };
