@@ -59,7 +59,7 @@ export interface ListData {
 export interface EditModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
-  handleCloseModal:() => void
+  handleCloseModal: () => void;
   onSuccess: () => void;
 }
 
@@ -80,7 +80,7 @@ export interface UserDataProps {
   storeName: string;
 }
 
-export type WatchedFields = {
+export type InfoWatchedFields = {
   imageUrl: string;
   name: string;
   nickname: string;
@@ -88,4 +88,10 @@ export type WatchedFields = {
   storeTel: string;
   phoneNumber: string;
   address: string;
+};
+
+export type PasswordWatchedFields = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 };

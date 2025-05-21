@@ -24,20 +24,21 @@ export default function Mypage() {
     'editUser',
   );
   const [showToast, setShowToast] = useState(false);
+  
+  const { showModal, setShowModal } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
-
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
-  const isPost = query.type === 'post';
-
+  
   let listData = [];
   let isLoading = false;
   let isFetching = false;
   let isFetchingNextPage = false;
   let fetchNextPage, hasNextPage;
-
   let totalPages;
 
+  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
+  const isPost = query.type === 'post';
+  
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
@@ -52,8 +53,6 @@ export default function Mypage() {
   }
 
   const observerRef = useInfiniteScroll(isPost && hasNextPage!, fetchNextPage!);
-
-  const { showModal, setShowModal } = useModalController();
 
   const handleOpenModal = (type: 'editUser' | 'editPassword') => {
     setShowModal(true);

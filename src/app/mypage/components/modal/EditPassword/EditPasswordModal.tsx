@@ -1,8 +1,12 @@
+import useFormChangeDetector from '@/app/mypage/hooks/usePasswordChangeDetector';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
 import { EditModalProps } from '@/app/mypage/types';
 import Overlay from '@/components/modal/Overlay';
+import { passwordSchema } from '@/schemas/editPasswordSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function EditPasswordModal({
   showModal,
@@ -23,13 +27,24 @@ export default function EditPasswordModal({
     }));
   };
 
+  const { handleSubmit, register, setValue, formState, watch } = useForm({
+    resolver: zodResolver(passwordSchema),
+    mode: 'onChange',
+  });
+
+  const watched = watch();
+
+  const { isModified } = useFormChangeDetector(watched);
+
+  const onSubmit = () => {};
+
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[485px] overflow-y-scroll scrollbar-hide'>
         <p className='text-[24px] mb-[48px] font-medium max-[768px]:text-[18px]'>
           비밀번호 변경
         </p>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
             <div className='text-left'>
               <label
@@ -42,6 +57,7 @@ export default function EditPasswordModal({
                 <input
                   id='currentPassword'
                   type={visibleFields.current ? 'text' : 'password'}
+                  {...register('currentPassword')}
                   placeholder='현재 비밀번호를 입력해주세요'
                   className='py-[14px] flex-[2] mr-[10px]'
                 />
@@ -70,6 +86,7 @@ export default function EditPasswordModal({
                 <input
                   id='currentPassword'
                   type={visibleFields.new ? 'text' : 'password'}
+                  {...register('newPassword')}
                   placeholder='새로운 비밀번호를 입력해주세요'
                   className='py-[14px] flex-[2] mr-[10px]'
                 />
@@ -98,6 +115,7 @@ export default function EditPasswordModal({
                 <input
                   id='currentPassword'
                   type={visibleFields.confirm ? 'text' : 'password'}
+                  {...register('confirmPassword')}
                   placeholder='새로운 비밀번호를 다시 한번 입력해주세요'
                   className='py-[14px] flex-[2] mr-[10px]'
                 />
@@ -126,6 +144,7 @@ export default function EditPasswordModal({
               <button
                 type='submit'
                 className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
+                disabled={isModified}
               >
                 변경하기
               </button>

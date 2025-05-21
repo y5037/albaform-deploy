@@ -1,4 +1,4 @@
-import { ListData, WatchedFields } from '@/app/mypage/types';
+import { ListData, InfoWatchedFields } from '@/app/mypage/types';
 import instance from '../api/api';
 
 // 내 정보 조회
@@ -17,7 +17,7 @@ export const fetchUser = async () => {
 };
 
 // 내 정보 수정
-export const fetchEditUser = async (payload: WatchedFields) => {
+export const fetchEditUser = async (payload: InfoWatchedFields) => {
   const { name, imageUrl, nickname, store, storeTel, phoneNumber, address } =
     payload;
 
