@@ -15,7 +15,7 @@ type Props = {
   handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
   isModified: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
+  handleCloseModal: () => void;
 };
 
 export default function EditProfileForm(props: Props) {
@@ -28,7 +28,7 @@ export default function EditProfileForm(props: Props) {
     handleImgChange,
     setSelectedImageFile,
     isModified,
-    setShowModal,
+    handleCloseModal,
   } = props;
 
   const { handleSubmit, trigger, register, setValue, formState, control } =
@@ -184,7 +184,7 @@ export default function EditProfileForm(props: Props) {
         <div className='flex items-center justify-center mt-[24px]'>
           <button
             type='button'
-            onClick={() => setShowModal(false)}
+            onClick={handleCloseModal}
             className='mr-[10px] flex-[1] pt-[20px] pb-[20px] text-white bg-gray-200 rounded-[8px]'
           >
             취소

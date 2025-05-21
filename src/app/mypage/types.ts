@@ -56,14 +56,15 @@ export interface ListData {
   recruitmentStartDate?: string;
 }
 
-export interface EditProfileModalProps {
+export interface EditModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
-  onSuccess:() => void
+  handleCloseModal:() => void
+  onSuccess: () => void;
 }
 
 export interface HeadProps {
-  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  handleOpenModal: (type: 'editUser' | 'editPassword') => void;
 }
 
 export interface UserDataProps {

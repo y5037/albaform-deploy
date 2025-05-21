@@ -12,6 +12,7 @@ import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
 import EditProfileModal from '../components/modal/EditProfile/EditProfileModal';
+import EditPasswordModal from '../components/modal/EditPassword/EditPasswordModal';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
@@ -19,6 +20,9 @@ export default function Mypage() {
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  const [modalType, setModalType] = useState<'editUser' | 'editPassword'>(
+    'editUser',
+  );
   const [showToast, setShowToast] = useState(false);
 
   const itemsPerPage = getItemsPerPage();
@@ -51,20 +55,40 @@ export default function Mypage() {
 
   const { showModal, setShowModal } = useModalController();
 
+  const handleOpenModal = (type: 'editUser' | 'editPassword') => {
+    setShowModal(true);
+    setModalType(type);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalType('editUser');
+  };
+
   const handleEditSuccess = () => {
     setShowToast(true);
   };
 
   return (
     <ResponsiveStyle>
-      {showModal && (
+      {showModal && modalType === 'editUser' ? (
         <EditProfileModal
           showModal={showModal}
           setShowModal={setShowModal}
+          handleCloseModal={handleCloseModal}
           onSuccess={handleEditSuccess}
         />
+      ) : showModal && modalType === 'editPassword' ? (
+        <EditPasswordModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleCloseModal={handleCloseModal}
+          onSuccess={handleEditSuccess}
+        />
+      ) : (
+        ''
       )}
-      <HeadContainer setShowModal={setShowModal} />
+      <HeadContainer handleOpenModal={handleOpenModal} />
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
@@ -85,7 +109,12 @@ export default function Mypage() {
       )}
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>
-          회원 정보가 수정되었습니다 !
+          {modalType === 'editUser'
+            ? '회원 정보'
+            : modalType === 'editPassword'
+            ? '비밀번호'
+            : ''}
+          가 수정되었습니다 !
         </Toast>
       )}
     </ResponsiveStyle>
