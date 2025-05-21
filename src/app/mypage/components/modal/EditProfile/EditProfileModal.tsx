@@ -7,10 +7,11 @@ import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import EditProfileSkeleton from './EditProfileSkeleton';
 import useInitializeUserForm from '@/app/mypage/hooks/useInitializeUserForm';
 import EditProfileForm from './EditProfileForm';
-import { EditProfileModalProps } from '../../types';
-import { ScrollHiddenDiv } from '../../styles';
-import useFormChangeDetector from '../../hooks/useFormChangeDetector';
-import { useEditProfileForm } from '../../hooks/useEditProfileForm';
+import { EditProfileModalProps } from '@/app/mypage/types';
+import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
+import useFormChangeDetector from '@/app/mypage/hooks/useFormChangeDetector';
+import { ScrollHiddenDiv } from '@/app/mypage/styles';
+
 
 export default function EditProfileModal({
   showModal,

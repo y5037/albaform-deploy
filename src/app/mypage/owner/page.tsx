@@ -11,7 +11,7 @@ import { useModalController } from '@/hooks/common/useModalController';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
-import EditProfileModal from '../components/modal/EditProfileModal';
+import EditProfileModal from '../components/modal/EditProfile/EditProfileModal';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
