@@ -1,4 +1,4 @@
-import { EditProfileInput } from '@/schemas/editProfileSchema';
+import { BaseUserInput } from '@/schemas/editProfileSchema';
 import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import Image from 'next/image';
 import { Control, Controller } from 'react-hook-form';
@@ -7,7 +7,7 @@ export default function Address({
   editInfoControl,
   disabled,
 }: {
-  editInfoControl?: Control<EditProfileInput>;
+  editInfoControl?: Control<BaseUserInput>;
   disabled: boolean;
 }) {
   return (

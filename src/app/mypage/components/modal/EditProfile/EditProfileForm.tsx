@@ -1,5 +1,5 @@
 import Address from '@/components/controller/Address';
-import { EditProfileInput } from '@/schemas/editProfileSchema';
+import { BaseUserInput } from '@/schemas/editProfileSchema';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import { FieldValues } from 'react-hook-form';
 
 type Props = {
   form: FieldValues;
-  onSubmit: (formData: EditProfileInput) => Promise<void>;
+  onSubmit: (formData: BaseUserInput) => Promise<void>;
   isPending: boolean;
   isPreview: string;
   setIsPreview: Dispatch<SetStateAction<string>>;
