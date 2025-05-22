@@ -4,8 +4,10 @@ export default function usePasswordChangeDetector(
   watched: PasswordWatchedFields,
 ) {
   const isModified =
-    watched.newPassword !== watched.confirmPassword ||
-    watched.currentPassword === '';
+    watched.newPassword &&
+    watched.confirmPassword &&
+    watched.newPassword === watched.confirmPassword &&
+    watched.currentPassword !== '';
 
   return { isModified };
 }

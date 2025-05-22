@@ -144,7 +144,7 @@ export default function EditPasswordModal({
               <button
                 type='submit'
                 className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
-                disabled={isModified}
+                disabled={!isModified}
               >
                 변경하기
               </button>
