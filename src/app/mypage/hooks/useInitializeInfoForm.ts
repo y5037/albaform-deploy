@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import { EditProfileInput } from '@/schemas/editProfileSchema';
+import { BaseUserInput } from '@/schemas/editProfileSchema';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import { UserDataProps } from '../types';
 
 interface Props {
   user: UserDataProps;
-  setValue: UseFormSetValue<EditProfileInput>;
+  setValue: UseFormSetValue<BaseUserInput>;
 }
 
 export default function useInitializeUserForm({ user, setValue }: Props) {

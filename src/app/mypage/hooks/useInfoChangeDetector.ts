@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import { UserDataProps, WatchedFields } from '../types';
+import { UserDataProps, InfoWatchedFields } from '../types';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 
 export default function useFormChangeDetector(props: {
-  watched: WatchedFields;
-  setValue: UseFormSetValue<WatchedFields>;
+  watched: InfoWatchedFields;
+  setValue: UseFormSetValue<InfoWatchedFields>;
   user?: UserDataProps;
 }) {
   const { watched, setValue, user } = props;

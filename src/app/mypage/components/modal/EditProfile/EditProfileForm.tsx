@@ -1,5 +1,5 @@
 import Address from '@/components/controller/Address';
-import { EditProfileInput } from '@/schemas/editProfileSchema';
+import { BaseUserInput } from '@/schemas/editProfileSchema';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import Image from 'next/image';
@@ -8,14 +8,14 @@ import { FieldValues } from 'react-hook-form';
 
 type Props = {
   form: FieldValues;
-  onSubmit: (formData: EditProfileInput) => Promise<void>;
+  onSubmit: (formData: BaseUserInput) => Promise<void>;
   isPending: boolean;
   isPreview: string;
   setIsPreview: Dispatch<SetStateAction<string>>;
   handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
   isModified: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
+  handleCloseModal: () => void;
 };
 
 export default function EditProfileForm(props: Props) {
@@ -28,7 +28,7 @@ export default function EditProfileForm(props: Props) {
     handleImgChange,
     setSelectedImageFile,
     isModified,
-    setShowModal,
+    handleCloseModal,
   } = props;
 
   const { handleSubmit, trigger, register, setValue, formState, control } =
@@ -94,11 +94,12 @@ export default function EditProfileForm(props: Props) {
             />
           )}
         </div>
-        <div>
-          <p className='text-left mb-[10px]'>
+        <div className='text-left'>
+          <label htmlFor='nickname' className='inline-block mb-[10px]'>
             닉네임 <span className='text-orange-300 relative top-[1px]'>*</span>
-          </p>
+          </label>
           <input
+            id='nickname'
             type='text'
             {...register('nickname')}
             placeholder='닉네임을 입력해주세요'
@@ -110,12 +111,13 @@ export default function EditProfileForm(props: Props) {
             </p>
           )}
         </div>
-        <div>
-          <p className='text-left mt-[15px] mb-[10px]'>
+        <div className='text-left mt-[15px] '>
+          <label htmlFor='store' className='inline-block mb-[10px]'>
             가게 이름{' '}
             <span className='text-orange-300 relative top-[1px]'>*</span>
-          </p>
+          </label>
           <input
+            id='store'
             type='text'
             {...register('store')}
             placeholder='가게 이름(상호명)을 입력해주세요'
@@ -127,12 +129,16 @@ export default function EditProfileForm(props: Props) {
             </p>
           )}
         </div>
-        <div>
-          <p className='text-left mt-[15px] mb-[10px]'>
+        <div className='text-left'>
+          <label
+            htmlFor='storeTel'
+            className='inline-block mt-[15px] mb-[10px]'
+          >
             가게 전화번호{' '}
             <span className='text-orange-300 relative top-[1px]'>*</span>
-          </p>
+          </label>
           <input
+            id='storeTel'
             type='tel'
             inputMode='numeric'
             {...register('storeTel', {
@@ -151,9 +157,15 @@ export default function EditProfileForm(props: Props) {
             </p>
           )}
         </div>
-        <div>
-          <p className='text-left mt-[15px] mb-[10px]'>사장님 전화번호</p>
+        <div className='text-left'>
+          <label
+            htmlFor='phoneNumber'
+            className='inline-block mt-[15px] mb-[10px]'
+          >
+            사장님 전화번호
+          </label>
           <input
+            id='phoneNumber'
             type='tel'
             inputMode='numeric'
             {...register('phoneNumber', {
@@ -184,7 +196,7 @@ export default function EditProfileForm(props: Props) {
         <div className='flex items-center justify-center mt-[24px]'>
           <button
             type='button'
-            onClick={() => setShowModal(false)}
+            onClick={handleCloseModal}
             className='mr-[10px] flex-[1] pt-[20px] pb-[20px] text-white bg-gray-200 rounded-[8px]'
           >
             취소

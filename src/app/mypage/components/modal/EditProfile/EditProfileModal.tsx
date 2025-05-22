@@ -5,19 +5,20 @@ import Image from 'next/image';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import EditProfileSkeleton from './EditProfileSkeleton';
-import useInitializeUserForm from '@/app/mypage/hooks/useInitializeUserForm';
+import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import EditProfileForm from './EditProfileForm';
-import { EditProfileModalProps } from '@/app/mypage/types';
-import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
-import useFormChangeDetector from '@/app/mypage/hooks/useFormChangeDetector';
+import { EditModalProps } from '@/app/mypage/types';
+import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileImgForm';
+import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
 
 
 export default function EditProfileModal({
   showModal,
   setShowModal,
+  handleCloseModal,
   onSuccess
-}: EditProfileModalProps) {
+}: EditModalProps) {
   const { data: user, isLoading } = useGetMyInfo();
 
   const { isPreview, setIsPreview, handleImgChange } = useChangeProfilePreview(
@@ -42,7 +43,7 @@ export default function EditProfileModal({
     isFormModified || !!formLogic.selectedImageFile || !!watch('imageUrl');
 
   return (
-    <Overlay $fluid isOpen={showModal} onClose={() => setShowModal(false)}>
+    <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[500px] overflow-y-scroll scrollbar-hide'>
         <p className='text-[24px] font-medium max-[768px]:text-[18px]'>
           사장님 정보 관리
@@ -56,7 +57,7 @@ export default function EditProfileModal({
             setIsPreview={setIsPreview}
             handleImgChange={handleImgChange}
             isModified={isModified}
-            setShowModal={setShowModal}
+            handleCloseModal={handleCloseModal}
           />
         )}
         {formLogic.isPending && (
