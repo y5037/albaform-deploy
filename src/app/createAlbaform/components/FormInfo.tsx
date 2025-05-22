@@ -25,8 +25,9 @@ import { CustomDateInput, StyledDatePickerWrapper } from './Datepicker.styles';
 export type InfoFormValues = {
   title: string;
   description: string;
-  period: string;
-  image: File[];
+  recruitmentStartDate: string;
+  recruitmentEndDate: string;
+  imageUrls: string[];
 };
 
 type Props = {
@@ -42,108 +43,70 @@ export default function StepFormInfo({ onDataChange, initialValue }: Props) {
 
   const title = watch('title');
   const description = watch('description');
-  const images = watch('image');
+  const imageUrls = watch('imageUrls');
 
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
-  const [startDate, endDate] = dateRange;
+  const [recruitmentStartDate, setRecruitmentStartDate] = useState<Date | null>(
+    initialValue.recruitmentStartDate
+      ? new Date(initialValue.recruitmentStartDate)
+      : null,
+  );
+  const [recruitmentEndDate, setRecruitmentEndDate] = useState<Date | null>(
+    initialValue.recruitmentEndDate
+      ? new Date(initialValue.recruitmentEndDate)
+      : null,
+  );
+
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<string[]>(
+    initialValue.imageUrls || [],
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // initialValue의 기간 파싱
-  useEffect(() => {
-    if (initialValue.period) {
-      const [startStr, endStr] = initialValue.period.split(' ~ ');
-      const start = new Date(startStr);
-      const end = new Date(endStr);
-      setDateRange([start, end]);
-    }
-  }, [initialValue.period]);
-
-  // 날짜 변경 시 period 값 설정
-  useEffect(() => {
-    if (startDate && endDate) {
-      const formatted = `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
-        endDate,
-        'yyyy.MM.dd',
-      )}`;
-      setValue('period', formatted);
-      setIsCalendarOpen(false);
-    }
-  }, [startDate, endDate, setValue]);
-
-  // 이미지 미리보기 생성
-  useEffect(() => {
-    if (images && images.length > 0) {
-      const urls = images.map((file) => URL.createObjectURL(file));
-      setPreviews(urls);
-
-      return () => {
-        urls.forEach((url) => URL.revokeObjectURL(url));
-      };
-    } else {
-      setPreviews([]);
-    }
-  }, [images]);
-
-  // 폼 데이터 변경 감지 후 상위로 전달
-  useEffect(() => {
-    const isAnyFilled =
-      title?.trim() !== '' ||
-      description?.trim() !== '' ||
-      (startDate && endDate) ||
-      (images && images.length > 0);
-
-    if (isAnyFilled) {
-      onDataChange({
-        title,
-        description,
-        period:
-          startDate && endDate
-            ? `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
-                endDate,
-                'yyyy.MM.dd',
-              )}`
-            : '',
-        image: images,
-      });
-    } else {
-      onDataChange({
-        title: '',
-        description: '',
-        period: '',
-        image: [],
-      });
-    }
-  }, [title, description, images, startDate, endDate, onDataChange]);
-
-  // 이미지 추가 핸들러
+  // 이미지 업로드 시 미리보기 생성
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
-    const fileArray = Array.from(files);
-    const fileMap = new Map(
-      images.map((file) => [file.name + file.size, file]),
-    );
-    fileArray.forEach((file) => {
-      const key = file.name + file.size;
-      if (!fileMap.has(key)) fileMap.set(key, file);
-    });
+    const fileArray = Array.from(files).slice(0, 4 - previews.length);
+    const urls = fileArray.map((file) => URL.createObjectURL(file));
 
-    const newFiles = Array.from(fileMap.values()).slice(0, 4);
-    setValue('image', newFiles);
+    const newUrls = [...previews, ...urls].slice(0, 4);
+    setPreviews(newUrls);
+    setValue('imageUrls', newUrls);
   };
 
-  // 이미지 삭제 핸들러
   const handleDeleteImage = (index: number) => {
-    const newFiles = [...images];
-    newFiles.splice(index, 1);
-    setValue('image', newFiles);
+    const newUrls = [...previews];
+    newUrls.splice(index, 1);
+    setPreviews(newUrls);
+    setValue('imageUrls', newUrls);
   };
+
+  // 날짜 변경 시 폼에 업데이트
+  useEffect(() => {
+    if (recruitmentStartDate)
+      setValue('recruitmentStartDate', recruitmentStartDate.toISOString());
+    if (recruitmentEndDate)
+      setValue('recruitmentEndDate', recruitmentEndDate.toISOString());
+  }, [recruitmentStartDate, recruitmentEndDate, setValue]);
+
+  // 폼 변경 시 상위에 전달
+  useEffect(() => {
+    onDataChange({
+      title,
+      description,
+      recruitmentStartDate: recruitmentStartDate?.toISOString() || '',
+      recruitmentEndDate: recruitmentEndDate?.toISOString() || '',
+      imageUrls: imageUrls || [],
+    });
+  }, [
+    title,
+    description,
+    recruitmentStartDate,
+    recruitmentEndDate,
+    imageUrls,
+    onDataChange,
+  ]);
 
   return (
     <FormWrapper>
@@ -178,16 +141,16 @@ export default function StepFormInfo({ onDataChange, initialValue }: Props) {
         </FormLabel>
         <Controller
           control={control}
-          name='period'
+          name='recruitmentStartDate'
           render={() => (
             <div style={{ position: 'relative' }}>
               <CustomDateInput
                 ref={inputRef}
                 readOnly
                 value={
-                  startDate && endDate
-                    ? `${format(startDate, 'yyyy.MM.dd')} ~ ${format(
-                        endDate,
+                  recruitmentStartDate && recruitmentEndDate
+                    ? `${format(recruitmentStartDate, 'yyyy.MM.dd')} ~ ${format(
+                        recruitmentEndDate,
                         'yyyy.MM.dd',
                       )}`
                     : ''
@@ -200,9 +163,12 @@ export default function StepFormInfo({ onDataChange, initialValue }: Props) {
                   <DatePicker
                     locale={ko}
                     selectsRange
-                    startDate={startDate}
-                    endDate={endDate}
-                    onChange={(update) => setDateRange(update as [Date, Date])}
+                    startDate={recruitmentStartDate}
+                    endDate={recruitmentEndDate}
+                    onChange={(update: [Date | null, Date | null]) => {
+                      setRecruitmentStartDate(update[0]);
+                      setRecruitmentEndDate(update[1]);
+                    }}
                     onClickOutside={() => setIsCalendarOpen(false)}
                     inline
                   />

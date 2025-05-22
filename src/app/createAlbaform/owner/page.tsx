@@ -22,8 +22,9 @@ export default function CreateForm() {
     info: {
       title: '',
       description: '',
-      period: '',
-      image: [],
+      recruitmentStartDate: '',
+      recruitmentEndDate: '',
+      imageUrls: [],
     },
     condition: {
       numberOfPositions: 0,
@@ -39,11 +40,11 @@ export default function CreateForm() {
     if (step === 'info') {
       const data = formData.info;
       return !!(
-        data &&
-        (data.title?.trim() ||
-          data.description?.trim() ||
-          data.period?.trim() ||
-          (data.image && data.image.length > 0))
+        data.title.trim() ||
+        data.description.trim() ||
+        data.recruitmentStartDate.trim() ||
+        data.recruitmentEndDate.trim() ||
+        data.imageUrls.length > 0
       );
     }
 
