@@ -4,9 +4,9 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface DropdownProps {
   label?: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
+  value: string | number;
+  options: (string | number)[];
+  onChange: (value: string | number) => void;
   placeholder?: string;
 }
 

@@ -49,7 +49,11 @@ export default function CreateForm() {
 
     if (step === 'condition') {
       const d = formData.condition;
-      return Object.values(d).some((v) => v && v.trim() !== '');
+      return Object.values(d).some((v) => {
+        if (typeof v === 'string') return v.trim() !== '';
+        if (typeof v === 'number') return !isNaN(v) && v !== 0;
+        return false;
+      });
     }
     // 이후 근무 입력 상태 확인 로직 추가
     return false;

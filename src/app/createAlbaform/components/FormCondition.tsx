@@ -21,24 +21,34 @@ export default function FormCondition({
   onDataChange,
   initialValue,
 }: FormConditionProps) {
-  const [numberOfPositions, setNumberOfPositions] = useState(
-    initialValue.numberOfPositions.toString(),
+  // numberOfPositions는 number | string 으로 관리
+  const [numberOfPositions, setNumberOfPositions] = useState<number | string>(
+    initialValue.numberOfPositions,
   );
-  const [gender, setGender] = useState(initialValue.gender);
-  const [education, setEducation] = useState(initialValue.education);
-  const [age, setAge] = useState(initialValue.age);
-  const [preference, setPreference] = useState(initialValue.preferred);
+  const [gender, setGender] = useState<number | string>(initialValue.gender);
+  const [education, setEducation] = useState<number | string>(
+    initialValue.education,
+  );
+  const [age, setAge] = useState<number | string>(initialValue.age);
+  const [preferred, setPreferred] = useState<number | string>(
+    initialValue.preferred,
+  );
 
   // 상태 변경 시마다 상위 컴포넌트로 데이터 전달
   useEffect(() => {
     onDataChange({
-      numberOfPositions: Number(numberOfPositions) || 0,
-      gender,
-      education,
-      age,
-      preferred: preference,
+      numberOfPositions:
+        typeof numberOfPositions === 'string'
+          ? Number(numberOfPositions) || 0
+          : numberOfPositions,
+      gender: typeof gender === 'string' ? gender : String(gender) || '',
+      education:
+        typeof education === 'string' ? education : String(education) || '',
+      age: typeof age === 'string' ? age : String(age) || '',
+      preferred:
+        typeof preferred === 'string' ? preferred : String(preferred) || '',
     });
-  }, [numberOfPositions, gender, education, age, preference]);
+  }, [numberOfPositions, gender, education, age, preferred]);
 
   return (
     <FormWrapper>
@@ -47,9 +57,9 @@ export default function FormCondition({
           모집인원 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={numberOfPositions}
+          value={numberOfPositions} // 숫자 또는 문자열 그대로 전달
           onChange={setNumberOfPositions}
-          options={['1', '2', '3', '4', '5']}
+          options={[0, 1, 2, 3, 4, 5]} // 숫자 배열로 수정
           placeholder='선택'
         />
       </FormGroup>
@@ -61,7 +71,7 @@ export default function FormCondition({
         <InputDropdown
           value={gender}
           onChange={setGender}
-          options={['성별 무관', '남성', '여성']}
+          options={['성별무관', '남성', '여성']}
           placeholder='선택'
         />
       </FormGroup>
@@ -73,7 +83,12 @@ export default function FormCondition({
         <InputDropdown
           value={education}
           onChange={setEducation}
-          options={['학력 무관', '고등학교 졸업', '대학교 재학', '대학교 졸업']}
+          options={[
+            '학력무관',
+            '고졸 이상',
+            '대졸(2,3년제) 이상',
+            '대졸(4년제) 이상',
+          ]}
           placeholder='선택'
         />
       </FormGroup>
@@ -85,7 +100,7 @@ export default function FormCondition({
         <InputDropdown
           value={age}
           onChange={setAge}
-          options={['연령 무관', '20대', '30대', '40대 이상']}
+          options={['연령무관', '20대', '30대', '40대 이상']}
           placeholder='선택'
         />
       </FormGroup>
@@ -95,14 +110,9 @@ export default function FormCondition({
           우대사항 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={preference}
-          onChange={setPreference}
-          options={[
-            '우대사항 없음',
-            '인근 거주자',
-            '군필자',
-            '관련 자격증 소지자',
-          ]}
+          value={preferred}
+          onChange={setPreferred}
+          options={['없음', '직접입력']}
           placeholder='선택'
         />
       </FormGroup>
