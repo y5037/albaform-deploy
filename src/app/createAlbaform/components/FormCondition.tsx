@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { FormWrapper, FormGroup, FormLabel, RequiredMark } from './Form.styles';
 import InputDropdown from './InputDropdown';
+import { FormWrapper, FormGroup, FormLabel, RequiredMark } from './Form.styles';
 
 export interface ConditionFormValues {
   numberOfPositions: number;
