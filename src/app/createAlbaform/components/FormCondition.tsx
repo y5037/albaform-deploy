@@ -21,7 +21,6 @@ export default function FormCondition({
   onDataChange,
   initialValue,
 }: FormConditionProps) {
-  // numberOfPositions는 number | string 으로 관리
   const [numberOfPositions, setNumberOfPositions] = useState<number | string>(
     initialValue.numberOfPositions,
   );
@@ -57,9 +56,9 @@ export default function FormCondition({
           모집인원 <RequiredMark>*</RequiredMark>
         </FormLabel>
         <InputDropdown
-          value={numberOfPositions} // 숫자 또는 문자열 그대로 전달
+          value={numberOfPositions}
           onChange={setNumberOfPositions}
-          options={[0, 1, 2, 3, 4, 5]} // 숫자 배열로 수정
+          options={[0, 1, 2, 3, 4, 5]}
           placeholder='선택'
         />
       </FormGroup>
@@ -86,7 +85,7 @@ export default function FormCondition({
           options={[
             '학력무관',
             '고졸 이상',
-            '대졸(2,3년제) 이상',
+            '대졸(2, 3년제) 이상',
             '대졸(4년제) 이상',
           ]}
           placeholder='선택'

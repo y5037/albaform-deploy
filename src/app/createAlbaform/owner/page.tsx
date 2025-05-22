@@ -13,7 +13,7 @@ export default function CreateForm() {
     'info',
   );
 
-  // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
+  // 각 단계별 작성 상태 저장 (각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
     info: InfoFormValues;
     condition: ConditionFormValues;
@@ -56,7 +56,8 @@ export default function CreateForm() {
         return false;
       });
     }
-    // 이후 근무 입력 상태 확인 로직 추가
+
+    // 이후 work 상태 확인 로직 추가
     return false;
   };
 
@@ -117,7 +118,8 @@ export default function CreateForm() {
               initialValue={formData.condition}
             />
           )}
-          {/* 나중에 condition, work 폼 추가 */}
+
+          {/* 나중에 work 폼 추가 */}
         </div>
       </div>
     </>
