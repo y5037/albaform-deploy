@@ -33,7 +33,8 @@ export default function FormCondition({
     initialValue.preferred,
   );
 
-  // 상태 변경 시마다 상위 컴포넌트로 데이터 전달
+  const [customPreferred, setCustomPreferred] = useState('');
+
   useEffect(() => {
     onDataChange({
       numberOfPositions:
@@ -45,9 +46,9 @@ export default function FormCondition({
         typeof education === 'string' ? education : String(education) || '',
       age: typeof age === 'string' ? age : String(age) || '',
       preferred:
-        typeof preferred === 'string' ? preferred : String(preferred) || '',
+        preferred === '직접입력' ? customPreferred : String(preferred) || '',
     });
-  }, [numberOfPositions, gender, education, age, preferred]);
+  }, [numberOfPositions, gender, education, age, preferred, customPreferred]);
 
   return (
     <FormWrapper>
@@ -114,6 +115,17 @@ export default function FormCondition({
           options={['없음', '직접입력']}
           placeholder='선택'
         />
+
+        {preferred === '직접입력' && (
+          <textarea
+            className='
+              bg-[var(--background200)] text-[var(--black400)]  text-[14px]
+              w-full h-[90px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px] resize-none'
+            placeholder='우대사항을 작성해주세요.'
+            value={customPreferred}
+            onChange={(e) => setCustomPreferred(e.target.value)}
+          />
+        )}
       </FormGroup>
     </FormWrapper>
   );
