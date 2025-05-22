@@ -56,13 +56,15 @@ export interface ListData {
   recruitmentStartDate?: string;
 }
 
-export interface EditProfileModalProps {
+export interface EditModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  handleCloseModal: () => void;
+  onSuccess: () => void;
 }
 
 export interface HeadProps {
-  setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  handleOpenModal: (type: 'editUser' | 'editPassword') => void;
 }
 
 export interface UserDataProps {
@@ -78,10 +80,18 @@ export interface UserDataProps {
   storeName: string;
 }
 
-export type WatchedFields = {
+export type InfoWatchedFields = {
+  imageUrl: string;
+  name: string;
   nickname: string;
   store: string;
   storeTel: string;
-  ownerTel: string;
+  phoneNumber: string;
   address: string;
+};
+
+export type PasswordWatchedFields = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 };

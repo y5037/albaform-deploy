@@ -5,7 +5,7 @@ import { EditButton, EditButtonContainer, KebabButton } from '../styles';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { HeadProps } from '../types';
 
-export default function HeadContainer({ setShowModal }: HeadProps) {
+export default function HeadContainer({ handleOpenModal }: HeadProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   return (
@@ -28,11 +28,16 @@ export default function HeadContainer({ setShowModal }: HeadProps) {
             <EditButton
               type='button'
               $editInfo
-              onClick={() => setShowModal(true)}
+              onClick={() => handleOpenModal('editUser')}
             >
               내 정보 수정
             </EditButton>
-            <EditButton type='button'>비밀번호 변경</EditButton>
+            <EditButton
+              type='button'
+              onClick={() => handleOpenModal('editPassword')}
+            >
+              비밀번호 변경
+            </EditButton>
           </EditButtonContainer>
         </KebabButton>
       </div>

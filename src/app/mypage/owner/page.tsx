@@ -5,12 +5,14 @@ import FilterContainer from './components/FilterContainer';
 import HeadContainer from '../components/HeadContainer';
 import { useState } from 'react';
 import MyPostAndCommentList from '../components/MyPostAndCommentList';
-import { useGetMyContents } from '@/hooks/query/useUser';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import Pagination from '@/components/pagination/Pagination';
 import { useModalController } from '@/hooks/common/useModalController';
-import EditProfileModal from './components/modal/EditProfileModal';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
+import { useGetMyContents } from '@/hooks/query/useGetMyContents';
+import Toast from '@/components/tooltip/Toast';
+import EditProfileModal from '../components/modal/EditProfile/EditProfileModal';
+import EditPasswordModal from '../components/modal/EditPassword/EditPasswordModal';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
@@ -18,20 +20,25 @@ export default function Mypage() {
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  const [modalType, setModalType] = useState<'editUser' | 'editPassword'>(
+    'editUser',
+  );
+  const [showToast, setShowToast] = useState(false);
+  
+  const { showModal, setShowModal } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
-
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
-  const isPost = query.type === 'post';
-
+  
   let listData = [];
   let isLoading = false;
   let isFetching = false;
   let isFetchingNextPage = false;
   let fetchNextPage, hasNextPage;
-
   let totalPages;
 
+  const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
+  const isPost = query.type === 'post';
+  
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
@@ -47,14 +54,40 @@ export default function Mypage() {
 
   const observerRef = useInfiniteScroll(isPost && hasNextPage!, fetchNextPage!);
 
-  const { showModal, setShowModal } = useModalController();
+  const handleOpenModal = (type: 'editUser' | 'editPassword') => {
+    setShowModal(true);
+    setModalType(type);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalType('editUser');
+  };
+
+  const handleEditSuccess = () => {
+    setShowToast(true);
+  };
 
   return (
     <ResponsiveStyle>
-      {showModal && (
-        <EditProfileModal showModal={showModal} setShowModal={setShowModal} />
+      {showModal && modalType === 'editUser' ? (
+        <EditProfileModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleCloseModal={handleCloseModal}
+          onSuccess={handleEditSuccess}
+        />
+      ) : showModal && modalType === 'editPassword' ? (
+        <EditPasswordModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleCloseModal={handleCloseModal}
+          onSuccess={handleEditSuccess}
+        />
+      ) : (
+        ''
       )}
-      <HeadContainer setShowModal={setShowModal} />
+      <HeadContainer handleOpenModal={handleOpenModal} />
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
@@ -72,6 +105,16 @@ export default function Mypage() {
       )}
       {selectedTab === 'comment' && (
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      )}
+      {showToast && (
+        <Toast onClose={() => setShowToast(false)}>
+          {modalType === 'editUser'
+            ? '회원 정보'
+            : modalType === 'editPassword'
+            ? '비밀번호'
+            : ''}
+          가 수정되었습니다 !
+        </Toast>
       )}
     </ResponsiveStyle>
   );

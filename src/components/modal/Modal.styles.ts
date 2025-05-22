@@ -2,7 +2,7 @@ import { media } from '@/styles/media';
 import styled from 'styled-components';
 
 type ModalWidthProps = {
-  $fluid?: boolean;
+  $edit?: boolean;
 };
 
 export const ModalOverlay = styled.div`
@@ -21,7 +21,7 @@ export const ModalOverlay = styled.div`
 export const ModalContent = styled.div<ModalWidthProps>`
   position: relative;
   background-color: var(--white);
-  width: ${({ $fluid }) => ($fluid ? 'calc(100vw * (720/1920))' : '368px')};
+  width: ${({ $edit }) => ($edit ? 'calc(100vw * (720/1920))' : '368px')};
   max-width: 520px;
   min-width: 375px;
   min-height: 204px;

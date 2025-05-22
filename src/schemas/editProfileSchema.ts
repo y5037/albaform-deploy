@@ -1,11 +1,28 @@
 import { z } from 'zod';
 
-export const editProfileSchema = z.object({
-  nickname: z.string().min(1, { message: '닉네임을 입력해주세요' }),
-  store: z.string().min(1, { message: '가게 이름(상호명)을 입력해주세요' }),
-  storeTel: z.string().min(1, { message: '가게 전화번호를 입력해주세요' }),
-  ownerTel: z.string(),
-  address: z.string().min(1, { message: '가게 위치를 설정해주세요' }),
+export const baseUserSchema = z.object({
+  imageUrl: z.string(),
+  name: z.string(),
+  nickname: z.string(),
+  store: z.string(),
+  storeTel: z.string(),
+  phoneNumber: z.string(),
+  address: z.string(),
 });
 
-export type EditProfileInput = z.infer<typeof editProfileSchema>;
+export const ownerProfileSchema = baseUserSchema.extend({
+  nickname: z.string().min(1, '닉네임을 입력해주세요.'),
+  store: z.string().min(1, '상호명을 입력해주세요'),
+  storeTel: z.string().min(1, '가게 전화번호를 입력해주세요'),
+  address: z.string().min(1, '주소를 입력해주세요'),
+});
+
+export const applicantProfileSchema = baseUserSchema.extend({
+  name: z.string().min(1, '이름을 입력해주세요'),
+  phoneNumber: z.string().min(1, '연락처를 입력해주세요'),
+  address: z.string().min(1, '주소를 입력해주세요'),
+});
+
+export type BaseUserInput = z.infer<typeof baseUserSchema>;
+export type OwnerProfileSchema = z.infer<typeof ownerProfileSchema>;
+export type ApplicantProfileSchema = z.infer<typeof applicantProfileSchema>;
