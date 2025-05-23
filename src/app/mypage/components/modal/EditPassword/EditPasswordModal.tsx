@@ -31,6 +31,7 @@ export default function EditPasswordModal({
     resolver: zodResolver(passwordSchema),
     mode: 'onChange',
   });
+  const { errors } = formState;
 
   const watched = watch();
 
@@ -103,6 +104,11 @@ export default function EditPasswordModal({
                   onClick={() => toggleFieldVisibility('new')}
                 />
               </div>
+              {errors.newPassword && (
+                <p className='text-left mt-[10px] text-red'>
+                  {errors.newPassword.message}
+                </p>
+              )}
             </div>
             <div className='text-left'>
               <label
@@ -132,6 +138,11 @@ export default function EditPasswordModal({
                   onClick={() => toggleFieldVisibility('confirm')}
                 />
               </div>
+              {errors.confirmPassword && (
+                <p className='text-left mt-[10px] text-red'>
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
             <div className='flex items-center justify-center mt-[24px]'>
               <button
