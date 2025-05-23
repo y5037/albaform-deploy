@@ -23,6 +23,4 @@ export const applicantProfileSchema = baseUserSchema.extend({
   address: z.string().min(1, '주소를 입력해주세요'),
 });
 
-export type BaseUserInput = z.infer<typeof baseUserSchema>;
-export type OwnerProfileSchema = z.infer<typeof ownerProfileSchema>;
-export type ApplicantProfileSchema = z.infer<typeof applicantProfileSchema>;
+export type EditUserInput = z.infer<typeof baseUserSchema>;

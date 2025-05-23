@@ -1,24 +1,11 @@
+import { EditProfileFormProps } from '@/app/mypage/types';
 import Address from '@/components/controller/Address';
-import { BaseUserInput } from '@/schemas/editProfileSchema';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
 import { formattedStoreTel } from '@/utils/formattedStoreTel';
 import Image from 'next/image';
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { FieldValues } from 'react-hook-form';
+import React, { ChangeEvent } from 'react';
 
-type Props = {
-  form: FieldValues;
-  onSubmit: (formData: BaseUserInput) => Promise<void>;
-  isPending: boolean;
-  isPreview: string;
-  setIsPreview: Dispatch<SetStateAction<string>>;
-  handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
-  isModified: boolean;
-  handleCloseModal: () => void;
-};
-
-export default function EditProfileForm(props: Props) {
+export default function EditProfileForm(props: EditProfileFormProps) {
   const {
     form,
     onSubmit,

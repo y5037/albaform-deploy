@@ -2,8 +2,13 @@ import useFormChangeDetector from '@/app/mypage/hooks/usePasswordChangeDetector'
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
 import { EditModalProps } from '@/app/mypage/types';
 import Overlay from '@/components/modal/Overlay';
-import { passwordSchema } from '@/schemas/editPasswordSchema';
+import { useUpdatePassword } from '@/hooks/mutation/useUpdatePassword';
+import {
+  EditPasswordInput,
+  passwordSchema,
+} from '@/schemas/editPasswordSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,26 +32,54 @@ export default function EditPasswordModal({
     }));
   };
 
-  const { handleSubmit, register, setValue, formState, watch } = useForm({
-    resolver: zodResolver(passwordSchema),
-    mode: 'onChange',
-  });
+  const { mutate: patchUpdatePassword, isPending } = useUpdatePassword();
+
+  const { handleSubmit, register, setValue, formState, watch, setError } =
+    useForm({
+      resolver: zodResolver(passwordSchema),
+      mode: 'onChange',
+    });
   const { errors } = formState;
 
   const watched = watch();
 
   const { isModified } = useFormChangeDetector(watched);
 
-  const onSubmit = () => {};
+  const onSubmit = (formData: EditPasswordInput) => {
+    patchUpdatePassword(formData, {
+      onSuccess: () => {
+        setShowModal(false);
+        onSuccess();
+      },
+      onError: (error: any) => {
+        const axiosError = error as AxiosError<{ message: string }>;
+
+        const status = axiosError.response?.status;
+        const errorMessage = axiosError.response?.data?.message;
+
+        if (
+          status === 401 &&
+          errorMessage === '현재 비밀번호가 일치하지 않습니다.'
+        ) {
+          setError('currentPassword', {
+            type: 'manual',
+            message: '현재 비밀번호를 확인해주세요',
+          });
+        } else {
+          alert(errorMessage || '알 수 없는 오류가 발생했습니다.');
+        }
+      },
+    });
+  };
 
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
-      <ScrollHiddenDiv className='relative w-[100%] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[485px] overflow-y-scroll scrollbar-hide'>
+      <ScrollHiddenDiv className='relative w-[100%] text-black-400 max-h-[calc(100vh_*_(1090/1256))] overflow-y-scroll scrollbar-hide pb-[20px]'>
         <p className='text-[24px] mb-[48px] font-medium max-[768px]:text-[18px]'>
           비밀번호 변경
         </p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <fieldset>
+          <fieldset className={`${isPending ? 'pointer-events-none' : ''}`}>
             <div className='text-left'>
               <label
                 htmlFor='currentPassword'
@@ -54,13 +87,19 @@ export default function EditPasswordModal({
               >
                 현재 비밀번호
               </label>
-              <div className='flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'>
+              <div
+                className={`flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400 ${
+                  isPending && 'bg-[#fafafa]'
+                }`}
+              >
                 <input
                   id='currentPassword'
                   type={visibleFields.current ? 'text' : 'password'}
                   {...register('currentPassword')}
                   placeholder='현재 비밀번호를 입력해주세요'
-                  className='py-[14px] flex-[2] mr-[10px]'
+                  className={`py-[14px] flex-[2] mr-[10px] ${
+                    isPending && 'bg-[#fafafa]'
+                  }`}
                 />
                 <Image
                   src={
@@ -75,6 +114,11 @@ export default function EditPasswordModal({
                   onClick={() => toggleFieldVisibility('current')}
                 />
               </div>
+              {errors.currentPassword && (
+                <p className='text-left mt-[10px] text-red'>
+                  {errors.currentPassword.message}
+                </p>
+              )}
             </div>
             <div className='text-left'>
               <label
@@ -83,13 +127,19 @@ export default function EditPasswordModal({
               >
                 새 비밀번호
               </label>
-              <div className='flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'>
+              <div
+                className={`flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400 ${
+                  isPending && 'bg-[#fafafa]'
+                }`}
+              >
                 <input
                   id='currentPassword'
                   type={visibleFields.new ? 'text' : 'password'}
                   {...register('newPassword')}
                   placeholder='새로운 비밀번호를 입력해주세요'
-                  className='py-[14px] flex-[2] mr-[10px]'
+                  className={`py-[14px] flex-[2] mr-[10px] ${
+                    isPending && 'bg-[#fafafa]'
+                  }`}
                 />
                 <Image
                   src={
@@ -117,13 +167,19 @@ export default function EditPasswordModal({
               >
                 새 비밀번호 확인
               </label>
-              <div className='flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400'>
+              <div
+                className={`flex px-[14px] border border-gray-200 border-solid rounded-[8px] pladeholer-gray-400 ${
+                  isPending && 'bg-[#fafafa]'
+                }`}
+              >
                 <input
                   id='currentPassword'
                   type={visibleFields.confirm ? 'text' : 'password'}
                   {...register('confirmPassword')}
                   placeholder='새로운 비밀번호를 다시 한번 입력해주세요'
-                  className='py-[14px] flex-[2] mr-[10px]'
+                  className={`py-[14px] flex-[2] mr-[10px] ${
+                    isPending && 'bg-[#fafafa]'
+                  }`}
                 />
                 <Image
                   src={
@@ -155,13 +211,23 @@ export default function EditPasswordModal({
               <button
                 type='submit'
                 className='flex-[1] pt-[20px] pb-[20px] text-white bg-primary-orange300 rounded-[8px] disabled:bg-gray-400 disabled:cursor-not-allowed'
-                disabled={!isModified}
+                disabled={!isModified || isPending}
               >
                 변경하기
               </button>
             </div>
           </fieldset>
         </form>
+        {isPending && (
+          <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+            <Image
+              src='/images/loader.gif'
+              alt='Loading...'
+              width={80}
+              height={80}
+            />
+          </div>
+        )}
       </ScrollHiddenDiv>
     </Overlay>
   );
