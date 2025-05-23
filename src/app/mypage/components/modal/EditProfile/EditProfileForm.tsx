@@ -1,3 +1,5 @@
+import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
+import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import { EditProfileFormProps } from '@/app/mypage/types';
 import Address from '@/components/controller/Address';
 import { formattedPhoneNumber } from '@/utils/formattedPhoneNumber';
@@ -8,19 +10,32 @@ import React, { ChangeEvent } from 'react';
 export default function EditProfileForm(props: EditProfileFormProps) {
   const {
     form,
+    user,
     onSubmit,
     isPending,
     isPreview,
     setIsPreview,
     handleImgChange,
     setSelectedImageFile,
-    isModified,
     handleCloseModal,
   } = props;
 
-  const { handleSubmit, trigger, register, setValue, formState, control } =
-    form;
+  const { handleSubmit, trigger, register, formState, control } = form;
   const { isValid, errors } = formState;
+
+  const { setValue, watch, selectedImageFile } = form;
+  const watched = watch();
+
+  useInitializeUserForm({ user, setValue });
+
+  const { isModified: isFormModified } = useFormChangeDetector({
+    watched,
+    setValue,
+    user,
+  });
+
+  const isModified =
+    isFormModified || !!selectedImageFile || !!watch('imageUrl');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

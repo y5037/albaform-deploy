@@ -101,19 +101,18 @@ export type PasswordWatchedFields = {
 
 export type EditProfileFormProps = {
   form: FieldValues;
+  user: UserDataProps;
   onSubmit: (formData: EditUserInput) => Promise<void>;
   isPending: boolean;
   isPreview: string;
   setIsPreview: Dispatch<SetStateAction<string>>;
   handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
-  isModified: boolean;
   handleCloseModal: () => void;
 };
 
 export type EditPasswordFormProps = {
   form: FieldValues;
-  isModified: boolean;
   onSubmit: (formData: EditPasswordInput) => void;
   isPending: boolean;
   handleCloseModal: () => void;

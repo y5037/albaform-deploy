@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import { EditPasswordFormProps } from '@/app/mypage/types';
 import { useState } from 'react';
+import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
+import usePasswordChangeDetector from '@/app/mypage/hooks/usePasswordChangeDetector';
 
 export default function EditPasswordForm(props: EditPasswordFormProps) {
-  const { form, isModified, onSubmit, isPending, handleCloseModal } = props;
+  const { form, onSubmit, isPending, handleCloseModal } = props;
+
+  const { handleSubmit, register, formState } = form;
+  const { errors } = formState;
 
   const [visibleFields, setVisibleFields] = useState({
     current: false,
@@ -18,8 +23,10 @@ export default function EditPasswordForm(props: EditPasswordFormProps) {
     }));
   };
 
-  const { handleSubmit, register, formState } = form;
-  const { errors } = formState;
+  const { watch } = form;
+  const watched = watch();
+
+  const { isModified } = usePasswordChangeDetector(watched);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -25,21 +25,6 @@ export default function EditProfileModal({
 
   const formLogic = useEditProfileForm({ user, setShowModal, isPreview, onSuccess });
 
-  const { setValue, watch } = formLogic.form;
-
-  const watched = watch();
-
-  useInitializeUserForm({ user, setValue });
-
-  const { isModified: isFormModified } = useFormChangeDetector({
-    watched,
-    setValue,
-    user,
-  });
-
-  const isModified =
-    isFormModified || !!formLogic.selectedImageFile || !!watch('imageUrl');
-
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
       <ScrollHiddenDiv className='relative w-[100%] pb-[14px] text-black-400 max-h-[calc(100vh_*_(1090/1256))] min-h-[500px] overflow-y-scroll scrollbar-hide'>
@@ -51,10 +36,10 @@ export default function EditProfileModal({
         ) : (
           <EditProfileForm
             {...formLogic}
+            user={user}
             isPreview={isPreview}
             setIsPreview={setIsPreview}
             handleImgChange={handleImgChange}
-            isModified={isModified}
             handleCloseModal={handleCloseModal}
           />
         )}
