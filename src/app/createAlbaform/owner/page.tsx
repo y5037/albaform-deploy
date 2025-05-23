@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import CustomButton from '../components/CustomButton';
-import StepSelector from '../components/Selector';
+import StepSelector from '../components/StepSelector';
 import FormInfo, { InfoFormValues } from '../components/FormInfo';
 import FormCondition, {
   ConditionFormValues,
