@@ -1,4 +1,4 @@
-import { ListData } from '@/app/mypage/types';
+import { ListData, InfoWatchedFields } from '@/app/mypage/types';
 import instance from '../api/api';
 
 // 내 정보 조회
@@ -17,14 +17,23 @@ export const fetchUser = async () => {
 };
 
 // 내 정보 수정
-export const fetchEditUser = async () => {
+export const fetchEditUser = async (payload: InfoWatchedFields) => {
+  const { name, imageUrl, nickname, store, storeTel, phoneNumber, address } =
+    payload;
+
   try {
-    const response = await instance.patch('/users/me');
+    const response = await instance.patch('/users/me', {
+      name,
+      nickname: nickname,
+      imageUrl,
+      storeName: store,
+      storePhoneNumber: storeTel,
+      phoneNumber,
+      location: address,
+    });
     if (!response.data) {
       throw new Error('유저 데이터 수정 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
     console.error('유저 정보 수정 중 에러 발생:', error);
     throw error;
@@ -79,20 +88,28 @@ export const fetchMyAppications = async () => {
 // 내가 스크랩한 알바폼 목록 조회
 export const fetchMyScrap = async ({
   isScrapSort,
-  cursor
-}:{isScrapSort?:'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'; cursor:number}) => {
+  itemsPerPage,
+  cursor,
+}: {
+  isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  itemsPerPage: number;
+  cursor: number;
+}) => {
   try {
-    const requestUrl = cursor === 1 ? `/users/me/scraps?limit=6&orderBy=${isScrapSort}` : `/users/me/scraps?limit=6&orderBy=${isScrapSort}`
+    const requestUrl =
+      cursor === 1
+        ? `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`
+        : `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`;
 
     const response = await instance.get(requestUrl);
 
     if (!response.data) {
       throw new Error('내 스크랩 데이터 불러오기 실패');
     }
-    
+
     return {
       result: response.data.data,
-      nextPage:response.data.nextCursor
+      nextPage: response.data.nextCursor,
     };
   } catch (error) {
     console.error('내 스크랩 데이터 불러오는 중 에러 발생:', error);
@@ -103,23 +120,28 @@ export const fetchMyScrap = async ({
 // 내가 작성한 게시물 목록 조회
 export const fetchMyPosts = async ({
   isPostSort,
-  cursor
+  itemsPerPage,
+  cursor,
 }: {
   isPostSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
-  cursor:number
-}):Promise<{result:ListData[]; nextPage:number}> => {
+  itemsPerPage: number;
+  cursor: number;
+}): Promise<{ result: ListData[]; nextPage: number }> => {
   try {
-    const requestUrl = cursor === 1 ? `/users/me/posts?limit=6&orderBy=${isPostSort}` : `/users/me/posts?limit=6&orderBy=${isPostSort}&cursor=${cursor}`
-    
+    const requestUrl =
+      cursor === 1
+        ? `/users/me/posts?limit=${itemsPerPage}&orderBy=${isPostSort}`
+        : `/users/me/posts?limit=${itemsPerPage}&orderBy=${isPostSort}&cursor=${cursor}`;
+
     const response = await instance.get(requestUrl);
 
     if (!response.data) {
       throw new Error('내 게시물 데이터 불러오기 실패');
     }
-    
+
     return {
       result: response.data.data,
-      nextPage:response.data.nextCursor
+      nextPage: response.data.nextCursor,
     };
   } catch (error) {
     console.error('내 게시물 데이터 불러오는 중 에러 발생:', error);
@@ -128,16 +150,18 @@ export const fetchMyPosts = async ({
 };
 
 // 내가 작성한 댓글 목록 조회
-export const fetchMyComments = async (page:number, itemsPerPage:number) => {
+export const fetchMyComments = async (page: number) => {
   try {
-    const response = await instance.get(`/users/me/comments?page=${page}&pageSize=${itemsPerPage}`);
+    const response = await instance.get(
+      `/users/me/comments?page=${page}&pageSize=6`,
+    );
     if (!response.data) {
       throw new Error('내 댓글 데이터 불러오기 실패');
     }
 
     return {
       result: response.data.data,
-      totalPages:response.data.totalPages
+      totalPages: response.data.totalPages,
     };
   } catch (error) {
     console.error('내 댓글 데이터 불러오는 중 에러 발생:', error);

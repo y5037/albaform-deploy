@@ -1,4 +1,4 @@
-export const formatStoreTel = (value: string) => {
+export const formattedStoreTel = (value: string) => {
   const onlyNums = value.replace(/[^0-9]/g, '');
 
   // 대표번호 (1588, 1600 등)

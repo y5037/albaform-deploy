@@ -4,7 +4,7 @@ import {
   PostDropdownContainer,
   PostDropwonButton,
 } from '../styles';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 
 export default function KebabDropdown() {
   const { outRef, dropdown, setDropdown } = useClickOutside();

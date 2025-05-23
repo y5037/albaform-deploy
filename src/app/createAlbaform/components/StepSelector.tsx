@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
   StepButton,
   StepLabel,
@@ -37,9 +37,9 @@ export default function StepSelector({
     <>
       {/* 데스크탑: 사이드바 */}
       <div
-        className='
-        hidden lg:flex flex-col gap-2 
-        p-4 w-60 bg-[#F7F7F7] rounded-xl shadow-sm'
+        className='hidden 
+          min-[1025px]:flex flex-col gap-2 h-[460px]
+          px-5 py-6 w-[320px] bg-[#F7F7F7] rounded-xl shadow-sm'
       >
         {steps.map(({ key, label, index }) => (
           <StepButton
@@ -59,7 +59,7 @@ export default function StepSelector({
       </div>
 
       {/* 모바일/태블릿: 드롭다운 */}
-      <div className='block lg:hidden w-full mb-4'>
+      <div className='block min-[1025px]:hidden w-full mb-4'>
         <DropdownContainer ref={outRef}>
           <DropdownHeader selected onClick={() => setDropdown(!dropdown)}>
             <span>
