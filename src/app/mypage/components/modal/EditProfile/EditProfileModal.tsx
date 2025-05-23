@@ -1,5 +1,3 @@
-'use client';
-
 import Overlay from '@/components/modal/Overlay';
 import Image from 'next/image';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
