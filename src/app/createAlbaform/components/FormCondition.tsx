@@ -119,7 +119,7 @@ export default function FormCondition({
         {preferred === '직접입력' && (
           <textarea
             className='
-            border border-solid border-[var(--gray100)]
+            border-[0.5px] border-solid border-[var(--gray100)]
             bg-[var(--background200)] text-[var(--black400)]  text-[14px]
             w-full h-[110px] mt-[-4px] p-[14px] pb-[12px] rounded-[8px]'
             placeholder='우대사항을 작성해주세요.'
