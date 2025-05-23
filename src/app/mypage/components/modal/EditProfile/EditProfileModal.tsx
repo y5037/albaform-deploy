@@ -8,7 +8,7 @@ import EditProfileSkeleton from './EditProfileSkeleton';
 import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import EditProfileForm from './EditProfileForm';
 import { EditModalProps } from '@/app/mypage/types';
-import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileImgForm';
+import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
 import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
 

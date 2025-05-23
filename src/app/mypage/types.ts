@@ -1,3 +1,4 @@
+import { EditPasswordInput } from '@/schemas/editPasswordSchema';
 import { EditUserInput } from '@/schemas/editProfileSchema';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues } from 'react-hook-form';
@@ -107,5 +108,13 @@ export type EditProfileFormProps = {
   handleImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setSelectedImageFile: Dispatch<SetStateAction<File | null>>;
   isModified: boolean;
+  handleCloseModal: () => void;
+};
+
+export type EditPasswordFormProps = {
+  form: FieldValues;
+  isModified: boolean;
+  onSubmit: (formData: EditPasswordInput) => void;
+  isPending: boolean;
   handleCloseModal: () => void;
 };
