@@ -3,21 +3,36 @@
 import { useState, useCallback } from 'react';
 import CustomButton from '../components/CustomButton';
 import StepSelector from '../components/StepSelector';
-import StepFormInfo, { InfoFormValues } from '../components/StepFormInfo';
+import FormInfo, { InfoFormValues } from '../components/FormInfo';
+import FormCondition, {
+  ConditionFormValues,
+} from '../components/FormCondition';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
     'info',
   );
 
-  // 각 단계별 작성 상태 저장 (예시용. 실제로는 각 step 내용 입력 상태 기반으로 로직 구현)
+  // 각 단계별 작성 상태 저장 (각 step 내용 입력 상태 기반으로 로직 구현)
   const [formData, setFormData] = useState<{
-    info: InfoFormValues | null;
-    condition: any;
+    info: InfoFormValues;
+    condition: ConditionFormValues;
     work: any;
   }>({
-    info: null,
-    condition: null,
+    info: {
+      title: '',
+      description: '',
+      recruitmentStartDate: '',
+      recruitmentEndDate: '',
+      imageUrls: [],
+    },
+    condition: {
+      numberOfPositions: 0,
+      gender: '',
+      education: '',
+      age: '',
+      preferred: '',
+    },
     work: null,
   });
 
@@ -25,21 +40,37 @@ export default function CreateForm() {
     if (step === 'info') {
       const data = formData.info;
       return !!(
-        data &&
-        (data.title?.trim() ||
-          data.description?.trim() ||
-          data.period?.trim() ||
-          (data.image && data.image.length > 0))
+        data.title.trim() ||
+        data.description.trim() ||
+        data.recruitmentStartDate.trim() ||
+        data.recruitmentEndDate.trim() ||
+        data.imageUrls.length > 0
       );
     }
 
-    // 이후 조건/근무 입력 상태 확인 로직 추가
+    if (step === 'condition') {
+      const d = formData.condition;
+      return Object.values(d).some((v) => {
+        if (typeof v === 'string') return v.trim() !== '';
+        if (typeof v === 'number') return !isNaN(v) && v !== 0;
+        return false;
+      });
+    }
+
+    // 이후 work 상태 확인 로직 추가
     return false;
   };
 
-  const handleInfoChange = useCallback((data: InfoFormValues) => {
-    setFormData((prev) => ({ ...prev, info: data }));
+  const handleInfoChange = useCallback((infoData: InfoFormValues) => {
+    setFormData((prev) => ({ ...prev, info: infoData }));
   }, []);
+
+  const handleConditionChange = useCallback(
+    (conditionData: ConditionFormValues) => {
+      setFormData((prev) => ({ ...prev, condition: conditionData }));
+    },
+    [],
+  );
 
   return (
     <>
@@ -75,9 +106,20 @@ export default function CreateForm() {
 
         <div className='flex-1 pt-6 min-[1025px]:mt-0'>
           {currentStep === 'info' && (
-            <StepFormInfo onDataChange={handleInfoChange} />
+            <FormInfo
+              onDataChange={handleInfoChange}
+              initialValue={formData.info}
+            />
           )}
-          {/* 나중에 condition, work 폼 추가 */}
+
+          {currentStep === 'condition' && (
+            <FormCondition
+              onDataChange={handleConditionChange}
+              initialValue={formData.condition}
+            />
+          )}
+
+          {/* 나중에 work 폼 추가 */}
         </div>
       </div>
     </>
