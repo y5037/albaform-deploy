@@ -30,12 +30,15 @@ export type InfoFormValues = {
   imageUrls: string[];
 };
 
-type Props = {
+type FormInfoProps = {
   onDataChange: (data: InfoFormValues) => void;
   initialValue: InfoFormValues;
 };
 
-export default function StepFormInfo({ onDataChange, initialValue }: Props) {
+export default function FormInfo({
+  onDataChange,
+  initialValue,
+}: FormInfoProps) {
   const { register, control, watch, setValue } = useForm<InfoFormValues>({
     mode: 'onChange',
     defaultValues: initialValue,
