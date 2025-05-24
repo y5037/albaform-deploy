@@ -3,19 +3,16 @@ import Image from 'next/image';
 import useChangeProfilePreview from '@/hooks/common/useChangeProfilePreview';
 import { useGetMyInfo } from '@/hooks/query/useGetUser';
 import EditProfileSkeleton from './EditProfileSkeleton';
-import useInitializeUserForm from '@/app/mypage/hooks/useInitializeInfoForm';
 import EditProfileForm from './EditProfileForm';
 import { EditModalProps } from '@/app/mypage/types';
 import { useEditProfileForm } from '@/app/mypage/hooks/useEditProfileForm';
-import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
-
 
 export default function EditProfileModal({
   showModal,
   setShowModal,
   handleCloseModal,
-  onSuccess
+  onSuccess,
 }: EditModalProps) {
   const { data: user, isLoading } = useGetMyInfo();
 
@@ -23,7 +20,12 @@ export default function EditProfileModal({
     user?.imageUrl || '',
   );
 
-  const formLogic = useEditProfileForm({ user, setShowModal, isPreview, onSuccess });
+  const formLogic = useEditProfileForm({
+    user,
+    setShowModal,
+    isPreview,
+    onSuccess,
+  });
 
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>

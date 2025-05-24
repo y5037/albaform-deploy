@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { EditPasswordFormProps } from '@/app/mypage/types';
 import { useState } from 'react';
-import useFormChangeDetector from '@/app/mypage/hooks/useInfoChangeDetector';
 import usePasswordChangeDetector from '@/app/mypage/hooks/usePasswordChangeDetector';
 
 export default function EditPasswordForm(props: EditPasswordFormProps) {
