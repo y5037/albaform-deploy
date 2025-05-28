@@ -6,12 +6,21 @@ import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
 import KebabDropdown from './KebabDropdown';
+import Modal from '@/components/modal/Modal';
 
 export default function ListContainer({
   selectedTab,
   listData,
   isLoading,
   isFetchingNextPage,
+  showModal,
+  setShowModal,
+  mainMessage,
+  setMainMessage,
+  subMessage,
+  setSubMessage,
+  modalType,
+  setModalType,
 }: ListContainerProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
@@ -22,6 +31,7 @@ export default function ListContainer({
 
   return (
     <>
+      {showModal && modalType === 'deletePost' ? <Modal showModal={showModal} setShowModal={setShowModal} mainMessage={mainMessage} subMessage={subMessage}/> : ''}
       {!isLoading && listData?.length === 0 ? (
         <Empty selectedTab={selectedTab} />
       ) : (
@@ -49,7 +59,15 @@ export default function ListContainer({
                           {selectedTab === 'post' ? item.title : post?.title}
                         </Title>
                       </div>
-                      {selectedTab === 'post' && <KebabDropdown />}
+                      {selectedTab === 'post' && (
+                        <KebabDropdown
+                          postId={item.id}
+                          setShowModal={setShowModal}
+                          setMainMessage={setMainMessage}
+                          setModalType={setModalType}
+                          setSubMessage={setSubMessage}
+                        />
+                      )}
                     </div>
                     <Description comment={selectedTab === 'comment'}>
                       {selectedTab === 'post' ? item.content : post?.content}

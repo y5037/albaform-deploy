@@ -11,8 +11,8 @@ import { useModalController } from '@/hooks/common/useModalController';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
-import EditProfileModal from '../components/modal/EditProfile/EditProfileModal';
-import EditPasswordModal from '../components/modal/EditPassword/EditPasswordModal';
+import EditProfileModal from '../components/modal/editProfile/EditProfileModal';
+import EditPasswordModal from '../components/modal/editPassword/EditPasswordModal';
 
 export default function Mypage() {
   const [page, setPage] = useState(1);
@@ -20,12 +20,12 @@ export default function Mypage() {
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
-  const [modalType, setModalType] = useState<'editUser' | 'editPassword'>(
+  const [modalType, setModalType] = useState<'editUser' | 'editPassword' | 'deletePost'>(
     'editUser',
   );
   const [showToast, setShowToast] = useState(false);
   
-  const { showModal, setShowModal } = useModalController();
+  const { showModal, setShowModal, mainMessage, setMainMessage, subMessage, setSubMessage } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
   
@@ -99,6 +99,14 @@ export default function Mypage() {
         listData={listData}
         isLoading={isLoading || isFetching}
         isFetchingNextPage={isFetchingNextPage}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        mainMessage={mainMessage}
+        setMainMessage={setMainMessage}
+        subMessage={subMessage}
+        setSubMessage={setSubMessage}
+        modalType={modalType}
+        setModalType={setModalType}
       />
       {selectedTab === 'post' && hasNextPage && (
         <div ref={observerRef} style={{ height: '1px' }} />
