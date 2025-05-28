@@ -9,33 +9,50 @@ import {
   Description,
   Title,
 } from './Modal.styles';
+import { useDeletePost } from '@/hooks/mutation/useDeletePosts';
 
 function Modal({
   showModal,
   setShowModal,
   mainMessage,
   subMessage,
-  deadLine,
-  writeForm,
+  $deletePost,
+  $deleteAlbaform,
+  $deadLine,
+  $writeingForm,
+  deletePostId,
+  onSuccess,
 }: ModalProps) {
   if (!showModal) return null;
 
   const router = useRouter();
 
+  const { mutate: fetchDeletePost } = useDeletePost();
+
   const handleAction = () => {
-    if (deadLine) router.push('/list');
+    if ($deletePost) {
+      if (deletePostId)
+        fetchDeletePost(deletePostId, {
+          onSuccess: () => {
+            setShowModal(false);
+            onSuccess?.();
+          },
+        });
+    } else if ($deadLine) {
+      router.push('/list');
+    }
   };
 
   return (
     <Overlay isOpen={showModal} onClose={() => setShowModal(false)}>
-      {deadLine ? (
+      {$deadLine ? (
         <Image
           src='/images/iconDeadLineModal.svg'
           alt='경고'
           width={80}
           height={80}
         />
-      ) : writeForm ? (
+      ) : $writeingForm ? (
         <Image
           src='/images/iconFormModal.svg'
           alt='경고'
@@ -51,8 +68,8 @@ function Modal({
         />
       )}
 
-      {deadLine ||
-        (writeForm && (
+      {$deadLine ||
+        ($writeingForm && (
           <CloseButton>
             <Image
               src='images/iconCloseModal.svg'
@@ -66,9 +83,9 @@ function Modal({
       <Title>{mainMessage}</Title>
       <Description>{subMessage}</Description>
       <ButtonType1 onClick={handleAction}>
-        {deadLine ? '홈으로 가기' : writeForm ? '이어쓰기' : '삭제하기'}
+        {$deadLine ? '홈으로 가기' : $writeingForm ? '이어쓰기' : '삭제하기'}
       </ButtonType1>
-      {!deadLine && !writeForm && (
+      {!$deadLine && !$writeingForm && (
         <ButtonType2 onClick={() => setShowModal(false)}>
           다음에 할게요
         </ButtonType2>

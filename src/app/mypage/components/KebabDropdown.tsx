@@ -9,6 +9,7 @@ import { KebabDropdownProps } from '../types';
 
 export default function KebabDropdown({
   postId,
+  setPostId,
   setShowModal,
   setMainMessage,
   setSubMessage,
@@ -17,10 +18,11 @@ export default function KebabDropdown({
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
   const handleDeleteOpenModal = () => {
+    setPostId(postId);
     setShowModal(true);
     setModalType('deletePost');
     setMainMessage('선택하신 게시글을 삭제할까요?');
-    setSubMessage('삭제 후 정보를 복구할 수 없어요.')
+    setSubMessage('삭제 후 정보를 복구할 수 없어요.');
   };
 
   return (

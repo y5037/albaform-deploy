@@ -15,20 +15,28 @@ import EditProfileModal from '../components/modal/editProfile/EditProfileModal';
 import EditPasswordModal from '../components/modal/editPassword/EditPasswordModal';
 
 export default function Mypage() {
+  const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState<'post' | 'comment'>('post');
   const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
-  const [modalType, setModalType] = useState<'editUser' | 'editPassword' | 'deletePost'>(
-    'editUser',
-  );
+  const [modalType, setModalType] = useState<
+    'editUser' | 'editPassword' | 'deletePost'
+  >('editUser');
   const [showToast, setShowToast] = useState(false);
-  
-  const { showModal, setShowModal, mainMessage, setMainMessage, subMessage, setSubMessage } = useModalController();
+
+  const {
+    showModal,
+    setShowModal,
+    mainMessage,
+    setMainMessage,
+    subMessage,
+    setSubMessage,
+  } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
-  
+
   let listData = [];
   let isLoading = false;
   let isFetching = false;
@@ -38,7 +46,7 @@ export default function Mypage() {
 
   const query = useGetMyContents(page, itemsPerPage, selectedTab, isPostSort);
   const isPost = query.type === 'post';
-  
+
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
     isLoading = query.isLoading;
@@ -99,6 +107,8 @@ export default function Mypage() {
         listData={listData}
         isLoading={isLoading || isFetching}
         isFetchingNextPage={isFetchingNextPage}
+        postId={postId}
+        setPostId={setPostId}
         showModal={showModal}
         setShowModal={setShowModal}
         mainMessage={mainMessage}
@@ -107,6 +117,7 @@ export default function Mypage() {
         setSubMessage={setSubMessage}
         modalType={modalType}
         setModalType={setModalType}
+        onSuccess={handleEditSuccess}
       />
       {selectedTab === 'post' && hasNextPage && (
         <div ref={observerRef} style={{ height: '1px' }} />
@@ -117,11 +128,12 @@ export default function Mypage() {
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>
           {modalType === 'editUser'
-            ? '회원 정보'
+            ? '회원 정보가 성공적으로 수정되었습니다 !'
             : modalType === 'editPassword'
-            ? '비밀번호'
+            ? '비밀번호가 성공적으로 수정되었습니다 !'
+            : modalType === 'deletePost'
+            ? '게시글 삭제가 완료되었습니다 !'
             : ''}
-          가 성공적으로 수정되었습니다 !
         </Toast>
       )}
     </ResponsiveStyle>

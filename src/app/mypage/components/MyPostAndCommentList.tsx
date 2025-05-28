@@ -13,6 +13,8 @@ export default function ListContainer({
   listData,
   isLoading,
   isFetchingNextPage,
+  postId,
+  setPostId,
   showModal,
   setShowModal,
   mainMessage,
@@ -21,6 +23,7 @@ export default function ListContainer({
   setSubMessage,
   modalType,
   setModalType,
+  onSuccess
 }: ListContainerProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
@@ -31,7 +34,19 @@ export default function ListContainer({
 
   return (
     <>
-      {showModal && modalType === 'deletePost' ? <Modal showModal={showModal} setShowModal={setShowModal} mainMessage={mainMessage} subMessage={subMessage}/> : ''}
+      {showModal && modalType === 'deletePost' ? (
+        <Modal
+          $deletePost
+          showModal={showModal}
+          setShowModal={setShowModal}
+          mainMessage={mainMessage}
+          subMessage={subMessage}
+          deletePostId={postId}
+          onSuccess={onSuccess}
+        />
+      ) : (
+        ''
+      )}
       {!isLoading && listData?.length === 0 ? (
         <Empty selectedTab={selectedTab} />
       ) : (
@@ -62,6 +77,7 @@ export default function ListContainer({
                       {selectedTab === 'post' && (
                         <KebabDropdown
                           postId={item.id}
+                          setPostId={setPostId}
                           setShowModal={setShowModal}
                           setMainMessage={setMainMessage}
                           setModalType={setModalType}
