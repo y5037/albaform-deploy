@@ -40,8 +40,10 @@ function Modal({
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === 'myPosts',
             });
-            setShowModal(false);
             onSuccess?.();
+          },
+          onSettled: () => {
+            setShowModal(false);
           },
         });
     } else if ($deadLine) {
