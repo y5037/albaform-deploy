@@ -10,6 +10,7 @@ import {
   Title,
 } from './Modal.styles';
 import { useDeletePost } from '@/hooks/mutation/useDeletePosts';
+import { useQueryClient } from '@tanstack/react-query';
 
 function Modal({
   showModal,
@@ -29,11 +30,16 @@ function Modal({
 
   const { mutate: fetchDeletePost } = useDeletePost();
 
+  const queryClient = useQueryClient();
+
   const handleAction = () => {
     if ($deletePost) {
       if (deletePostId)
         fetchDeletePost(deletePostId, {
           onSuccess: () => {
+            queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === 'myPosts',
+            });
             setShowModal(false);
             onSuccess?.();
           },
