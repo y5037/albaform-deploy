@@ -24,6 +24,19 @@ export interface ListContainerProps {
   listData: ListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;
+  postId: number | undefined;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  mainMessage: string;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  subMessage: string;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  modalType: 'editUser' | 'editPassword' | 'deletePost';
+  setModalType: Dispatch<
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+  >;
+  onSuccess: () => void;
 }
 
 type WriterData = {
@@ -117,3 +130,14 @@ export type EditPasswordFormProps = {
   isPending: boolean;
   handleCloseModal: () => void;
 };
+
+export interface KebabDropdownProps {
+  postId: number;
+  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+  >;
+}

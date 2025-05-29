@@ -5,9 +5,25 @@ import {
   PostDropwonButton,
 } from '../styles';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
+import { KebabDropdownProps } from '../types';
 
-export default function KebabDropdown() {
+export default function KebabDropdown({
+  postId,
+  setPostId,
+  setShowModal,
+  setMainMessage,
+  setSubMessage,
+  setModalType,
+}: KebabDropdownProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+
+  const handleDeleteOpenModal = () => {
+    setPostId(postId);
+    setShowModal(true);
+    setModalType('deletePost');
+    setMainMessage('선택하신 게시글을 삭제할까요?');
+    setSubMessage('삭제 후 정보를 복구할 수 없어요.');
+  };
 
   return (
     <KebabButton ref={outRef}>
@@ -21,7 +37,9 @@ export default function KebabDropdown() {
       />
       <PostDropdownContainer $active={dropdown}>
         <PostDropwonButton type='button'>수정하기</PostDropwonButton>
-        <PostDropwonButton type='button'>삭제하기</PostDropwonButton>
+        <PostDropwonButton type='button' onClick={handleDeleteOpenModal}>
+          삭제하기
+        </PostDropwonButton>
       </PostDropdownContainer>
     </KebabButton>
   );
