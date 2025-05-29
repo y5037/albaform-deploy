@@ -1,10 +1,9 @@
 import { media } from '@/styles/media';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const FilterResponsive = styled.div`
   position: relative;
   padding: 112px 120px 24px;
-  border: 1px solid var(--line100);
 
   @media ${media.desktop} {
     padding: 112px 0 24px;
@@ -13,13 +12,12 @@ export const FilterResponsive = styled.div`
   }
 
   @media ${media.tablet} {
-    padding: 84px 24px 24px;
+    padding: 84px 24px 16px;
     margin: 0;
   }
 
   @media ${media.mobile} {
-    padding: 78px 24px 24px;
-    border: 0;
+    padding: 78px 24px 30px;
   }
 `;
 
@@ -40,7 +38,7 @@ export const ListResponsive = styled.div`
   }
 
   @media ${media.mobile} {
-    padding: 30px 24px calc(env(safe-area-inset-bottom) + 62px);
+    padding: 0 24px calc(env(safe-area-inset-bottom) + 62px);
   }
 `;
 
