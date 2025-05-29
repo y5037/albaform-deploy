@@ -19,5 +19,6 @@ export const ResponsiveContainer = styled.div`
 
   @media ${media.mobile} {
     padding: 78px 24px 24px;
+    border: 0;
   }
 `;

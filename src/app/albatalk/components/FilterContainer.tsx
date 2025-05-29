@@ -9,7 +9,7 @@ export default function FilterContainer({
   return (
     <div className='flex justify-between items-center max-xs:flex-col max-xs:items-stretch'>
       <form className='flex-[1]'>
-        <div className='flex bg-background-200 rounded-[24px] px-[24px] py-[14px] max-md:px-[14px]'>
+        <div className='flex bg-background-200 rounded-[24px] px-[24px] py-[14px] max-md:px-[14px] max-xs:mb-[16px]'>
           <Image
             src='/images/iconSearch.svg'
             alt='검색'
