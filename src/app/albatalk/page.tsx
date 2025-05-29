@@ -2,7 +2,8 @@
 
 import FilterContainer from './components/FilterContainer';
 import { useState } from 'react';
-import { ResponsiveContainer } from './styles';
+import { FilterResponsive, ListResponsive } from './styles';
+import ContentsList from './components/ContentsList';
 
 export default function AlbaTalk() {
   const [isSort, setIsSort] = useState<
@@ -10,8 +11,13 @@ export default function AlbaTalk() {
   >('mostRecent');
 
   return (
-    <ResponsiveContainer>
-      <FilterContainer isSort={isSort} setIsSort={setIsSort} />
-    </ResponsiveContainer>
+    <>
+      <FilterResponsive>
+        <FilterContainer isSort={isSort} setIsSort={setIsSort} />
+      </FilterResponsive>
+      <ListResponsive>
+        <ContentsList />
+      </ListResponsive>
+    </>
   );
 }
