@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import useFormChangeDetector from '@/app/mypage/hooks/usePasswordChangeDetector';
 import { ScrollHiddenDiv } from '@/app/mypage/styles';
 import { EditModalProps } from '@/app/mypage/types';
 import Overlay from '@/components/modal/Overlay';
