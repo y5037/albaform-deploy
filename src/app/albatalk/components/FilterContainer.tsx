@@ -7,19 +7,25 @@ export default function FilterContainer({
   setIsSort,
 }: FilterContainerProps) {
   return (
-    <div className='flex justify-between items-center'>
-      <form>
-        <div className='flex'>
+    <div className='flex justify-between items-center max-xs:flex-col max-xs:items-stretch'>
+      <form className='flex-[1]'>
+        <div className='flex bg-background-200 rounded-[24px] px-[24px] py-[14px] max-md:px-[14px]'>
           <Image
             src='/images/iconSearch.svg'
             alt='검색'
             width={36}
             height={36}
           />
-          <input type='text' />
+          <input
+            type='text'
+            placeholder='궁금한 점을 검색해보세요'
+            className='ml-[8px] bg-background-200 text-[20px] w-full max-md:text-[16px] max-md:ml-[2px]'
+          />
         </div>
       </form>
-      <PostSortButton isSort={isSort} setIsSort={setIsSort} />
+      <div className='flex-[.2] justify-items-end'>
+        <PostSortButton isSort={isSort} setIsSort={setIsSort} />
+      </div>
     </div>
   );
 }

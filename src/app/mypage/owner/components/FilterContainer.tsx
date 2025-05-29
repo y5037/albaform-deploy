@@ -21,7 +21,7 @@ export default function FilterContainer({
   return (
     <>
       <div className='flex justify-between items-center py-4 px-0'>
-        <div className='flex bg-background-200 text-gray-400 font-normal rounded-[12px] h-[50px] p-1.5 max-[768px]:text-[14px]'>
+        <div className='flex bg-background-200 text-gray-400 font-normal rounded-[12px] h-[50px] p-1.5 max-md:text-[14px]'>
           <TabWrapper>
             <SlideBg $activeTab={selectedTab} />
             <TabButton

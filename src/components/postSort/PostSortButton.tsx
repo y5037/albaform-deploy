@@ -16,7 +16,7 @@ export default function PostSortButton({
         className='flex items-center'
         onClick={() => setDropdown((prev) => !prev)}
       >
-        <p className='pr-1 max-[768px]:text-[12px]'>
+        <p className='pr-1 ml-[5px] min-w-[max-content] max-md:text-[12px]'>
           {isSort === 'mostRecent'
             ? '최신순'
             : isSort === 'mostCommented'
