@@ -9,7 +9,7 @@ export const useGetPosts = (
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked',
 ) => {
   return useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', isSort],
     queryFn: ({ pageParam = 1 }) =>
       fetchGetPosts({ isSort, itemsPerPage, cursor: pageParam }),
     getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
