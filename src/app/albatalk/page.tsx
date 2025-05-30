@@ -5,11 +5,27 @@ import { useState } from 'react';
 import { FilterResponsive, ListResponsive } from './styles';
 import ContentsList from './components/ContentsList';
 import FloatingButton from './components/FloatingButton';
+import { getItemsPerPage } from './utils/getItemsPerPage';
+import { useGetPosts } from '@/hooks/query/useGetPosts';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 export default function AlbaTalk() {
   const [isSort, setIsSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+
+  const itemsPerPage = getItemsPerPage();
+  const {
+    data: postsData,
+    hasNextPage,
+    fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
+  } = useGetPosts(itemsPerPage, isSort);
+
+  const listData = postsData?.pages.flatMap((page) => page.result) ?? [];
+
+  const observerRef = useInfiniteScroll(isSort && hasNextPage!, fetchNextPage!);
 
   return (
     <>
@@ -19,9 +35,14 @@ export default function AlbaTalk() {
         </FilterResponsive>
       </div>
       <ListResponsive>
-        <ContentsList />
+        <ContentsList
+          listData={listData}
+          isLoading={isLoading}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </ListResponsive>
       <FloatingButton />
+      {hasNextPage && <div ref={observerRef} style={{ height: '1px' }} />}
     </>
   );
 }
