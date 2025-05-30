@@ -20,16 +20,18 @@ export const fetchGetPosts = async ({
   isSort,
   itemsPerPage,
   cursor,
+  isKeyword
 }: {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   itemsPerPage: number;
   cursor: number;
+  isKeyword:string
 }) => {
   try {
     const requestUrl =
       cursor === 1
-        ? `/posts?limit=${itemsPerPage}&orderBy=${isSort}`
-        : `/posts?limit=${itemsPerPage}&orderBy=${isSort}&cursor=${cursor}`;
+        ? `/posts?limit=${itemsPerPage}&orderBy=${isSort}&keyword=${isKeyword}`
+        : `/posts?limit=${itemsPerPage}&orderBy=${isSort}&cursor=${cursor}&keyword=${isKeyword}`;
 
     const response = await instance.get(requestUrl);
 

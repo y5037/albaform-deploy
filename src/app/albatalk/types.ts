@@ -1,10 +1,11 @@
-import { SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface FilterContainerProps {
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
+  setIsKeyword: Dispatch<SetStateAction<string>>;
 }
 
 type WriterData = {
