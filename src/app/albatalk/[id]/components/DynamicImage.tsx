@@ -21,7 +21,7 @@ export default function DynamicImage({ src }: { src: string }) {
 
   if (src?.length > 0 && !size) return <div>스켈레톤</div>;
 
-  if (src?.length > 0)
+  if (src)
     return (
       <div className='relative w-full'>
         <Image

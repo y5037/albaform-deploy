@@ -6,6 +6,8 @@ import { useParams } from 'next/navigation';
 import DetailContainer from './components/DetailContainer';
 import CommentContainer from './components/CommentContainer';
 import { useState } from 'react';
+import { useGetMyInfo } from '@/hooks/query/useGetUser';
+import { useModalController } from '@/hooks/common/useModalController';
 
 export default function DetailPage() {
   const [isShowComments, setIsShowComments] = useState(false);
@@ -13,7 +15,21 @@ export default function DetailPage() {
   const params = useParams();
   const postId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
 
+  const { data: user } = useGetMyInfo();
   const { data: post } = useGetPostsById(postId);
+
+  const { id: userId } = user ?? {};
+
+  const {
+    showModal,
+    setShowModal,
+    mainMessage,
+    setMainMessage,
+    subMessage,
+    setSubMessage,
+    modalType,
+    setModalType,
+  } = useModalController();
 
   const handleToggleComments = () => {
     setIsShowComments((prev) => !prev);
@@ -22,8 +38,17 @@ export default function DetailPage() {
   return (
     <ResponsiveStyle>
       <DetailContainer
+        userId={userId}
         post={post}
         handleToggleComments={handleToggleComments}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        mainMessage={mainMessage}
+        setMainMessage={setMainMessage}
+        subMessage={subMessage}
+        setSubMessage={setSubMessage}
+        modalType={modalType}
+        setModalType={setModalType}
       />
       <div
         className={`transition-all duration-500 ${
