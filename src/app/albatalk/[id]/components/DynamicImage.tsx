@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export default function DynamicImage({ src }: { src: string }) {
+export default function DynamicImage({
+  src,
+}: {
+  src: string;
+}) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(
     null,
   );
@@ -19,10 +23,10 @@ export default function DynamicImage({ src }: { src: string }) {
     };
   }, [src]);
 
-  if (src?.length > 0 && !size) return <div>스켈레톤</div>;
+  if (!size) return null;
 
-  if (src)
-    return (
+  return (
+    <>
       <div className='relative w-full'>
         <Image
           src={src}
@@ -33,5 +37,6 @@ export default function DynamicImage({ src }: { src: string }) {
           className='object-cover'
         />
       </div>
-    );
+    </>
+  );
 }

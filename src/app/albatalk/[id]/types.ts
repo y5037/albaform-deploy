@@ -14,6 +14,7 @@ export interface PostDetailProps {
   setModalType: Dispatch<
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
+  isLoading: boolean;
 }
 
 type WriterType = {
