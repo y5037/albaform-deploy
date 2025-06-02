@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ModalProps } from './Modal.types';
 import Overlay from './Overlay';
@@ -27,6 +27,9 @@ function Modal({
   if (!showModal) return null;
 
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isAlbatalkDetail = /^\/albatalk\/[^/]+$/.test(pathname);
 
   const { mutate: fetchDeletePost } = useDeletePost();
 
@@ -40,6 +43,9 @@ function Modal({
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === 'myPosts',
             });
+            if (isAlbatalkDetail) {
+              router.push('/albatalk');
+            }
             onSuccess?.();
           },
           onSettled: () => {
@@ -75,7 +81,7 @@ function Modal({
           height={80}
         />
       )}
-
+      
       {$deadLine ||
         ($writeingForm && (
           <CloseButton>

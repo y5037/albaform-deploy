@@ -21,9 +21,6 @@ export default function Mypage() {
   const [isSort, setIsSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
-  const [modalType, setModalType] = useState<
-    'editUser' | 'editPassword' | 'deletePost'
-  >('editUser');
   const [showToast, setShowToast] = useState(false);
 
   const {
@@ -33,6 +30,8 @@ export default function Mypage() {
     setMainMessage,
     subMessage,
     setSubMessage,
+    modalType,
+    setModalType,
   } = useModalController();
 
   const itemsPerPage = getItemsPerPage();
