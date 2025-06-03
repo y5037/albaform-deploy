@@ -1,7 +1,7 @@
 // 게시글 좋아요
 
 import { PostData } from '@/app/albatalk/[id]/types';
-import { fetchDeleteLikePosts, fetchLikePosts } from '@/lib/fetch/post';
+import { fetchDeleteLikePosts, fetchPostLikePosts } from '@/lib/fetch/post';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // POST '/posts/:postId/like'
@@ -19,7 +19,7 @@ export const useLikePosts = () => {
       if (isLiked) {
         return fetchDeleteLikePosts(postId);
       } else {
-        return fetchLikePosts(postId);
+        return fetchPostLikePosts(postId);
       }
     },
     onMutate: async ({ postId }) => {

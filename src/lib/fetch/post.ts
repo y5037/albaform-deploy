@@ -71,7 +71,7 @@ export const fetchDeletePosts = async (postId: number) => {
 };
 
 // 게시글 좋아요
-export const fetchLikePosts = async (postId: number) => {
+export const fetchPostLikePosts = async (postId: number) => {
   try {
     const response = await instance.post(`/posts/${postId}/like`);
     if (!response.data) {
