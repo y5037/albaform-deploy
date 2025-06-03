@@ -6,6 +6,8 @@ import KebabDropdown from './KebabDropdown';
 import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
 import { useLikePosts } from '@/hooks/mutation/useLikePosts';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DetailContainer({
   userId,
@@ -21,6 +23,17 @@ export default function DetailContainer({
   setModalType,
   isLoading,
 }: PostDetailProps) {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [clickedIsLiked, setClickedIsLiked] = useState(false);
+
+  const colors = [
+    'bg-pink-400',
+    'bg-yellow-400',
+    'bg-green-400',
+    'bg-blue-400',
+    'bg-purple-400',
+  ];
+
   const { id: postId, writer } = post ?? {};
 
   const { mutate: toggleLikePost, isPending } = useLikePosts();
@@ -30,6 +43,9 @@ export default function DetailContainer({
       postId,
       isLiked: post.isLiked,
     });
+    setClickedIsLiked(post.isLiked);
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 3500);
   };
 
   return (
@@ -87,32 +103,88 @@ export default function DetailContainer({
           </p>
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
             <button
-              className='flex items-center cursor-pointer mr-[17px]'
               onClick={handleToggleComments}
+              className='flex items-center mr-[10px] px-4 py-1.5 rounded-full border-solid border-gray-100 bg-white hover:border-pink-100'
             >
               <Image
                 src='/images/albatalk/iconComment.svg'
                 alt='댓글'
                 width={23}
                 height={16}
-                className='mr-[5px] mt-[1px]'
+                className='mr-[10px] mt-[1px]'
               />
               {post?.commentCount}
             </button>
-            <button
-              className='flex items-center cursor-pointer'
-              onClick={handleClickLike}
-              disabled={isPending}
-            >
-              <Image
-                src='/images/albatalk/iconLike.svg'
-                alt='좋아요'
-                width={24}
-                height={10}
-                className='mr-[5px]'
-              />
-              {post?.likeCount}
-            </button>
+            <div className='relative inline-block'>
+              <button
+                onClick={handleClickLike}
+                disabled={isPending}
+                className='
+      flex items-center gap-2 px-4 py-1.5 rounded-full border border-solid border-gray-100 
+      bg-white active:scale-95 disabled:cursor-not-allowed
+    '
+              >
+                <Image
+                  src={
+                    post?.likeCount
+                      ? '/images/albatalk/iconLike.svg'
+                      : '/images/albatalk/iconUnLike.svg'
+                  }
+                  alt='좋아요'
+                  width={24}
+                  height={10}
+                  className='mr-[1px]'
+                />
+                <AnimatePresence mode='popLayout'>
+                  {' '}
+                  <motion.span
+                    key={post?.likeCount}
+                    initial={
+                      !post?.likeCount
+                        ? { y: -10, opacity: 0 }
+                        : { y: 10, opacity: 0 }
+                    }
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 10, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {post?.likeCount}
+                  </motion.span>
+                </AnimatePresence>
+              </button>
+              <AnimatePresence>
+                {isAnimating && !clickedIsLiked && (
+                  <>
+                    {Array.from({ length: 10 }).map((_, i) => {
+                      const colorClass = colors[i % colors.length];
+                      const randomX = (Math.random() - 0.5) * 200;
+                      const randomY = (Math.random() - 0.5) * 200;
+                      const randomRotate = Math.random() * 360;
+
+                      return (
+                        <motion.span
+                          key={i}
+                          initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                          animate={{
+                            opacity: 0,
+                            x: randomX,
+                            y: randomY,
+                            rotate: randomRotate,
+                            scale: 1.5,
+                          }}
+                          transition={{ duration: 0.8, ease: 'easeOut' }}
+                          className={`absolute w-4 h-4 rounded-full ${colorClass} z-10`}
+                          style={{
+                            left: '50%',
+                            top: '50%',
+                          }}
+                        />
+                      );
+                    })}
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </>
       )}
