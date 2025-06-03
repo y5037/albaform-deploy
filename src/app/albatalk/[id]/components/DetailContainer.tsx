@@ -81,7 +81,7 @@ export default function DetailContainer({
               onClick={handleToggleComments}
             >
               <Image
-                src='/images/albatalk/iconComment.svg'
+                src='/images/iconComment.svg'
                 alt='댓글'
                 width={23}
                 height={16}
@@ -91,7 +91,7 @@ export default function DetailContainer({
             </div>
             <div className='flex items-center cursor-pointer'>
               <Image
-                src='/images/albatalk/iconLike.svg'
+                src='/images/iconLike.svg'
                 alt='좋아요'
                 width={24}
                 height={10}

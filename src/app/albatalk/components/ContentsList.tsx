@@ -5,6 +5,7 @@ import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
+import { useRouter } from 'next/navigation';
 
 export default function ContentsList({
   listData,
@@ -13,6 +14,8 @@ export default function ContentsList({
 }: ListContainerProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
+  const router = useRouter();
+
   const defaultProfileImg = '/images/defaultProfile.svg';
   const handleProfileImgError = (src: string) => {
     setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
@@ -20,7 +23,7 @@ export default function ContentsList({
   return (
     <>
       {!isLoading && listData?.length === 0 ? (
-        <Empty albatalk/>
+        <Empty albatalk />
       ) : (
         <div className='min-lg:min-h-[500px]'>
           <div className='flex flex-wrap gap-x-[2%] gap-y-[48px] max-lg:gap-y-[16px]'>
@@ -29,7 +32,10 @@ export default function ContentsList({
               const { writer } = item;
 
               return (
-                <PostWrapper key={item.id}>
+                <PostWrapper
+                  key={item.id}
+                  onClick={() => router.push(`/albatalk/${item?.id}`)}
+                >
                   <Title>{item.title}</Title>
                   <Description>{item.content}</Description>
                   <div className='flex items-center justify-between text-gray-500 pt-[80px] max-lg:pt-[24px] max-md:pt-[40px] font-light'>
@@ -58,19 +64,21 @@ export default function ContentsList({
                     <div className='flex items-center'>
                       <div className='flex items-center mr-[10px]'>
                         <Image
-                          src='/images/mypage/comment.svg'
+                          src='/images/iconComment.svg'
                           alt='댓글'
-                          width={36}
-                          height={36}
+                          width={22}
+                          height={22}
+                          className='mt-[3px] mr-[8px]'
                         />
                         {item.commentCount}
                       </div>
                       <div className='flex items-center'>
                         <Image
-                          src='/images/mypage/like.svg'
+                          src={'/images/iconLike.svg'}
                           alt='좋아요'
-                          width={36}
-                          height={36}
+                          width={22}
+                          height={22}
+                          className='mr-[8px]'
                         />
                         {item.likeCount}
                       </div>
