@@ -31,7 +31,7 @@ export const fetchGetPosts = async () => {
 };
 
 // 게시글 상세 조회
-export const fetchGetPostsById = async (postId:string) => {
+export const fetchGetPostsById = async (postId: number) => {
   try {
     const response = await instance.get(`/posts/${postId}`);
     if (!response.data) {
@@ -77,8 +77,6 @@ export const fetchLikePosts = async (postId: number) => {
     if (!response.data) {
       throw new Error('게시물 좋아요 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
     console.error('게시물 좋아요 중 에러 발생:', error);
     throw error;
@@ -92,8 +90,6 @@ export const fetchDeleteLikePosts = async (postId: number) => {
     if (!response.data) {
       throw new Error('게시물 좋아요 취소 실패');
     }
-    const result = response.data;
-    return result;
   } catch (error) {
     console.error('게시물 좋아요 취소 중 에러 발생:', error);
     throw error;

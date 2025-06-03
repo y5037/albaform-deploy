@@ -5,6 +5,7 @@ import { formattedDate } from '@/utils/formattedDate';
 import KebabDropdown from './KebabDropdown';
 import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
+import { useLikePosts } from '@/hooks/mutation/useLikePosts';
 
 export default function DetailContainer({
   userId,
@@ -21,6 +22,15 @@ export default function DetailContainer({
   isLoading,
 }: PostDetailProps) {
   const { id: postId, writer } = post ?? {};
+
+  const { mutate: toggleLikePost, isPending } = useLikePosts();
+
+  const handleClickLike = () => {
+    toggleLikePost({
+      postId,
+      isLiked: post.isLiked,
+    });
+  };
 
   return (
     <>
@@ -76,7 +86,7 @@ export default function DetailContainer({
             {post?.content}
           </p>
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
-            <div
+            <button
               className='flex items-center cursor-pointer mr-[17px]'
               onClick={handleToggleComments}
             >
@@ -88,8 +98,12 @@ export default function DetailContainer({
                 className='mr-[5px] mt-[1px]'
               />
               {post?.commentCount}
-            </div>
-            <div className='flex items-center cursor-pointer'>
+            </button>
+            <button
+              className='flex items-center cursor-pointer'
+              onClick={handleClickLike}
+              disabled={isPending}
+            >
               <Image
                 src='/images/albatalk/iconLike.svg'
                 alt='좋아요'
@@ -98,7 +112,7 @@ export default function DetailContainer({
                 className='mr-[5px]'
               />
               {post?.likeCount}
-            </div>
+            </button>
           </div>
         </>
       )}

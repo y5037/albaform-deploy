@@ -4,7 +4,7 @@
 import { fetchGetPostsById } from '@/lib/fetch/post';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetPostsById = (postId: string) => {
+export const useGetPostsById = (postId: number) => {
   return useQuery({
     queryKey: ['post', postId],
     queryFn: () => fetchGetPostsById(postId),

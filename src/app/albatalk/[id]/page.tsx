@@ -16,7 +16,7 @@ export default function DetailPage() {
   const postId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
 
   const { data: user } = useGetMyInfo();
-  const { data: post, isLoading } = useGetPostsById(postId);
+  const { data: post, isLoading } = useGetPostsById(Number(postId));
 
   const { id: userId } = user ?? {};
 
