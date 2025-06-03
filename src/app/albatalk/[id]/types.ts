@@ -46,3 +46,15 @@ export interface KebabDropdownProps {
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
 }
+
+type LikePostProps = {
+  postId: number;
+  isLiked: boolean;
+};
+
+export interface LikeButtonProps {
+  post: PostData;
+  postId: number;
+  toggleLikePost: (virables: LikePostProps) => void;
+  isPending: boolean;
+}
