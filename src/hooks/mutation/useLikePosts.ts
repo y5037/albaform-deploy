@@ -33,8 +33,6 @@ export const useLikePosts = () => {
         const isLikedNow = oldData.isLiked;
         const likeCount = oldData.likeCount;
 
-        console.log(isLikedNow);
-
         return {
           ...oldData,
           isLiked: !isLikedNow,
