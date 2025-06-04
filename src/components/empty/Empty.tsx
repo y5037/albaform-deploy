@@ -2,7 +2,12 @@ import Image from 'next/image';
 import { EmptyContainer } from './Empty.styles';
 import { EmptyProps } from './Empty.types';
 
-export default function Empty({ selectedTab, albaform }: EmptyProps) {
+export default function Empty({
+  selectedTab,
+  albaform,
+  albatalk,
+  comments,
+}: EmptyProps) {
   const tabPostText = () => {
     return (
       <>
@@ -27,8 +32,30 @@ export default function Empty({ selectedTab, albaform }: EmptyProps) {
     );
   };
 
+  const albatalkText = () => {
+    return (
+      <>
+        등록된 알바토크가 없어요.
+        <br />
+        궁금한 점이 있다면 먼저 게시글을 작성해보세요!
+      </>
+    );
+  };
+
+  const commentsText = () => {
+    return (
+      <>
+        등록된 댓글이 없어요.
+        <br />
+        먼저 댓글을 작성해보세요!
+      </>
+    );
+  };
+
   const renderContent = () => {
     if (albaform) return albaformText();
+    if (albatalk) return albatalkText();
+    if (comments) return commentsText();
     if (selectedTab === 'post') return tabPostText();
     if (selectedTab === 'comment') return tabCommentText();
   };

@@ -21,6 +21,8 @@ export default function DetailContainer({
   modalType,
   setModalType,
   isLoading,
+  isShowComments,
+  totalCommentCount,
 }: PostDetailProps) {
   const { id: postId, writer } = post ?? {};
 
@@ -50,6 +52,7 @@ export default function DetailContainer({
             </p>
             {userId === writer?.id && (
               <KebabDropdown
+                $deletePost
                 postId={postId}
                 setShowModal={setShowModal}
                 setMainMessage={setMainMessage}
@@ -82,16 +85,24 @@ export default function DetailContainer({
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
             <button
               onClick={handleToggleComments}
-              className='flex items-center mr-[10px] px-4 py-1.5 rounded-full border-solid border-gray-100 bg-white hover:border-pink-100'
+              className={`flex items-center mr-[10px] px-4 py-1.5 rounded-full border-solid active:scale-95 duration-[.1s] ${
+                isShowComments
+                  ? 'border-black300 bg-black300'
+                  : 'border-gray-100 bg-white'
+              }`}
             >
               <Image
-                src='/images/iconComment.svg'
+                src={
+                  isShowComments
+                    ? '/images/iconActiveComment.svg'
+                    : '/images/iconComment.svg'
+                }
                 alt='댓글'
                 width={23}
                 height={16}
-                className='mr-[10px] mt-[1px]'
+                className='mr-[10px] mt-[3px]'
               />
-              {post?.commentCount}
+              {totalCommentCount}
             </button>
             <div className='relative inline-block'>
               <LikeButton post={post} postId={postId} toggleLikePost={toggleLikePost} isPending={isPending}/>
