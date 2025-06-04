@@ -36,6 +36,7 @@ export interface CommentsProps {
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
   isLoading: boolean;
+  isFetching: boolean;
   onSuccess: () => void;
 }
 
@@ -77,4 +78,8 @@ export interface KebabDropdownProps {
   setModalType: Dispatch<
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
+}
+
+export interface SkeletonProps {
+  $comment?:boolean
 }

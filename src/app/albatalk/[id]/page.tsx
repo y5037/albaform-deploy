@@ -21,13 +21,17 @@ export default function DetailPage() {
 
   const { data: user } = useGetMyInfo();
   const { data: post, isLoading: getPostsLoading } = useGetPostsById(postId);
-  const { data: comments, isLoading: getCommentsLoading } = useGetComments(
+  const { data: comments, isLoading: getCommentsLoading, isFetching } = useGetComments(
     page,
     Number(postId),
   );
 
   const { id: userId } = user ?? {};
-  const { result: commentsList, totalPages, totalCommentCount } = comments ?? {};
+  const {
+    result: commentsList,
+    totalPages,
+    totalCommentCount,
+  } = comments ?? {};
 
   const {
     showModal,
@@ -69,8 +73,8 @@ export default function DetailPage() {
       <div
         className={`transition-all duration-500 ${
           isShowComments
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 -translate-y-y4'
+            ? 'opacity-100 translate-y-0 block'
+            : 'opacity-0 -translate-y-y4 hidden'
         }`}
       >
         <CommentContainer
@@ -88,6 +92,7 @@ export default function DetailPage() {
           modalType={modalType}
           setModalType={setModalType}
           isLoading={getCommentsLoading}
+          isFetching={isFetching}
           onSuccess={handleEditSuccess}
         />
       </div>

@@ -5,6 +5,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { formattedDate } from '@/utils/formattedDate';
 import { useState } from 'react';
 import Modal from '@/components/modal/Modal';
+import DetailSkeleton from './DetailSkeleton';
 
 export default function CommentContainer({
   userId,
@@ -21,6 +22,7 @@ export default function CommentContainer({
   modalType,
   setModalType,
   isLoading,
+  isFetching,
   onSuccess,
 }: CommentsProps) {
   const [postId, setPostId] = useState<number>();
@@ -60,6 +62,7 @@ export default function CommentContainer({
           </button>
         </form>
       </div>
+      {(isLoading || isFetching) && <DetailSkeleton $comment />}
       <div>
         {comments?.map((comment) => {
           const { writer } = comment;

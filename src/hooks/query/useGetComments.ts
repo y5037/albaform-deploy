@@ -9,6 +9,5 @@ export const useGetComments = (page: number, postId: number) => {
     queryKey: ['comments', page, postId],
     queryFn: () => fetchGetComments({ page, postId }),
     staleTime: 1000 * 60,
-    placeholderData: keepPreviousData,
   });
 };
