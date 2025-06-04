@@ -7,6 +7,7 @@ import Loader from '@/components/loader/Loader';
 import Empty from '@/components/empty/Empty';
 import KebabDropdown from './KebabDropdown';
 import Modal from '@/components/modal/Modal';
+import { useRouter } from 'next/navigation';
 
 export default function ListContainer({
   selectedTab,
@@ -23,9 +24,11 @@ export default function ListContainer({
   setSubMessage,
   modalType,
   setModalType,
-  onSuccess
+  onSuccess,
 }: ListContainerProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
+
+  const router = useRouter();
 
   const defaultProfileImg = '/images/defaultProfile.svg';
   const handleProfileImgError = (src: string) => {
@@ -58,7 +61,10 @@ export default function ListContainer({
               const { post } = item;
 
               return (
-                <PostWrapper key={item.id}>
+                <PostWrapper
+                  key={item.id}
+                  onClick={() => router.push(`/albatalk/${item.id}`)}
+                >
                   <div>
                     <div className='w-[100%] flex justify-between items-center'>
                       <div className='flex items-center'>
@@ -118,19 +124,21 @@ export default function ListContainer({
                       <div className='flex items-center'>
                         <div className='flex items-center mr-[10px]'>
                           <Image
-                            src='/images/mypage/comment.svg'
+                            src='/images/iconComment.svg'
                             alt='댓글'
-                            width={36}
-                            height={36}
+                            width={22}
+                            height={22}
+                            className='mt-[3px] mr-[8px]'
                           />
                           {item.commentCount}
                         </div>
                         <div className='flex items-center'>
                           <Image
-                            src='/images/mypage/like.svg'
+                            src='/images/iconLike.svg'
                             alt='좋아요'
-                            width={36}
-                            height={36}
+                            width={22}
+                            height={22}
+                            className='mr-[8px]'
                           />
                           {item.likeCount}
                         </div>
