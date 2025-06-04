@@ -19,6 +19,8 @@ export default function DetailContainer({
   modalType,
   setModalType,
   isLoading,
+  isShowComments,
+  totalCommentCount,
 }: PostDetailProps) {
   const { id: postId, writer } = post ?? {};
 
@@ -46,6 +48,7 @@ export default function DetailContainer({
             </p>
             {userId === writer?.id && (
               <KebabDropdown
+                $deletePost
                 postId={postId}
                 setShowModal={setShowModal}
                 setMainMessage={setMainMessage}
@@ -76,22 +79,30 @@ export default function DetailContainer({
             {post?.content}
           </p>
           <div className='flex items-center text-gray-400 pb-[16px] border-b border-solid border-line-200'>
-            <div
-              className='flex items-center cursor-pointer mr-[17px]'
+            <button
               onClick={handleToggleComments}
+              className={`flex items-center mr-[10px] px-4 py-1.5 rounded-full border-solid active:scale-95 duration-[.1s] ${
+                isShowComments
+                  ? 'border-black300 bg-black300'
+                  : 'border-gray-100 bg-white'
+              }`}
             >
               <Image
-                src='/images/albatalk/iconComment.svg'
+                src={
+                  isShowComments
+                    ? '/images/iconActiveComment.svg'
+                    : '/images/iconComment.svg'
+                }
                 alt='댓글'
                 width={23}
                 height={16}
-                className='mr-[5px] mt-[1px]'
+                className='mr-[10px] mt-[3px]'
               />
-              {post?.commentCount}
-            </div>
+              {totalCommentCount}
+            </button>
             <div className='flex items-center cursor-pointer'>
               <Image
-                src='/images/albatalk/iconLike.svg'
+                src='/images/iconLike.svg'
                 alt='좋아요'
                 width={24}
                 height={10}
