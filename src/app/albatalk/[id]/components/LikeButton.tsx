@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { LikeButtonProps } from '../types';
 
-export default function LikeButton({post, postId, toggleLikePost, isPending}:LikeButtonProps) {
+export default function LikeButton({
+  post,
+  postId,
+  toggleLikePost,
+  isPending,
+}: LikeButtonProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [clickedIsLiked, setClickedIsLiked] = useState(false);
 

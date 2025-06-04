@@ -50,7 +50,7 @@ export const fetchGetPosts = async ({
 };
 
 // 게시글 상세 조회
-export const fetchGetPostsById = async (postId: string) => {
+export const fetchGetPostsById = async (postId: number) => {
   try {
     const response = await instance.get(`/posts/${postId}`);
     if (!response.data) {

@@ -21,11 +21,14 @@ export default function DetailPage() {
 
   const { data: user } = useGetMyInfo();
 
-  const { data: post, isLoading: getPostsLoading } = useGetPostsById(postId);
-  const { data: comments, isLoading: getCommentsLoading, isFetching } = useGetComments(
-    page,
+  const { data: post, isLoading: getPostsLoading } = useGetPostsById(
     Number(postId),
   );
+  const {
+    data: comments,
+    isLoading: getCommentsLoading,
+    isFetching,
+  } = useGetComments(page, Number(postId));
 
   const { id: userId } = user ?? {};
   const {
