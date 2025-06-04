@@ -11,6 +11,7 @@ import {
 } from './Modal.styles';
 import { useDeletePost } from '@/hooks/mutation/useDeletePosts';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteComments } from '@/hooks/mutation/useDeleteComments';
 
 function Modal({
   showModal,
@@ -18,6 +19,7 @@ function Modal({
   mainMessage,
   subMessage,
   $deletePost,
+  $deleteComment,
   $deleteAlbaform,
   $deadLine,
   $writeingForm,
@@ -32,6 +34,7 @@ function Modal({
   const isAlbatalkDetail = /^\/albatalk\/[^/]+$/.test(pathname);
 
   const { mutate: fetchDeletePost } = useDeletePost();
+  const { mutate: fetchDeleteComment } = useDeleteComments();
 
   const queryClient = useQueryClient();
 
@@ -52,6 +55,20 @@ function Modal({
             setShowModal(false);
           },
         });
+    } else if ($deleteComment) {
+      if (deletePostId) {
+        fetchDeleteComment(deletePostId, {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === 'comments',
+            });
+            onSuccess?.();
+          },
+          onSettled: () => {
+            setShowModal(false);
+          },
+        });
+      }
     } else if ($deadLine) {
       router.push('/list');
     }
@@ -81,7 +98,7 @@ function Modal({
           height={80}
         />
       )}
-      
+
       {$deadLine ||
         ($writeingForm && (
           <CloseButton>

@@ -20,6 +20,7 @@ export default function DetailContainer({
   setModalType,
   isLoading,
   isShowComments,
+  totalCommentCount,
 }: PostDetailProps) {
   const { id: postId, writer } = post ?? {};
 
@@ -47,6 +48,7 @@ export default function DetailContainer({
             </p>
             {userId === writer?.id && (
               <KebabDropdown
+                $deletePost
                 postId={postId}
                 setShowModal={setShowModal}
                 setMainMessage={setMainMessage}
@@ -96,7 +98,7 @@ export default function DetailContainer({
                 height={16}
                 className='mr-[10px] mt-[3px]'
               />
-              {post?.commentCount}
+              {totalCommentCount}
             </button>
             <div className='flex items-center cursor-pointer'>
               <Image
