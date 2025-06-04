@@ -5,6 +5,8 @@ import { formattedDate } from '@/utils/formattedDate';
 import KebabDropdown from './KebabDropdown';
 import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
+import { useLikePosts } from '@/hooks/mutation/useLikePosts';
+import LikeButton from './LikeButton';
 
 export default function DetailContainer({
   userId,
@@ -23,6 +25,8 @@ export default function DetailContainer({
   totalCommentCount,
 }: PostDetailProps) {
   const { id: postId, writer } = post ?? {};
+
+  const { mutate: toggleLikePost, isPending } = useLikePosts();
 
   return (
     <>
@@ -100,15 +104,8 @@ export default function DetailContainer({
               />
               {totalCommentCount}
             </button>
-            <div className='flex items-center cursor-pointer'>
-              <Image
-                src='/images/iconLike.svg'
-                alt='좋아요'
-                width={24}
-                height={10}
-                className='mr-[5px]'
-              />
-              {post?.likeCount}
+            <div className='relative inline-block'>
+              <LikeButton post={post} postId={postId} toggleLikePost={toggleLikePost} isPending={isPending}/>
             </div>
           </div>
         </>

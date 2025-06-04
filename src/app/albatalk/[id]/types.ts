@@ -16,7 +16,7 @@ export interface PostDetailProps {
   >;
   isLoading: boolean;
   isShowComments: boolean;
-  totalCommentCount:number;
+  totalCommentCount: number;
 }
 
 export interface CommentsProps {
@@ -80,6 +80,18 @@ export interface KebabDropdownProps {
   >;
 }
 
+type LikePostProps = {
+  postId: number;
+  isLiked: boolean;
+};
+
+export interface LikeButtonProps {
+  post: PostData;
+  postId: number;
+  toggleLikePost: (virables: LikePostProps) => void;
+  isPending: boolean;
+}
+
 export interface SkeletonProps {
-  $comment?:boolean
+  $comment?: boolean;
 }
