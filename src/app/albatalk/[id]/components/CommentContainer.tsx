@@ -38,33 +38,39 @@ export default function CommentContainer({
 
   return (
     <>
+      {showModal && modalType === 'deletePost' && (
+        <Modal
+          $deleteComment
+          showModal={showModal}
+          setShowModal={setShowModal}
+          mainMessage={mainMessage}
+          subMessage={subMessage}
+          deletePostId={postId}
+          onSuccess={onSuccess}
+        />
+      )}
+      <div
+        className={`mt-[40px] text-right ${
+          (!isLoading || !isFetching) && comments.length === 0
+            ? 'mb-[-20px]'
+            : 'mb-[80px]'
+        }`}
+      >
+        <form onSubmit={handleSubmit}>
+          <textarea
+            name='comment'
+            placeholder='댓글을 입력해주세요'
+            className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
+          />
+          <button className='mt-[16px] bg-orange-400 rounded-[8px] px-[50px] h-[60px] text-white font-medium text-[18px]'>
+            등록하기
+          </button>
+        </form>
+      </div>
       {(!isLoading || !isFetching) && comments.length === 0 ? (
-        <Empty comments/>
+        <Empty comments />
       ) : (
         <>
-          {showModal && modalType === 'deletePost' && (
-            <Modal
-              $deleteComment
-              showModal={showModal}
-              setShowModal={setShowModal}
-              mainMessage={mainMessage}
-              subMessage={subMessage}
-              deletePostId={postId}
-              onSuccess={onSuccess}
-            />
-          )}
-          <div className='mt-[40px] mb-[80px] text-right'>
-            <form onSubmit={handleSubmit}>
-              <textarea
-                name='comment'
-                placeholder='댓글을 입력해주세요'
-                className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
-              />
-              <button className='mt-[16px] bg-orange-400 rounded-[8px] px-[50px] h-[60px] text-white font-medium text-[18px]'>
-                등록하기
-              </button>
-            </form>
-          </div>
           {(isLoading || isFetching) && <DetailSkeleton $comment />}
           <div>
             {comments?.map((comment) => {

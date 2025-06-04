@@ -13,10 +13,6 @@ export default function DetailSkeleton({ $comment }: SkeletonProps) {
             <div className='mt-[10px] h-5 bg-gray-200 rounded w-2/5' />
             <div className='mt-[20px] h-5 bg-gray-300 rounded w-3/5' />
           </div>
-          <div className='pt-[20px]'>
-            <div className='mt-[10px] h-5 bg-gray-200 rounded w-2/5' />
-            <div className='mt-[20px] h-5 bg-gray-300 rounded w-3/5' />
-          </div>
         </div>
       ) : (
         <div className='animate-pulse space-y-6 pt-[48px] pb-[30px]'>
