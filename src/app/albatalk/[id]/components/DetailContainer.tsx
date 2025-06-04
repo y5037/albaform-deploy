@@ -102,10 +102,19 @@ export default function DetailContainer({
                 height={16}
                 className='mr-[10px] mt-[3px]'
               />
-              {totalCommentCount}
+              {totalCommentCount !== undefined ? (
+                totalCommentCount
+              ) : (
+                <div className='inline-flex items-center justify-center w-4 aspect-square rounded-full bg-gray-300/60 animate-pulse' />
+              )}
             </button>
             <div className='relative inline-block'>
-              <LikeButton post={post} postId={postId} toggleLikePost={toggleLikePost} isPending={isPending}/>
+              <LikeButton
+                post={post}
+                postId={postId}
+                toggleLikePost={toggleLikePost}
+                isPending={isPending}
+              />
             </div>
           </div>
         </>
