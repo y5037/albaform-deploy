@@ -74,7 +74,7 @@ export default function ContentsList({
                       </div>
                       <div className='flex items-center'>
                         <Image
-                          src={'/images/iconLike.svg'}
+                          src={'/images/iconUnLike.svg'}
                           alt='좋아요'
                           width={22}
                           height={22}
