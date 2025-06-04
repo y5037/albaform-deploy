@@ -8,6 +8,8 @@ import { useClickOutside } from '@/hooks/common/useClickOutside';
 import { KebabDropdownProps } from '../types';
 
 export default function KebabDropdown({
+  $deletePost,
+  $deleteComment,
   postId,
   setPostId,
   setShowModal,
@@ -21,8 +23,12 @@ export default function KebabDropdown({
     setPostId?.(postId);
     setShowModal(true);
     setModalType('deletePost');
-    setMainMessage('선택하신 게시글을 삭제할까요?');
     setSubMessage('삭제 후 정보를 복구할 수 없어요.');
+    if ($deletePost) {
+      setMainMessage('선택하신 게시글을 삭제할까요?');
+    } else if ($deleteComment) {
+      setMainMessage('선택하신 댓글을 삭제할까요?');
+    }
   };
 
   return (
