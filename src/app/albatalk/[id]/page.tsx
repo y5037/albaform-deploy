@@ -50,6 +50,7 @@ export default function DetailPage() {
         modalType={modalType}
         setModalType={setModalType}
         isLoading={isLoading}
+        isShowComments={isShowComments}
       />
       <div
         className={`transition-all duration-500 ${

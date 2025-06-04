@@ -15,6 +15,7 @@ export interface PostDetailProps {
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
   isLoading: boolean;
+  isShowComments:boolean
 }
 
 type WriterType = {
