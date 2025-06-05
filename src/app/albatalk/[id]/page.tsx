@@ -17,18 +17,17 @@ export default function DetailPage() {
   const [showToast, setShowToast] = useState(false);
 
   const params = useParams();
-  const postId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
+  const paramsId = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
+  const postId = Number(paramsId);
 
   const { data: user } = useGetMyInfo();
 
-  const { data: post, isLoading: getPostsLoading } = useGetPostsById(
-    Number(postId),
-  );
+  const { data: post, isLoading: getPostsLoading } = useGetPostsById(postId);
   const {
     data: comments,
     isLoading: getCommentsLoading,
     isFetching,
-  } = useGetComments(page, Number(postId));
+  } = useGetComments(page, postId);
 
   const { id: userId } = user ?? {};
   const {
@@ -83,6 +82,7 @@ export default function DetailPage() {
       >
         <CommentContainer
           userId={userId}
+          postId={postId}
           comments={commentsList}
           page={page}
           setPage={setPage}

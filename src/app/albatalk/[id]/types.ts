@@ -21,6 +21,7 @@ export interface PostDetailProps {
 
 export interface CommentsProps {
   userId: number;
+  postId: number;
   comments: CommentData[];
   page: number;
   setPage: Dispatch<SetStateAction<number>>;

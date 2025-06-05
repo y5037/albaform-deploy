@@ -7,9 +7,18 @@ import { useState } from 'react';
 import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
 import Empty from '@/components/empty/Empty';
+import { usePostComments } from '@/hooks/mutation/usePostComments';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CreateCommentInput,
+  createCommentSchema,
+} from '@/schemas/updateCommentSchema';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function CommentContainer({
   userId,
+  postId,
   comments,
   page,
   setPage,
@@ -26,7 +35,7 @@ export default function CommentContainer({
   isFetching,
   onSuccess,
 }: CommentsProps) {
-  const [postId, setPostId] = useState<number>();
+  const [commentId, setCommentId] = useState<number>();
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
 
   const defaultProfileImg = '/images/defaultProfile.svg';
@@ -34,7 +43,32 @@ export default function CommentContainer({
     setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
   };
 
-  const handleSubmit = () => {};
+  const queryClient = useQueryClient();
+
+  const { handleSubmit, register, watch, setValue } = useForm({
+    resolver: zodResolver(createCommentSchema),
+    mode: 'onChange',
+  });
+
+  const watched = watch();
+
+  const { mutate: patchCreateComment, isPending } = usePostComments();
+
+  const handleCreateComment = (formData: CreateCommentInput) => {
+    const { createComment } = formData;
+
+    if (!postId || !createComment) return;
+
+    patchCreateComment(
+      { postId, createComment },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['comments'] });
+          setValue('createComment', '');
+        },
+      },
+    );
+  };
 
   return (
     <>
@@ -45,7 +79,7 @@ export default function CommentContainer({
           setShowModal={setShowModal}
           mainMessage={mainMessage}
           subMessage={subMessage}
-          deletePostId={postId}
+          deletePostId={commentId}
           onSuccess={onSuccess}
         />
       )}
@@ -56,14 +90,27 @@ export default function CommentContainer({
             : 'mb-[80px]'
         }`}
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleCreateComment)}>
           <textarea
-            name='comment'
+            id='createComment'
+            {...register('createComment')}
             placeholder='댓글을 입력해주세요'
             className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
           />
-          <button className='mt-[16px] bg-orange-400 rounded-[8px] px-[50px] h-[60px] text-white font-medium text-[18px]'>
-            등록하기
+          <button
+            className='mt-[16px] bg-orange-400 rounded-[8px] px-[50px] h-[60px] text-white font-medium text-[18px] disabled:bg-gray-400 disabled:cursor-not-allowed'
+            disabled={isPending || watched.createComment === ''}
+          >
+            {isPending ? (
+              <Image
+                src='/images/buttonLoader.gif'
+                alt='Loading'
+                width={50}
+                height={20}
+              />
+            ) : (
+              '등록하기'
+            )}
           </button>
         </form>
       </div>
@@ -71,7 +118,7 @@ export default function CommentContainer({
         <Empty comments />
       ) : (
         <>
-          {isLoading || isFetching ? (
+          {isLoading ? (
             <DetailSkeleton $comment />
           ) : (
             <div>
@@ -106,7 +153,7 @@ export default function CommentContainer({
                         <KebabDropdown
                           $deleteComment
                           postId={comment.id}
-                          setPostId={setPostId}
+                          setPostId={setCommentId}
                           setShowModal={setShowModal}
                           setMainMessage={setMainMessage}
                           setModalType={setModalType}

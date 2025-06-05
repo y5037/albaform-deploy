@@ -1,14 +1,22 @@
 import instance from '../api/api';
 
 // 댓글 작성
-export const fetchPostComments = async (postId: number) => {
+export const fetchPostComments = async ({
+  postId,
+  createComment,
+}: {
+  postId: number;
+  createComment: string;
+}) => {
   try {
-    const response = await instance.post(`/posts/${postId}/comments`);
+    const response = await instance.post(`/posts/${postId}/comments`, {
+      content: createComment,
+    });
     if (!response.data) {
       throw new Error('댓글 작성 실패');
     }
 
-    return { result: response.data.data, nextPage: response.data.nextCursor };
+    return response.data.data;
   } catch (error) {
     console.error('댓글 작성 중 에러 발생', error);
     throw error;
