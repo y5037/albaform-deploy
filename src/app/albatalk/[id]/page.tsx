@@ -102,7 +102,7 @@ export default function DetailPage() {
       </div>
       {showToast && (
         <Toast onClose={() => setShowToast(false)}>
-          {modalType === 'deletePost' ? '삭제가 완료되었습니다 !' : ''}
+          {modalType === 'deleteComment' ? '삭제가 완료되었습니다 !' : ''}
         </Toast>
       )}
     </ResponsiveStyle>

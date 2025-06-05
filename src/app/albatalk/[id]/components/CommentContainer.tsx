@@ -36,7 +36,7 @@ export default function CommentContainer({
 
   return (
     <>
-      {showModal && modalType === 'deletePost' && (
+      {showModal && modalType === 'deleteComment' && (
         <Modal
           $deleteComment
           showModal={showModal}
