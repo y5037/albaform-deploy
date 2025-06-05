@@ -96,3 +96,18 @@ export interface LikeButtonProps {
 export interface SkeletonProps {
   $comment?: boolean;
 }
+
+export interface CommentListProps {
+  userId: number;
+  setCommentId: Dispatch<SetStateAction<number | undefined>>;
+  comments: CommentData[];
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  totalPages: number;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMainMessage: Dispatch<SetStateAction<string>>;
+  setSubMessage: Dispatch<SetStateAction<string>>;
+  setModalType: Dispatch<
+    SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
+  >;
+}
