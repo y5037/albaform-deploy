@@ -7,14 +7,7 @@ import { useState } from 'react';
 import Modal from '@/components/modal/Modal';
 import DetailSkeleton from './DetailSkeleton';
 import Empty from '@/components/empty/Empty';
-import { usePostComments } from '@/hooks/mutation/usePostComments';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  CreateCommentInput,
-  createCommentSchema,
-} from '@/schemas/updateCommentSchema';
-import { useQueryClient } from '@tanstack/react-query';
+import { useCreateCommentForm } from '../hooks/useCreateCommentForm';
 
 export default function CommentContainer({
   userId,
@@ -43,32 +36,11 @@ export default function CommentContainer({
     setProfileImg((prev) => ({ ...prev, [src]: defaultProfileImg }));
   };
 
-  const queryClient = useQueryClient();
+  const { form, onSubmit, isPending } = useCreateCommentForm(postId);
 
-  const { handleSubmit, register, watch, setValue } = useForm({
-    resolver: zodResolver(createCommentSchema),
-    mode: 'onChange',
-  });
+  const { handleSubmit, register, watch } = form;
 
   const watched = watch();
-
-  const { mutate: patchCreateComment, isPending } = usePostComments();
-
-  const handleCreateComment = (formData: CreateCommentInput) => {
-    const { createComment } = formData;
-
-    if (!postId || !createComment) return;
-
-    patchCreateComment(
-      { postId, createComment },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['comments'] });
-          setValue('createComment', '');
-        },
-      },
-    );
-  };
 
   return (
     <>
@@ -90,7 +62,7 @@ export default function CommentContainer({
             : 'mb-[80px]'
         }`}
       >
-        <form onSubmit={handleSubmit(handleCreateComment)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <textarea
             id='createComment'
             {...register('createComment')}
