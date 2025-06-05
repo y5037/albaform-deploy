@@ -42,8 +42,6 @@ function Modal({
 
   const queryClient = useQueryClient();
 
-  console.log(deletePostId);
-
   const handleAction = () => {
     if ($deletePost) {
       if (deletePostId)
@@ -55,7 +53,6 @@ function Modal({
             if (isAlbatalkDetail) {
               router.push('/albatalk');
             }
-            onSuccess?.();
           },
           onSettled: () => {
             setShowModal(false);
