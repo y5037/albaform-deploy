@@ -98,7 +98,7 @@ export default function CommentContainer({
             className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
           />
           <button
-            className='mt-[16px] bg-orange-400 rounded-[8px] px-[50px] h-[60px] text-white font-medium text-[18px] disabled:bg-gray-400 disabled:cursor-not-allowed'
+            className='mt-[16px] bg-orange-400 rounded-[8px] h-[60px] text-white font-medium text-[18px] disabled:bg-gray-400 disabled:cursor-not-allowed min-w-[160px] text-center justify-items-center'
             disabled={isPending || watched.createComment === ''}
           >
             {isPending ? (
