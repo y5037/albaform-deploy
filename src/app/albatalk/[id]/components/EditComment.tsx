@@ -21,6 +21,7 @@ export default function EditComment({
           id='editComment'
           {...register('editComment')}
           defaultValue={content}
+          maxLength={500}
           className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
         />
         <div className='flex justify-self-end mt-[10px]'>

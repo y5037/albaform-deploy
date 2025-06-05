@@ -59,6 +59,7 @@ export default function CommentContainer({
             id='createComment'
             {...register('createComment')}
             placeholder='댓글을 입력해주세요'
+            maxLength={500}
             className='w-full p-[14px] bg-background-200 rounded-[8px] font-light'
           />
           <button
