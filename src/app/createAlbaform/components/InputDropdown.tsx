@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
 
 interface DropdownProps {
   label?: string;

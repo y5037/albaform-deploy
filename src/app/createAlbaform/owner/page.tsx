@@ -7,6 +7,7 @@ import FormInfo, { InfoFormValues } from '../components/FormInfo';
 import FormCondition, {
   ConditionFormValues,
 } from '../components/FormCondition';
+import FormWork, { WorkFormValues } from '../components/FormWork';
 
 export default function CreateForm() {
   const [currentStep, setCurrentStep] = useState<'info' | 'condition' | 'work'>(
@@ -17,7 +18,7 @@ export default function CreateForm() {
   const [formData, setFormData] = useState<{
     info: InfoFormValues;
     condition: ConditionFormValues;
-    work: any;
+    work: WorkFormValues;
   }>({
     info: {
       title: '',
@@ -33,7 +34,17 @@ export default function CreateForm() {
       age: '',
       preferred: '',
     },
-    work: null,
+    work: {
+      location: '',
+      workStartDate: '',
+      workEndDate: '',
+      workStartTime: '',
+      workEndTime: '',
+      workDays: [],
+      isNegotiableWorkDays: false,
+      hourlyWage: 9860,
+      isPublic: false,
+    },
   });
 
   const isStepInProgress = (step: 'info' | 'condition' | 'work'): boolean => {
@@ -57,7 +68,14 @@ export default function CreateForm() {
       });
     }
 
-    // 이후 work 상태 확인 로직 추가
+    if (step === 'work') {
+      const d = formData.condition;
+      return Object.values(d).some((v) => {
+        if (typeof v === 'string') return v.trim() !== '';
+        if (typeof v === 'number') return !isNaN(v) && v !== 0;
+        return false;
+      });
+    }
     return false;
   };
 
@@ -71,6 +89,10 @@ export default function CreateForm() {
     },
     [],
   );
+
+  const handleWorkChange = useCallback((workData: WorkFormValues) => {
+    setFormData((prev) => ({ ...prev, work: workData }));
+  }, []);
 
   return (
     <>
@@ -120,6 +142,12 @@ export default function CreateForm() {
           )}
 
           {/* 나중에 work 폼 추가 */}
+          {currentStep === 'work' && (
+            <FormWork
+              onDataChange={handleWorkChange}
+              initialValue={formData.work}
+            />
+          )}
         </div>
       </div>
     </>
