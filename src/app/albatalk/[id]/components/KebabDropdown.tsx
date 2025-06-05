@@ -16,6 +16,7 @@ export default function KebabDropdown({
   setMainMessage,
   setSubMessage,
   setModalType,
+  handleEdit,
 }: KebabDropdownProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
 
@@ -42,8 +43,22 @@ export default function KebabDropdown({
         onClick={() => setDropdown((prev) => !prev)}
       />
       <PostDropdownContainer $active={dropdown}>
-        <PostDropwonButton type='button'>수정하기</PostDropwonButton>
-        <PostDropwonButton type='button' onClick={handleDeleteOpenModal}>
+        <PostDropwonButton
+          type='button'
+          onClick={() => {
+            setDropdown(false);
+            handleEdit?.();
+          }}
+        >
+          수정하기
+        </PostDropwonButton>
+        <PostDropwonButton
+          type='button'
+          onClick={() => {
+            setDropdown(false);
+            handleDeleteOpenModal();
+          }}
+        >
           삭제하기
         </PostDropwonButton>
       </PostDropdownContainer>

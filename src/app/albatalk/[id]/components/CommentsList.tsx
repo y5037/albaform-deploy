@@ -4,6 +4,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { useState } from 'react';
 import { CommentListProps } from '../types';
 import { formattedDate } from '@/utils/formattedDate';
+import EditComment from './EditComment';
 
 export default function CommentsList({
   userId,
@@ -18,6 +19,7 @@ export default function CommentsList({
   setModalType,
 }: CommentListProps) {
   const [profileImg, setProfileImg] = useState<Record<string, string>>({});
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
 
   const defaultProfileImg = '/images/defaultProfile.svg';
   const handleProfileImgError = (src: string) => {
@@ -28,6 +30,8 @@ export default function CommentsList({
     <div>
       {comments?.map((comment) => {
         const { writer } = comment;
+        const isEditing = editingCommentId === comment.id;
+
         return (
           <div
             key={comment.id}
@@ -62,11 +66,20 @@ export default function CommentsList({
                   setMainMessage={setMainMessage}
                   setModalType={setModalType}
                   setSubMessage={setSubMessage}
+                  handleEdit={() => setEditingCommentId(comment.id)}
                 />
               )}
             </div>
             <div className='whitespace-pre-wrap font-light'>
-              {comment.content}
+              {isEditing ? (
+                <EditComment
+                  content={comment.content}
+                  editingCommentId={editingCommentId}
+                  setEditingCommentId={setEditingCommentId}
+                />
+              ) : (
+                comment.content
+              )}
             </div>
           </div>
         );

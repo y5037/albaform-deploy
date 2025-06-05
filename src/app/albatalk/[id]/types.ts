@@ -79,6 +79,7 @@ export interface KebabDropdownProps {
   setModalType: Dispatch<
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
+  handleEdit?: () => void;
 }
 
 type LikePostProps = {
@@ -110,4 +111,10 @@ export interface CommentListProps {
   setModalType: Dispatch<
     SetStateAction<'editUser' | 'editPassword' | 'deletePost'>
   >;
+}
+
+export interface EditCommentProps {
+  content: string;
+  editingCommentId: number;
+  setEditingCommentId: Dispatch<SetStateAction<number | null>>;
 }
