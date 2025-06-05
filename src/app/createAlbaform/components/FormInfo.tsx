@@ -58,12 +58,12 @@ export default function FormInfo({
       ? new Date(initialValue.recruitmentEndDate)
       : null,
   );
-
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [previews, setPreviews] = useState<string[]>(
     initialValue.imageUrls || [],
   );
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // 이미지 업로드 시 미리보기 생성
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,7 +146,7 @@ export default function FormInfo({
           control={control}
           name='recruitmentStartDate'
           render={() => (
-            <div style={{ position: 'relative' }}>
+            <div className='relative'>
               <CustomDateInput
                 ref={inputRef}
                 readOnly
