@@ -1,12 +1,4 @@
-import { useForm } from 'react-hook-form';
 import { EditCommentProps } from '../types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  EditCommentInput,
-  editCommentSchema,
-} from '@/schemas/updateCommentSchema';
-import { useEditComments } from '@/hooks/mutation/useEditComments';
-import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEditCommentForm } from '../hooks/useEditCommentForm';
 
