@@ -8,42 +8,23 @@ import {
 import { useEditComments } from '@/hooks/mutation/useEditComments';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useEditCommentForm } from '../hooks/useEditCommentForm';
 
 export default function EditComment({
   content,
   editingCommentId,
   setEditingCommentId,
 }: EditCommentProps) {
-  const queryClient = useQueryClient();
-
-  const { mutate: patchEditComment, isPending } = useEditComments();
-
-  const { handleSubmit, register, watch } = useForm({
-    resolver: zodResolver(editCommentSchema),
-    mode: 'onChange',
+  const { form, isPending, onSubmit } = useEditCommentForm({
+    editingCommentId,
+    setEditingCommentId,
   });
+  const { handleSubmit, register, watch } = form;
 
   const watched = watch();
-
-  const handleEditSubmit = (formData: EditCommentInput) => {
-    const { editComment } = formData;
-
-    if (!editComment) return;
-
-    patchEditComment(
-      { commentId: editingCommentId, editComment },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['comments'] });
-          setEditingCommentId(null);
-        },
-      },
-    );
-  };
-
   return (
     <>
-      <form onSubmit={handleSubmit(handleEditSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <textarea
           id='editComment'
           {...register('editComment')}
