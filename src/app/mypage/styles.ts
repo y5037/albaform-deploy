@@ -1,4 +1,5 @@
 import { media } from '@/styles/media';
+import { min } from 'date-fns';
 import styled, { css } from 'styled-components';
 
 type EditContainerProps = {
@@ -14,7 +15,8 @@ type TabButtonProps = {
 };
 
 type SlideBgProps = {
-  $activeTab?: 'post' | 'comment';
+  $activeTab?: 'post' | 'comment' | 'scrap';
+  $applicant?: boolean;
 };
 
 type DropdownProps = {
@@ -98,9 +100,16 @@ export const TabWrapper = styled.div`
 
 export const SlideBg = styled.div<SlideBgProps>`
   position: absolute;
-  left: ${({ $activeTab }) =>
-    $activeTab === 'post' ? '6px' : 'calc(50% + 3px)'};
-  width: calc(50% - 6px);
+  left: ${({ $activeTab, $applicant }) =>
+    $activeTab === 'post'
+      ? '6px'
+      : $applicant && $activeTab === 'comment'
+      ? 'calc(33% + 3px)'
+      : $applicant && $activeTab === 'scrap'
+      ? 'calc(33% + 140px)'
+      : 'calc(50% + 3px)'};
+  width: ${({ $applicant }) =>
+    $applicant ? 'calc(33% - 6px)' : 'calc(50% - 6px)'};
   height: 38px;
   border-radius: 8px;
   background-color: white;
@@ -117,7 +126,7 @@ export const TabButton = styled.button<TabButtonProps>`
   text-align: center;
   border: none;
   border-radius: 8px;
-  transition: color 0.3s ease;
+  transition: color 10s ease;
 `;
 
 export const PostWrapper = styled.div`
@@ -142,6 +151,31 @@ export const PostWrapper = styled.div`
     flex-direction: column;
     width: 100%;
     min-width: 100%;
+  }
+`;
+
+export const ScrapWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 32%;
+  width: 32%;
+  position: relative;
+  cursor: pointer;
+
+  @media (max-width: 1450px) {
+    min-width: 49%;
+    width: 49%;
+  }
+
+  @media ${media.tabletPC} {
+    flex-direction: column;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 0 100px;
   }
 `;
 
@@ -200,7 +234,7 @@ export const PostDropdownContainer = styled.div<DropdownProps>`
   font-size: 16px;
 `;
 
-export const PostDropwonButton = styled.button<DropdownButtonProps>`
+export const PostDropdownButton = styled.button<DropdownButtonProps>`
   width: 118px;
   height: 38px;
   margin-bottom: 7px;

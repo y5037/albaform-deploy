@@ -4,16 +4,26 @@ import { Dispatch, SetStateAction } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 export interface FilterContainerProps {
-  selectedTab: 'post' | 'comment';
-  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment'>>;
+  selectedTab: 'post' | 'comment' | 'scrap';
+  setSelectedTab: React.Dispatch<SetStateAction<'post' | 'comment' | 'scrap'>>;
   isSort: 'mostRecent' | 'mostCommented' | 'mostLiked';
   setIsSort: React.Dispatch<
     SetStateAction<'mostRecent' | 'mostCommented' | 'mostLiked'>
   >;
+  isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
+  setIsScrapSort?: React.Dispatch<
+    SetStateAction<
+      'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
+    >
+  >;
+  isPublic?: boolean;
+  setIsPublic?: Dispatch<SetStateAction<boolean>>;
+  isRecruiting?: boolean;
+  setIsRecruiting?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ListContainerProps {
-  selectedTab: 'post' | 'comment';
+  selectedTab: 'post' | 'comment' | 'scrap';
   listData: ListData[];
   isLoading: boolean;
   isFetchingNextPage: boolean;
@@ -25,9 +35,20 @@ export interface ListContainerProps {
   setMainMessage: Dispatch<SetStateAction<string>>;
   subMessage: string;
   setSubMessage: Dispatch<SetStateAction<string>>;
-  modalType: 'editUser' | 'editPassword' | 'deletePost' | 'deleteComment';
+  modalType:
+    | 'editUser'
+    | 'editPassword'
+    | 'deletePost'
+    | 'deleteComment'
+    | 'cancelScrap';
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
   >;
   onSuccess: () => void;
 }
@@ -126,11 +147,17 @@ export type EditPasswordFormProps = {
 
 export interface KebabDropdownProps {
   postId: number;
-  setPostId: Dispatch<SetStateAction<number | undefined>>;
+  setPostId?: Dispatch<SetStateAction<number | undefined>>;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   setMainMessage: Dispatch<SetStateAction<string>>;
   setSubMessage: Dispatch<SetStateAction<string>>;
   setModalType: Dispatch<
-    SetStateAction<'editUser' | 'editPassword' | 'deletePost' | 'deleteComment'>
+    SetStateAction<
+      | 'editUser'
+      | 'editPassword'
+      | 'deletePost'
+      | 'deleteComment'
+      | 'cancelScrap'
+    >
   >;
 }

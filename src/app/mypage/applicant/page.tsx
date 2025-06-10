@@ -17,10 +17,17 @@ import EditPasswordModal from '../components/modal/editPassword/EditPasswordModa
 export default function Mypage() {
   const [postId, setPostId] = useState<number>();
   const [page, setPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>('post');
-  const [isSort, setIsSort] = useState<
+  const [selectedTab, setSelectedTab] = useState<'post' | 'comment' | 'scrap'>(
+    'post',
+  );
+  const [isPostSort, setIsPostSort] = useState<
     'mostRecent' | 'mostCommented' | 'mostLiked'
   >('mostRecent');
+  const [isScrapSort, setIsScrapSort] = useState<
+    'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped'
+  >('mostRecent');
+  const [isPublic, setIsPublic] = useState(true);
+  const [isRecruiting, setIsRecruiting] = useState(true);
   const [showToast, setShowToast] = useState(false);
 
   const {
@@ -43,8 +50,16 @@ export default function Mypage() {
   let fetchNextPage, hasNextPage;
   let totalPages;
 
-  const query = useGetMyContents(page, itemsPerPage, selectedTab, isSort);
-  const isPost = query.type === 'post';
+  const query = useGetMyContents(
+    page,
+    itemsPerPage,
+    selectedTab,
+    isPostSort,
+    isScrapSort,
+    isPublic,
+    isRecruiting,
+  );
+  const isPost = query.type === 'post' || query.type === 'scrap';
 
   if (query.type === 'comment') {
     listData = query.data?.result ?? [];
@@ -98,8 +113,14 @@ export default function Mypage() {
       <FilterContainer
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        isSort={isSort}
-        setIsSort={setIsSort}
+        isSort={isPostSort}
+        setIsSort={setIsPostSort}
+        isScrapSort={isScrapSort}
+        setIsScrapSort={setIsScrapSort}
+        isPublic={isPublic}
+        setIsPublic={setIsPublic}
+        isRecruiting={isRecruiting}
+        setIsRecruiting={setIsRecruiting}
       />
       <MyPostAndCommentList
         selectedTab={selectedTab}
@@ -118,9 +139,10 @@ export default function Mypage() {
         setModalType={setModalType}
         onSuccess={handleEditSuccess}
       />
-      {selectedTab === 'post' && hasNextPage && (
-        <div ref={observerRef} style={{ height: '1px' }} />
-      )}
+      {selectedTab === 'post' ||
+        (selectedTab === 'scrap' && hasNextPage && (
+          <div ref={observerRef} style={{ height: '1px' }} />
+        ))}
       {selectedTab === 'comment' && (
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
       )}
@@ -132,6 +154,8 @@ export default function Mypage() {
             ? '비밀번호가 성공적으로 수정되었습니다 !'
             : modalType === 'deletePost'
             ? '게시글 삭제가 완료되었습니다 !'
+            : modalType === 'cancelScrap'
+            ? '스크랩 취소가 완료 되었습니다 !'
             : ''}
         </Toast>
       )}
