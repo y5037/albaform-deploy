@@ -10,7 +10,11 @@ import Button from '@/app/auth/components/Button';
 import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUp } from '@/hooks/mutation/useSignUp';
 import { useSignUpStore } from '@/stores/useSignUpStore';
-import { SignUp2Input, signUpSchema2Base } from '@/schemas/signupSchema';
+import {
+  OwnerSignUp2Input,
+  ownerSignUpSchema2Base,
+} from '@/schemas/signupSchema';
+
 
 export default function SignInInfo() {
   const {
@@ -18,8 +22,8 @@ export default function SignInInfo() {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-  } = useForm<SignUp2Input>({
-    resolver: zodResolver(signUpSchema2Base),
+  } = useForm<OwnerSignUp2Input>({
+    resolver: zodResolver(ownerSignUpSchema2Base),
     mode: 'onChange',
   });
 
@@ -35,7 +39,7 @@ export default function SignInInfo() {
   const { isPending, error } = useSignUp();
   const setStep2 = useSignUpStore((state) => state.setStep2);
 
-  const onSubmit = (formData: SignUp2Input) => {
+  const onSubmit = (formData: OwnerSignUp2Input) => {
     setStep2(formData);
     router.push('/');
   };
