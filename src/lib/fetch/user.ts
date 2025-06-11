@@ -1,5 +1,10 @@
-import { ListData, InfoWatchedFields } from '@/app/mypage/types';
+import {
+  ListData,
+  InfoWatchedFields,
+  PasswordWatchedFields,
+} from '@/app/mypage/types';
 import instance from '../api/api';
+import { AxiosError } from 'axios';
 
 // 내 정보 조회
 export const fetchUser = async () => {
@@ -41,17 +46,18 @@ export const fetchEditUser = async (payload: InfoWatchedFields) => {
 };
 
 // 비밀번호 변경
-export const fetchUpdatePassword = async () => {
+export const fetchUpdatePassword = async (formData: PasswordWatchedFields) => {
+  const { currentPassword, newPassword } = formData;
+
   try {
-    const response = await instance.patch('/users/me/password');
-    if (!response.data) {
-      throw new Error('비밀번호 수정 실패');
-    }
-    const result = response.data;
-    return result;
+    const response = await instance.patch('/users/me/password', {
+      currentPassword,
+      newPassword,
+    });
+    return response.data;
   } catch (error) {
-    console.error('비밀번호 수정 중 에러 발생:', error);
-    throw error;
+    const axiosError = error as AxiosError<{ message: string }>;
+    throw axiosError;
   }
 };
 
@@ -71,14 +77,42 @@ export const fetchMyForms = async () => {
 };
 
 // 내가 지원한 알바폼 목록 조회
-export const fetchMyAppications = async () => {
+export const fetchMyAppications = async ({
+  status,
+  itemsPerPage,
+  cursor,
+  keyword,
+}: {
+  status:
+    | ''
+    | 'REJECTED'
+    | 'INTERVIEW_PENDING'
+    | 'INTERVIEW_COMPLETED'
+    | 'HIRED';
+  itemsPerPage: number;
+  cursor: number;
+  keyword: string;
+}) => {
   try {
-    const response = await instance.get('/users/me/applications');
+    const requestUrl =
+      cursor === 1
+        ? `/users/me/applications?limit=${itemsPerPage}${
+            status.length > 0 ? `&status=${status}` : ''
+          }&keyword=${keyword}`
+        : `/users/me/applications?limit=${itemsPerPage}${
+            status.length > 0 ? `&status=${status}` : ''
+          }&cursor=${cursor}&keyword=${keyword}`;
+
+    const response = await instance.get(requestUrl);
+
     if (!response.data) {
       throw new Error('내 지원서 데이터 불러오기 실패');
     }
-    const result = response.data;
-    return result;
+
+    return {
+      result: response.data.data,
+      nextPage: response.data.nextCursor,
+    };
   } catch (error) {
     console.error('내 지원서 데이터 불러오는 중 에러 발생:', error);
     throw error;
@@ -90,16 +124,20 @@ export const fetchMyScrap = async ({
   isScrapSort,
   itemsPerPage,
   cursor,
+  isPublic,
+  isRecruiting,
 }: {
   isScrapSort?: 'mostRecent' | 'highestWage' | 'mostApplied' | 'mostScrapped';
   itemsPerPage: number;
   cursor: number;
-}) => {
+  isPublic?: boolean;
+  isRecruiting?: boolean;
+}): Promise<{ result: ListData[]; nextPage: number }> => {
   try {
     const requestUrl =
       cursor === 1
-        ? `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`
-        : `/users/me/scraps?limit=${itemsPerPage}&orderBy=${isScrapSort}`;
+        ? `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`
+        : `/users/me/scrap?limit=${itemsPerPage}&orderBy=${isScrapSort}&cursor=${cursor}&isPublic=${isPublic}&isRecruiting=${isRecruiting}`;
 
     const response = await instance.get(requestUrl);
 
