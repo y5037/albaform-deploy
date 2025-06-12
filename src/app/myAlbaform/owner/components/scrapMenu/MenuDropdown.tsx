@@ -1,12 +1,12 @@
 import Image from 'next/image';
+import { useClickOutside } from '@/hooks/common/useClickOutside';
+import { useRouter } from 'next/navigation';
 import {
   KebabButton,
-  PostDropdownContainer,
   PostDropdownButton,
-} from '../../styles';
-import { useClickOutside } from '@/hooks/common/useClickOutside';
-import { KebabDropdownProps } from '../../types';
-import { useRouter } from 'next/navigation';
+  PostDropdownContainer,
+} from '@/app/myAlbaform/styles';
+import { KebabDropdownProps } from '@/app/myAlbaform/types';
 
 export default function MenuDropdown({
   postId,
@@ -22,9 +22,9 @@ export default function MenuDropdown({
   const handleDeleteOpenModal = () => {
     setPostId?.(postId);
     setShowModal(true);
-    setModalType('cancelScrap');
-    setMainMessage('선택하신 알바폼의 스크랩을 취소할까요?');
-    setSubMessage('취소 후 정보를 복구할 수 없어요.');
+    setModalType('deleteForms');
+    setMainMessage('선택하신 알바폼을 삭제할까요?');
+    setSubMessage('삭제 후 정보를 복구할 수 없어요.');
   };
 
   return (
@@ -45,10 +45,11 @@ export default function MenuDropdown({
           type='button'
           onClick={(e) => {
             e.stopPropagation();
-            router.push(`/createAlbaform/applicant/${postId}`);
+            // 구현된 페이지가 없어 보류
+            // router.push(`/editAlbaform/owner/${postId}`);
           }}
         >
-          지원하기
+          수정하기
         </PostDropdownButton>
         <PostDropdownButton
           type='button'
@@ -57,7 +58,7 @@ export default function MenuDropdown({
             handleDeleteOpenModal();
           }}
         >
-          스크랩 취소
+          삭제하기
         </PostDropdownButton>
       </PostDropdownContainer>
     </KebabButton>
