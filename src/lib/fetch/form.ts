@@ -26,9 +26,10 @@ export const fetchAlbaForms = async (params: {
   const { postSort, recruitingSort, keyword, itemsPerPage, cursor } = params;
 
   try {
-    const requestUrl = cursor === 1
-      ? `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}`
-      : `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}&cursor=${cursor}`;
+    const requestUrl =
+      cursor === 1
+        ? `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}`
+        : `/forms?orderBy=${postSort}&limit=${itemsPerPage}&keyword=${keyword}&isRecruiting=${recruitingSort}&cursor=${cursor}`;
 
     const res = await instance.get(requestUrl);
     if (!res.data) {
@@ -89,7 +90,6 @@ export const fetchScrapForms = async (formId: number) => {
     if (!response.data) {
       throw new Error('알바폼 스크랩 실패');
     }
-    return response.data;
   } catch (error) {
     console.error('알바 폼 스크랩 중 에러 발생', error);
     throw error;

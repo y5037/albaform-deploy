@@ -1,73 +1,22 @@
 'use client';
-import { media } from "@/styles/media";
-import styled from "styled-components";
+import { media } from '@/styles/media';
+import styled from 'styled-components';
 
-//배너이미지
-export const BannerImages = styled.div`
-     margin: 78px auto 80px auto;
-    width: 1560px;
-    height: 562px;
-    border-radius: 8px;
-   
-    display: flex;
-    justify-content: center;
-  
-    
-
-
-     @media ${media.tablet} {
-    margin-bottom: 32px;
-    max-width: 1480px;
-    margin: 0 auto;
-    width: 744px;
-    height: 260px;
-    display: flex;
-    justify-content: center;
-  }
-
-     @media ${media.mobile} {
-    margin-bottom: 32px;
-    max-width: 1480px;
-    margin: 0 auto;
-    width: 375px;
-    height: 260px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
-
-`
-
-export const BannerImg = styled.img`
-    width: 1560px;
-    height: 562px;
-    margin-top: 78px;
-    object-fit: cover;
-    @media ${media.tablet} {
-        width: 744px;
-        height: 260px;
-      
-  }
-
-     @media ${media.mobile} {
-        width: 375px;
-        height: 260px;
-
-  }
-`
+type DetailResponsiveProps = {
+  $owner?: boolean;
+};
 
 export const CarouselPagination = styled.div`
   position: absolute;
-  bottom: 16px;
-  right: 200px;
-  background-color: rgba(0, 0, 0, 0.2); 
+  bottom: 20px;
+  right: 14px;
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--gray100);
   padding: 8px 15px;
   border-radius: 100px;
   font-size: 14px;
 
-
-   span {
+  span {
     font-weight: 600;
     color: white;
   }
@@ -75,28 +24,100 @@ export const CarouselPagination = styled.div`
 
 //Title Component
 export const Tag = styled.div`
-    background-color: #FFF7EB;
-    color: var(--primary-orange300);
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    margin-right: 8px;
-    padding: 6px 12px;
-    border-radius: 4px;
-`
+  background-color: #fff7eb;
+  color: var(--primary-orange300);
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+`;
 
 export const Dates = styled.div`
-    color: var(--black100);
-    margin: 6px 8px;
-    font-size: 16px;
-`
+  color: var(--black100);
+  margin: 6px 8px;
+  font-size: 16px;
+`;
 
-export const TextArea = styled.div`
-  width: 100%;
-  max-width: 770px;
-  height: 100%;
-  max-height: 320px;
-  font-size: 24px;
-  color: var(--black400);
-  margin-bottom: 129px;
-  `
+export const CarouselReponsive = styled.div`
+  position: relative;
+  padding: 88px 120px 0;
+
+  @media ${media.desktop} {
+    padding: 88px 0 0;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tabletPC} {
+    padding: 88px 0 0;
+    width: 100%;
+  }
+
+  @media ${media.tablet} {
+    padding: 60px 0 0;
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: 54px 0 0;
+  }
+`;
+
+export const DetailResponsive = styled.div<DetailResponsiveProps>`
+  position: relative;
+  padding: 40px 120px calc(env(safe-area-inset-bottom) + 62px);
+
+  @media ${media.desktop} {
+    padding: 40px 0 calc(env(safe-area-inset-bottom) + 62px);
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tabletPC} {
+    padding: ${({ $owner }) =>
+      $owner
+        ? '40px 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '40px 24px calc(env(safe-area-inset-bottom) + 262px)'};
+  }
+
+  @media ${media.tablet} {
+    padding: ${({ $owner }) =>
+      $owner
+        ? '16px 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '16px 24px calc(env(safe-area-inset-bottom) + 262px)'};
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: ${({ $owner }) =>
+      $owner
+        ? '0 24px calc(env(safe-area-inset-bottom) + 62px)'
+        : '0 24px calc(env(safe-area-inset-bottom) + 262px)'};
+  }
+`;
+
+export const InfiniteScrollResponsive = styled.div`
+  position: relative;
+  padding: 80px 120px calc(env(safe-area-inset-bottom) + 162px);
+
+  @media ${media.desktop} {
+    padding: 40px 0 calc(env(safe-area-inset-bottom) + 162px);
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  @media ${media.tabletPC} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
+  }
+
+  @media ${media.tablet} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
+    margin: 0;
+  }
+
+  @media ${media.mobile} {
+    padding: 40px 24px calc(env(safe-area-inset-bottom) + 200px);
+  }
+`;
