@@ -1,8 +1,8 @@
 'use client';
 
 import BannerImagesCarousel from './components/BannerImagesCarousel';
-import Section2 from './components/section2/Section2';
-import Section1 from './components/section1/Section1';
+import Section2 from './components/sec2/Section2';
+import Section1 from './components/sec1/Section1';
 import { CarouselReponsive, DetailResponsive } from './styles';
 import { useState } from 'react';
 import Toast from '@/components/tooltip/Toast';
