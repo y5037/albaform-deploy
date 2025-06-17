@@ -6,6 +6,8 @@ import ClientLayout from '@/app/ClientLayout';
 import '@/styles/tailwindStyle.css';
 import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
 import KakaoMapScript from '@/components/common/KakaoMapScript';
+import Script from 'next/script';
+import Navbar from '@/components/navbar/Navbar';
 
 export const metadata: Metadata = {
   title: 'Albaform',
@@ -15,7 +17,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang='ko'>
       <head>
@@ -23,14 +29,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='viewport'
           content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no, viewport-fit=cover'
         />
-        <script src='https://developers.kakao.com/sdk/js/kakao.js'></script>
+        <Script
+          src='https://developers.kakao.com/sdk/js/kakao.js'
+          strategy='beforeInteractive'
+        />
       </head>
       <body>
         <DaumPostcodeScript />
         <KakaoMapScript />
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
-            <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>
+              <Navbar />
+              {children}
+            </ClientLayout>
           </GlobalStyleProvider>
         </StyledComponentsRegistry>
       </body>
