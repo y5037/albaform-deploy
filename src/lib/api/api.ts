@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/useAuthStore';
 import axios, {
   AxiosInstance,
   AxiosError,
@@ -74,10 +75,11 @@ instance.interceptors.response.use(
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
         window.location.href = '/signin/owner';
+        useAuthStore.getState().clearUser();
         return Promise.reject(refreshError);
       }
     }
-
+    
     return Promise.reject(error);
   },
 );
