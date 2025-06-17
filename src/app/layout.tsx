@@ -22,7 +22,6 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-
   return (
     <html lang='ko'>
       <head>
@@ -41,7 +40,7 @@ export default async function RootLayout({
         <StyledComponentsRegistry>
           <GlobalStyleProvider>
             <ClientLayout>
-              <Navbar/>
+              <Navbar />
               {children}
             </ClientLayout>
           </GlobalStyleProvider>
