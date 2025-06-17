@@ -71,7 +71,6 @@ export default function Navbar({ variant = 'default' }: Props) {
       margin: 0 auto;
     }
 
-
     /* Tablet 이하: 패딩 24px, 좌우 꽉 채움 */
     @media ${media.tabletPC} {
       padding: 0 24px;
@@ -128,7 +127,7 @@ export default function Navbar({ variant = 'default' }: Props) {
           </MenuList>
           {isLandingPage ? (
             <button
-              onClick={() => router.push('/auth/signin/owner')}
+              onClick={() => router.push('/signin/owner')}
               style={{
                 fontSize: '16px',
                 background: 'var(--primary-orange300)',
