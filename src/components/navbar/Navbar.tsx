@@ -76,10 +76,10 @@ export default function Navbar() {
                   const url = (() => {
                     if (item.commonUrl) {
                       if (item.label === '알바 토크' && !role)
-                        return '/auth/signin/applicant';
+                        return '/signin/applicant';
                       return item.commonUrl;
                     }
-                    if (!role) return '/auth/signin/applicant';
+                    if (!role) return '/signin/applicant';
                     return role === 'OWNER' ? item.ownerUrl : item.applicantUrl;
                   })();
 
@@ -103,7 +103,7 @@ export default function Navbar() {
               !isLoginPage && (
                 <button
                   onClick={() => {
-                    router.push('/auth/signin/applicant');
+                    router.push('/signin/applicant');
                     setActiveMenu('지원자 전용');
                   }}
                   style={{
