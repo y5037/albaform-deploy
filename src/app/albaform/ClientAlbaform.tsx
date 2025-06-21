@@ -10,6 +10,7 @@ import FloatingButton from '@/components/floatingbutton/FloatingButton';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useAlbaForms } from '@/hooks/query/useGetForms';
 import { ClientAlbaformProps } from './types';
+import { useGetMyInfo } from '@/hooks/query/useGetUser';
 
 export default function ClientAlbaform({
   initialParams,
@@ -24,8 +25,22 @@ export default function ClientAlbaform({
   );
   const [keyword, setKeyword] = useState(initialParams.keyword);
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useAlbaForms(initialParams.itemsPerPage, postSort, recruitingSort, keyword);
+  const {
+    data,
+    isLoading: getAlbaformsLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useAlbaForms(
+    initialParams.itemsPerPage,
+    postSort,
+    recruitingSort,
+    keyword,
+  );
+
+  const { data: user, isLoading: getUserLoading } = useGetMyInfo();
+
+  const isLoading = getAlbaformsLoading || getUserLoading;
 
   const listData = data?.pages.flatMap((page) => page.result) ?? [];
 
@@ -62,7 +77,7 @@ export default function ClientAlbaform({
         </SortResponsive>
         {hasNextPage && <div ref={observerRef} style={{ height: 1 }} />}
       </div>
-      <FloatingButton $myAlbaform />
+      {user?.role === 'OWNER' && !isLoading && <FloatingButton $myAlbaform />}
     </>
   );
 }
