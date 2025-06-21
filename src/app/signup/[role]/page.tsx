@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { openKakaoAddress } from '@/utils/openKakaoAddress';
 import { useSignUpStore } from '@/stores/useSignUpStore';
 import { SignUpStep1Input, SignUpStep1Schema } from '@/schemas/signupSchema';
 
@@ -59,7 +58,7 @@ export default function SignUp({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='max-w-[640px] mx-auto py-[200px] max-md:px-[24px]'
+      className='max-w-[640px] mx-auto py-[200px]'
     >
       {/* 상단 안내 문구 */}
       {isApplicant ? (
@@ -176,7 +175,7 @@ export default function SignUp({
         </p>
       </div>
 
-      <KakaoSignUp />
+      <KakaoSignUp role={role} />
     </form>
   );
 }
