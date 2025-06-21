@@ -24,7 +24,7 @@
 
 </div>
 
----
+<br />
 
 ## 🔍 About
 
@@ -36,7 +36,7 @@
 아르바이트 공고를 올리고 채용하는 긱워커 매칭 플랫폼 구축을 목표로,
 실무 능력과 협업 효율성 향상을 위하여 해당 프로젝트가 진행되었습니다.
 
----
+<br />
 
 ## 💡 핵심 기능 하이라이트
 
@@ -45,7 +45,7 @@
 🔐 채용자의 편리한 공고 및 게시글 관리     🎯 다양한 필터와 정렬 기능 제공
 ```
 
----
+<br />
 
 ## 📸 Demo Preview
 > 아래는 주요 화면 데모입니다.
@@ -58,7 +58,7 @@
 - 마이페이지 및 알바토크<br/>
   <br/>![화면 기록 2025-06-21 오후 5 02 36](https://github.com/user-attachments/assets/2bf63b4a-4dba-4e78-91e5-aacaff0ba27b)
 
----
+<br />
 
 ## 👨‍👩‍👧‍👦 팀원 & 역할
 
@@ -93,7 +93,7 @@
 - 네비게이션 초기 UIUX 설계
 - 알바폼 목록 및 상세 UI 일부 구현
 
----
+<br />
 
 ## 📚 Library & Framework
 
@@ -107,7 +107,7 @@
 | **Vercel**      | <img src="https://github.com/user-attachments/assets/cba098d4-a1c7-45db-a080-be8c77f193ae" width="150"/> | 41.4.0  |
 | **AWS**         | <img src="https://github.com/user-attachments/assets/ca034d79-e6db-4708-83a5-b7b6604d1f93" width="150"/> | 41.4.0  |
 
----
+<br />
 
 ## ⚙️ 설치 방법
 
@@ -122,7 +122,7 @@ cd main_repo  # 또는 cd Albaform (실제 폴더명에 따라 수정)
 npm install
 ```
 
----
+<br />
 
 ## 🚀 실행 방법
 
@@ -130,7 +130,31 @@ npm install
 npm run dev
 ```
 
----
+<br />
+
+#### 🔐 환경 변수 설정 (.env)
+
+```bash
+카카오 로그인 기능을 위해 `.env.local` 파일에 환경 변수를 설정해야 합니다.
+
+```bash
+# 아래 명령어로 예시 파일을 복사한 후, 실제 키를 입력하세요
+cp .env.example .env.local
+```
+
+`.env.example` 파일을 참고하여 실제 값을 입력해주세요.
+
+| 변수명 | 설명 |
+|--------|------|
+| `NEXT_PUBLIC_KAKAO_APP_KEY` | 클라이언트(브라우저)에서 사용하는 JavaScript 키 |
+| `NEXT_PUBLIC_KAKAO_REST_API_KEY` | 서버에서 카카오 REST API 호출 시 사용하는 키 |
+| `NEXT_PUBLIC_KAKAO_CLIENT_SECRET` | REST API 토큰 교환 시 사용하는 Client Secret |
+| `NEXT_PUBLIC_KAKAO_REDIRECT_SIGNUP_BASE_URI` | 카카오 회원가입 리다이렉트 URI |
+| `NEXT_PUBLIC_KAKAO_REDIRECT_SIGNIN_BASE_URI` | 카카오 로그인 리다이렉트 URI |
+
+> ⚠️ `.env.local` 파일은 `git`에 커밋되지 않으며, 실제 키는 배포 환경에 맞게 별도로 관리해야 합니다.
+
+<br />
 
 ## 📁 프로젝트 구조
 
@@ -159,7 +183,7 @@ npm run dev
 
 ```
 
----
+<br />
 
 ## 🧰 사용한 툴
 
@@ -168,9 +192,11 @@ npm run dev
 - **Discord** – 실시간 커뮤니케이션 및 회의
 - **Prettier** – 코드 스타일 포맷팅
 
+<br />
+
 ---
 
-## ✅ 마무리하며
+## ✨ 마무리하며
 
 이 프로젝트는 단순한 클론이 아닌,  
 **실제 채용 플랫폼 구축**을 목표로 핵심 기능을 직접 설계하고 협업하여 만든 결과물입니다.  
