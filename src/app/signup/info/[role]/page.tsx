@@ -127,7 +127,7 @@ export default function SignUpInfo({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='max-w-[640px] mx-auto py-[200px]'
+      className='max-w-[640px] mx-auto py-[200px] max-md:mx-6'
     >
       <div className='flex flex-col items-center'>
         <p className='font-semibold text-3xl mb-[32px]'>

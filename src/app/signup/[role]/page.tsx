@@ -58,7 +58,7 @@ export default function SignUp({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='max-w-[640px] mx-auto py-[200px]'
+      className='max-w-[640px] mx-auto py-[200px] max-md:mx-6'
     >
       {/* 상단 안내 문구 */}
       {isApplicant ? (

@@ -71,7 +71,7 @@ export default function SignIn({
 
   return (
     <form
-      className='max-w-[640px] mx-auto py-[200px]'
+      className='max-w-[640px] mx-auto py-[200px] max-md:mx-6'
       onSubmit={handleSubmit(onSubmit)}
     >
       {isApplicant ? (
