@@ -11,11 +11,11 @@ export default function RestoreModal({
     >
       <div className='bg-white p-6 rounded-xl shadow-lg text-center max-w-[350px] w-full mx-6'>
         <p className='mb-6 text-[18px] font-medium'>
-          임시 저장된 내용이 있습니다.
+          임시 저장된 내용이 있습니다
           <br />
           복구하시겠어요?
           <span className='block pt-2 pb-3 text-[14px] text-gray-400 font-light'>
-            복구하지 않으면 임시 저장된 내용이 삭제 됩니다.
+            복구하지 않으면 임시 저장된 내용이 삭제 됩니다
           </span>
         </p>
         <div className='flex justify-center gap-4'>
