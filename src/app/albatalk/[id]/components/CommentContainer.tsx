@@ -28,7 +28,7 @@ export default function CommentContainer({
 }: CommentsProps) {
   const [commentId, setCommentId] = useState<number>();
 
-  const { form, onSubmit, isPending } = useCreateCommentForm(postId);
+  const { form, onSubmit, isPending } = useCreateCommentForm(postId, setPage);
 
   const { handleSubmit, register, watch } = form;
 

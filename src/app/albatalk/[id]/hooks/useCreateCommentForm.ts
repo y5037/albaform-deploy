@@ -5,9 +5,14 @@ import {
 } from '@/schemas/updateCommentSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
+import { SetStateAction } from 'jotai';
+import { Dispatch } from 'react';
 import { useForm } from 'react-hook-form';
 
-export function useCreateCommentForm(postId: number) {
+export function useCreateCommentForm(
+  postId: number,
+  setPage: Dispatch<SetStateAction<number>>,
+) {
   const queryClient = useQueryClient();
 
   const { mutate: patchCreateComment, isPending } = usePostComments();
@@ -32,6 +37,7 @@ export function useCreateCommentForm(postId: number) {
             queryClient.invalidateQueries({ queryKey: [key] });
           });
           setValue('createComment', '');
+          setPage(1);
         },
       },
     );
