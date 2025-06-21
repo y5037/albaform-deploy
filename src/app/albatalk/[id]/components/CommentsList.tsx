@@ -48,15 +48,13 @@ export default function CommentsList({
                   width={26}
                   height={26}
                   className='mr-[5px] rounded-[50%] object-cover border border-gray500 min-h-[26px]'
-                  onError={() =>
-                    handleImgError(String(writer?.imageUrl))
-                  }
+                  onError={() => handleImgError(String(writer?.imageUrl))}
                 />
                 <p>{writer.nickname}</p>
                 <div className='ml-[15px] mr-[15px] w-[1px] h-[20px] bg-line-200' />
                 <p>{formattedDate(comment.createdAt)}</p>
               </div>
-              {userId && writer.id && (
+              {userId === writer.id && (
                 <KebabDropdown
                   $deleteComment
                   postId={comment.id}
