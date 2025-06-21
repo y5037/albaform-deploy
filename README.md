@@ -132,6 +132,30 @@ npm run dev
 
 ---
 
+## 🔐 환경 변수 설정 (.env)
+
+```bash
+카카오 로그인 기능을 위해 `.env.local` 파일에 환경 변수를 설정해야 합니다.
+
+```bash
+# 아래 명령어로 예시 파일을 복사한 후, 실제 키를 입력하세요
+cp .env.example .env.local
+```
+
+`.env.example` 파일을 참고하여 실제 값을 입력해주세요.
+
+| 변수명 | 설명 |
+|--------|------|
+| `NEXT_PUBLIC_KAKAO_APP_KEY` | 클라이언트(브라우저)에서 사용하는 JavaScript 키 |
+| `NEXT_PUBLIC_KAKAO_REST_API_KEY` | 서버에서 카카오 REST API 호출 시 사용하는 키 |
+| `NEXT_PUBLIC_KAKAO_CLIENT_SECRET` | REST API 토큰 교환 시 사용하는 Client Secret |
+| `NEXT_PUBLIC_KAKAO_REDIRECT_SIGNUP_BASE_URI` | 카카오 회원가입 리다이렉트 URI |
+| `NEXT_PUBLIC_KAKAO_REDIRECT_SIGNIN_BASE_URI` | 카카오 로그인 리다이렉트 URI |
+
+> ⚠️ `.env.local` 파일은 `git`에 커밋되지 않으며, 실제 키는 배포 환경에 맞게 별도로 관리해야 합니다.
+
+---
+
 ## 📁 프로젝트 구조
 
 ```bash
