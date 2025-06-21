@@ -141,7 +141,7 @@ export default function SignUp({
           )}
         </div>
 
-        <div>
+        <div className='mb-14'>
           <Input
             id='confirmPassword'
             type='password'
