@@ -10,9 +10,6 @@ const BASE_URL = 'https://fe-project-albaform.vercel.app/12-2/';
 
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    //Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgyLCJzY29wZSI6InJlZnJlc2giLCJpYXQiOjE3NDYyNDQ4NTAsImV4cCI6MTc0Njg0OTY1MH0.fcitbGTkERrvImZVOdX1B9fObKlnslmLBAV43Zirs0s`, // 로그인 전 임시
-  },
 });
 
 // header
@@ -20,7 +17,7 @@ instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -79,7 +76,7 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-    
+
     return Promise.reject(error);
   },
 );

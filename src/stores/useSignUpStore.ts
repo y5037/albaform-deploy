@@ -1,15 +1,20 @@
 import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
-
-import { SignUpStep1Input, SignUpStep2Input } from '@/schemas/signupSchema';
+import {
+  SignUpStep1InputStore,
+  SignUpStep2Input,
+} from '@/schemas/signupSchema';
 
 type SignUpStore = {
-  step1?: SignUpStep1Input;
+  step1?: SignUpStep1InputStore;
   step2?: SignUpStep2Input;
-  data: Partial<SignUpStep1Input & SignUpStep2Input>;
-  setStep1: (data: SignUpStep1Input) => void;
+  data: Partial<SignUpStep1InputStore & SignUpStep2Input>;
+  setStep1: (data: SignUpStep1InputStore) => void;
   setStep2: (data: SignUpStep2Input) => void;
   reset: () => void;
+  getSignUpData: () => Partial<
+    Omit<SignUpStep1InputStore & SignUpStep2Input, 'confirmPassword'>
+  >;
 };
 
 type MyPersist = PersistOptions<SignUpStore>;
@@ -33,6 +38,11 @@ export const useSignUpStore = create<SignUpStore>()(
           data: { ...(state.step1 ?? {}), ...step2 },
         })),
       reset: () => set({ step1: undefined, step2: undefined, data: {} }),
+
+      getSignUpData: () => {
+        const merged = { ...(get().step1 ?? {}), ...(get().step2 ?? {}) };
+        return merged;
+      },
     }),
     {
       name: 'signup-storage',

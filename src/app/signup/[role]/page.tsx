@@ -12,7 +12,11 @@ import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useSignUpStore } from '@/stores/useSignUpStore';
-import { SignUpStep1Input, SignUpStep1Schema } from '@/schemas/signupSchema';
+import {
+  SignUpStep1Input,
+  SignUpStep1Schema,
+  SignUpStep1InputStore,
+} from '@/schemas/signupSchema';
 
 export default function SignUp({
   params,
@@ -36,7 +40,7 @@ export default function SignUp({
   });
 
   const router = useRouter();
-  const { isPending, error } = useSignUp();
+  const { isPending } = useSignUp();
   const setStep1 = useSignUpStore((s) => s.setStep1);
 
   useEffect(() => {
@@ -44,13 +48,9 @@ export default function SignUp({
   }, [setValue, role]);
 
   const onSubmit = async (formData: SignUpStep1Input) => {
-    try {
-      setStep1(formData);
-      console.log(formData);
-      router.push(`/signup/info/${role}`);
-    } catch (error) {
-      console.error(error);
-    }
+    const { confirmPassword, ...saveData } = formData;
+    setStep1(saveData as SignUpStep1InputStore);
+    router.push(`/signup/info/${role}`);
   };
 
   const isApplicant = role === 'applicant';

@@ -19,7 +19,6 @@ export default function SignUpInfo({
 }: {
   params: Promise<{ role: string }>;
 }) {
-  // 1. role, 라우터, 상태 등 준비
   const { role } = use(params);
   if (role !== 'applicant' && role !== 'owner') {
     notFound();
@@ -30,7 +29,6 @@ export default function SignUpInfo({
   const [toastMsg, setToastMsg] = useState('');
   const setStep2 = useSignUpStore((state) => state.setStep2);
 
-  // 2. form 상태 준비
   const {
     register,
     handleSubmit,
@@ -44,7 +42,6 @@ export default function SignUpInfo({
     },
   });
 
-  // 3. 쿼리스트링, 스토어 값, mutation 훅들 준비
   const searchParams = useSearchParams();
   const kakaoCode = searchParams.get('code');
   const { mutate: kakaoSignUp, isPending: isKakaoPending } =
@@ -76,20 +73,25 @@ export default function SignUpInfo({
         router.push('/');
       }, 1000);
     },
-    onError: () => {
-      setToastMsg('회원가입에 실패하였습니다');
+    onError: (error: any) => {
+      const serverMsg =
+        error?.response?.data?.message ||
+        error?.message ||
+        '회원가입에 실패하였습니다';
+
+      setToastMsg(serverMsg);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
+      console.error(error);
     },
   });
 
-  // 4. onSubmit 로직
+  // 기존 로직 그대로 유지!
   const onSubmit = (formData: SignUpStep2Input) => {
     setStep2(formData);
     const step1 = useSignUpStore.getState().step1;
 
     if (kakaoCode) {
-      // 소셜(카카오) 회원가입
       kakaoSignUp({
         location: formData.location ?? '',
         phoneNumber: formData.phoneNumber ?? '',
@@ -102,28 +104,41 @@ export default function SignUpInfo({
         token: kakaoCode,
       });
     } else {
-      // 일반 회원가입
-      signUp({
-        email: step1?.email ?? '',
-        password: step1?.password ?? '',
-        confirmPassword: step1?.confirmPassword ?? '',
+      // signUp: step1의 email, password, role이 없으면 토스트만 띄우고 종료
+      if (!step1?.email || !step1?.password || !step1?.role) {
+        setToastMsg(
+          '1단계 정보가 유실되었습니다. 처음부터 다시 시도해 주세요.',
+        );
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+        return;
+      }
+
+      const requestBody = {
+        email: step1.email,
+        password: step1.password,
         name: formData.name ?? '',
         nickname: formData.nickname ?? '',
-        role: step1?.role ?? formData.role ?? '',
+        role: step1.role,
         storeName: formData.storeName ?? '',
         storePhoneNumber: formData.storePhoneNumber ?? '',
         phoneNumber: formData.phoneNumber ?? '',
         location: formData.location ?? '',
-      });
+      };
+
+      // 실제 보내는 데이터 shape를 반드시 콘솔에서 확인
+      console.log('전송 데이터:', requestBody);
+      signUp(requestBody);
     }
   };
 
   // 5. 추가 에러 처리
-  useEffect(() => {
-    if (error) {
-      alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
+  //   }
+  // }, [error]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

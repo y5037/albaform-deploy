@@ -7,7 +7,6 @@ export default function KakaoSignUp({ role }: { role: string }) {
   const redirectBaseUri =
     process.env.NEXT_PUBLIC_KAKAO_REDIRECT_SIGNUP_BASE_URI;
   const redirectUri = `${redirectBaseUri}/${role}`;
-  console.log('redirectUri:', redirectUri);
 
   // 카카오 인증 URL 구성 (인가 코드 받기 위한 URL)
   const kakaoSignUpUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
