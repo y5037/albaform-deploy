@@ -11,8 +11,8 @@ import { useModalController } from '@/hooks/common/useModalController';
 import { getItemsPerPage } from '../utils/getItemsPerPage';
 import { useGetMyContents } from '@/hooks/query/useGetMyContents';
 import Toast from '@/components/tooltip/Toast';
-import EditPasswordModal from '../components/modal/testeditPasswordtest/EditPasswordModal';
-import EditProfileModal from '../components/modal/testeditProfiletest/EditProfileModal';
+import EditPasswordModal from '../components/modal/editPassword/EditPasswordModal';
+import EditProfileModal from '../components/modal/editProfile/EditProfileModal';
 
 export default function Mypage() {
   const [postId, setPostId] = useState<number>();
