@@ -275,6 +275,7 @@ export default function SignUpInfo({
                   }),
                 )
               }
+              style={{ cursor: 'pointer' }}
             />
             {errors.location && (
               <p className='text-red text-sm'>{errors.location.message}</p>
