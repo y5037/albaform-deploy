@@ -23,7 +23,13 @@ export default function Section3({ formId }: { formId: number }) {
   } = useGetApplications(formId, orderByExperience, orderByStatus);
 
   const listData =
-    applications?.pages.flatMap((page) => page.result ?? []) ?? [];
+    Array.from(
+      new Map(
+        applications?.pages
+          .flatMap((page) => page.result ?? [])
+          .map((item) => [item.id, item]),
+      ).values(),
+    ) ?? [];
 
   const observerRef = useInfiniteScroll(hasNextPage!, fetchNextPage);
 
@@ -86,34 +92,37 @@ export default function Section3({ formId }: { formId: number }) {
                 </tr>
               </thead>
               <tbody>
-                {listData?.map((user) => (
-                  <tr
-                    key={user.id}
-                    className='text-center text-black400 cursor-pointer transition duration-200 hover:bg-gray-100'
-                    onClick={() =>
-                      router.push(`/applications/${user.id}?formId=${formId}`)
-                    }
-                  >
-                    <td className='p-2 underline'>{user.name}</td>
-                    <td className='p-2'>{user.phoneNumber}</td>
-                    <td className='p-2'>
-                      {calcExperienceMonths(user.experienceMonths)}
-                    </td>
-                    <td className='p-2'>
-                      {user.status === ''
-                        ? '전체'
-                        : user.status === 'REJECTED'
-                        ? '거절'
-                        : user.status === 'INTERVIEW_PENDING'
-                        ? '면접 대기'
-                        : user.status === 'INTERVIEW_COMPLETED'
-                        ? '면접 완료'
-                        : user.status === 'HIRED'
-                        ? '채용 완료'
-                        : ''}
-                    </td>
-                  </tr>
-                ))}
+                {listData?.map((user) => {
+                  console.log(listData);
+                  return (
+                    <tr
+                      key={user.id}
+                      className='text-center text-black400 cursor-pointer transition duration-200 hover:bg-gray-100'
+                      onClick={() =>
+                        router.push(`/applications/${user.id}?formId=${formId}`)
+                      }
+                    >
+                      <td className='p-2 underline'>{user.name}</td>
+                      <td className='p-2'>{user.phoneNumber}</td>
+                      <td className='p-2'>
+                        {calcExperienceMonths(user.experienceMonths)}
+                      </td>
+                      <td className='p-2'>
+                        {user.status === ''
+                          ? '전체'
+                          : user.status === 'REJECTED'
+                          ? '거절'
+                          : user.status === 'INTERVIEW_PENDING'
+                          ? '면접 대기'
+                          : user.status === 'INTERVIEW_COMPLETED'
+                          ? '면접 완료'
+                          : user.status === 'HIRED'
+                          ? '채용 완료'
+                          : ''}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           ) : (
