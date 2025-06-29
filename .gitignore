@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!/.env.example
 
 # vercel
 .vercel
@@ -43,3 +44,6 @@ next-env.d.ts
 *storybook.log
 
 git config core.ignorecase false
+
+# 특정한 의도된 타입검사 파일만 무시
+src/app/albaformList/page.typecheck.ts

@@ -1,7 +1,14 @@
+import { ReactNode, Suspense } from 'react';
+import type { Metadata } from 'next';
 import GlobalStyleProvider from '@/context/GlobalStyleProvider';
 import StyledComponentsRegistry from '../lib/StyledRegistry';
-import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import ClientLayout from '@/app/ClientLayout';
+import '@/styles/tailwindStyle.css';
+import DaumPostcodeScript from '@/components/common/DaumPostcodeScript';
+import KakaoMapScript from '@/components/common/KakaoMapScript';
+import Script from 'next/script';
+import Navbar from '@/components/navbar/Navbar';
+import GlobalToast from '@/components/tooltip/GlobalToast';
 
 export const metadata: Metadata = {
   title: 'Albaform',
@@ -11,13 +18,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang='ko'>
+      <head>
+        <meta
+          name='viewport'
+          content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no, viewport-fit=cover'
+        />
+        <Script
+          src='https://developers.kakao.com/sdk/js/kakao.js'
+          strategy='beforeInteractive'
+        />
+      </head>
       <body>
-        <StyledComponentsRegistry>
-          <GlobalStyleProvider>{children}</GlobalStyleProvider>
-        </StyledComponentsRegistry>
+        <Suspense fallback={<div />}>
+          <DaumPostcodeScript />
+          <KakaoMapScript />
+          <StyledComponentsRegistry>
+            <GlobalStyleProvider>
+              <ClientLayout>
+                <Navbar />
+                {children}
+                <GlobalToast />
+              </ClientLayout>
+            </GlobalStyleProvider>
+          </StyledComponentsRegistry>
+        </Suspense>
       </body>
     </html>
   );
