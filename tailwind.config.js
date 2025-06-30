@@ -68,9 +68,25 @@ module.exports = {
             opacity: '0.4',
           },
         },
+        pulseStretchLeftReserve: {
+          '0%': {
+            transform: 'scaleX(0.6)',
+            opacity: '0.4',
+          },
+          '50%': {
+            transform: 'scaleX(1)',
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'scaleX(0.6)',
+            opacity: '0.4',
+          },
+        },
       },
       animation: {
         pulseStretchLeft: 'pulseStretchLeft 3.5s ease-in-out infinite',
+        pulseStretchLeftReserve:
+          'pulseStretchLeftReserve 3.5s ease-in-out infinite',
       },
     },
   },
