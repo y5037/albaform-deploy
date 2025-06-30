@@ -138,8 +138,7 @@ export default function Home() {
         <Banner>
           <div
             className='
-            relative w-[124px] h-[24px] min-h-[41px]
-            min-[811px]:w-[186px] min-[811px]:h-[36px] lg:w-[248px] lg:h-[48px]'
+            relative w-[124px] h-[24px] min-h-[41px] min-[811px]:w-[186px] min-[811px]:h-[36px] lg:w-[248px] lg:h-[48px]'
           >
             <Image
               src={'/images/albaform.svg'}
