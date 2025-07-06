@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useClickOutside } from '@/hooks/common/useClickOutside';
 import {
@@ -40,6 +40,69 @@ export default function StepSelector({
   onSubmit,
 }: StepSelectorProps) {
   const { outRef, dropdown, setDropdown } = useClickOutside();
+  const [isLock, setIsLock] = useState(false);
+
+  const createAlbaForm = useCreateAlbaForm();
+
+  const handleSubmit = () => {
+    if (isLock) return;
+    setIsLock(true);
+
+    const requestData = {
+      ...formData.info,
+      ...formData.condition,
+      ...formData.work,
+    };
+    const afterSubmit = () => setIsLock(false);
+
+    if (onSubmit) {
+      onSubmit(requestData);
+      afterSubmit();
+    } else {
+      createAlbaForm.mutate(requestData, {
+        onSettled: afterSubmit,
+        onError: afterSubmit,
+        onSuccess: afterSubmit,
+      });
+    }
+  };
+
+  const isFormComplete = () => {
+    // info
+    const info = formData.info;
+    if (
+      !info.title.trim() ||
+      !info.description.trim() ||
+      !info.recruitmentStartDate.trim() ||
+      !info.recruitmentEndDate.trim()
+    ) {
+      return false;
+    }
+    // condition
+    const cond = formData.condition;
+    if (
+      !cond.numberOfPositions ||
+      !cond.gender.trim() ||
+      !cond.education.trim() ||
+      !cond.age.trim()
+    ) {
+      return false;
+    }
+    // work
+    const work = formData.work;
+    if (
+      !work.location.trim() ||
+      !work.workStartDate.trim() ||
+      !work.workEndDate.trim() ||
+      !work.workStartTime.trim() ||
+      !work.workEndTime.trim() ||
+      !work.workDays.length ||
+      !work.hourlyWage
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const createAlbaForm = useCreateAlbaForm();
 
@@ -128,7 +191,7 @@ export default function StepSelector({
             size='large'
             variant='large_primary'
             onClick={handleSubmit}
-            disabled={createAlbaForm.isPending || !isFormComplete()}
+            disabled={isLock || createAlbaForm.isPending || !isFormComplete()}
           >
             {isEdit
               ? '수정하기'
