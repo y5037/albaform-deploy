@@ -1,4 +1,4 @@
-![화면 기록 2025-07-11 오전 9 13 04](https://github.com/user-attachments/assets/dea9dda4-fd0c-4251-8e6a-ff768cb49fcd)<div align="center">
+<div align="center">
   
 ![logo](https://github.com/user-attachments/assets/f50cdd70-26c9-40b8-8c55-18edcfccbe4a)<svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40H0V20Z" fill="url(#paint0_linear_6624_2811)"/>
