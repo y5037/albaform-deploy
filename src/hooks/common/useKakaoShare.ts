@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export default function KakaoShareButton({
+export default function useKakaoShare({
   url,
   title,
   description,

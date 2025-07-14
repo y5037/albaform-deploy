@@ -14,7 +14,7 @@ import { useGetFormsById } from '@/hooks/query/useGetFormsById';
 import { useModalController } from '@/hooks/common/useModalController';
 import Modal from '@/components/modal/Modal';
 import { useScrapForms } from '@/hooks/mutation/useScrapForms';
-import KakaoShareButton from '@/components/common/KakaoShareButton';
+import useKakaoShare from '@/hooks/common/useKakaoShare';
 import BannerSkeleton from './components/BannerSkeleton';
 import ContentsSkeleton from './components/ContentsSkeleton';
 
@@ -37,7 +37,7 @@ export default function DetailPage() {
 
   const myPost = userId === form?.ownerId;
 
-  const { handleShare } = KakaoShareButton({
+  const { handleShare } = useKakaoShare({
     url: path,
     title: form?.title,
     description: form?.description,
