@@ -34,8 +34,6 @@ export default function BannerImagesCarousel({
     '/images/defaultImg.jpg',
   );
 
-  console.log(imageUrls);
-
   return (
     <div className='relative'>
       {isSingleImage ? (

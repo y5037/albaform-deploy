@@ -10,7 +10,6 @@ export const fetchApplications = async ({
   payload: AlbaformApplyPayload;
 }) => {
   try {
-    console.log(payload);
     const response = await instance.post(
       `/forms/${formId}/applications`,
       payload,
