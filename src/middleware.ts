@@ -19,7 +19,7 @@ export const config = {
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  const role = req.cookies.get('role')?.value;
+  const role = req.cookies.get('role')?.value.toLowerCase();
 
   if (!role) return NextResponse.next();
 
