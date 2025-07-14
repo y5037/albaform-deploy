@@ -214,6 +214,9 @@ export default function FormInfo({
             </PreviewWrapper>
           ))}
         </ImageUploadWrapper>
+        <p className='text-gray400 font-light text-sm'>
+          * 최대 5MB 이하의 이미지만 업로드할 수 있어요
+        </p>
       </FormGroup>
     </FormWrapper>
   );
